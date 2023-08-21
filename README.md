@@ -10,3 +10,5 @@ https://github.com/Murphyly/mate85_ecommerce/milestones
 Project managment:
 https://github.com/users/Murphyly/projects/1/views/5
 
+Techonologies:
+https://docs.google.com/document/d/1tNxArLmMkERyDy5abB3Fn9LJSFUgh1vAFx1bBVsxzfc/edit?usp=drive_link
