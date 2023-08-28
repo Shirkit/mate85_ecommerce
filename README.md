@@ -15,7 +15,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 [System Requirements](https://github.com/Murphyly/mate85_ecommerce/wiki/System-requirements)
 
-[Temporary running version](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/)
+[Temporary running version](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/product)
 
 =======
 ## Techonlogies
