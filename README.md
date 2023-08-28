@@ -1,6 +1,6 @@
 <h1 align="center">Projeto E-commerce G3 - MATE85</h1>
 
-<p align="center">Um simples projeto backend inicial de E-commerce utilizando Django Rest Framework para demonstração da disciplina MATE85 - Tópicos em Sistemas de Informação e Web I.</p>
+<p align="center">Um simples projeto backend inicial de E-commerce utilizando NextJS Framework para demonstração da disciplina MATE85 - Tópicos em Sistemas de Informação e Web I.</p>
 
 ![Badge](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
 ![Badge](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)
