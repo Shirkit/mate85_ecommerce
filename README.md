@@ -8,6 +8,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 [System Requirements](https://github.com/Murphyly/mate85_ecommerce/wiki/System-requirements)
 
+[Temporary running version](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/)
+
+=======
+## Techonlogies
+
+The technologies used in this project are:
+
+- [Next.js](https://nextjs.org/) - as our backend metaframework provider, that allows SSR and other features while running React 
+- Postgres SQL (running at [Neon](https://neon.tech/) - as our database, but this can be changed due to Prisma
+- [Prisma](https://www.prisma.io/) - an ORM that act as an abstraction layer between the application and the database
+
+- Running [React](https://react.dev/) as our frontend at above Next.js
+- [Tailwind CSS](https://tailwindcss.com/) along with React
+
+
 =======
 ## Installation
 
