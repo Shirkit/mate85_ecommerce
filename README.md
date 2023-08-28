@@ -13,21 +13,27 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Before running, you must run the installation step 
 
-```npm install```
+```
+npm install
+```
 
 Next step, is to create a `.env` file in the root project folder which should point to a Postgres installation.
 
-```DATABASE_URL=postgres://postgres:admin@localhost:5432```
+```
+DATABASE_URL=postgres://postgres:admin@localhost:5432
+```
 
 If you do not have a running Postgres instance running locally, you can always create one in a free provider shuch as [Neon](https://neon.tech/) or similar.
  
-```DATABASE_URL=postgres://USERNAME:PASSWORD@XXX.neon.tech/neondb?pgbouncer=true&connect_timeout=10
+```
+DATABASE_URL=postgres://USERNAME:PASSWORD@XXX.neon.tech/neondb?pgbouncer=true&connect_timeout=10
 DIRECT_URL=postgres://USERNAME:PASSWORD@XXX.neon.tech/neondb?connect_timeout=10
 ```
 
 For certain providers, shuch as Neon, a shadow database is required to run the migrations, so add this to the end of the `.env` file
 
-```SHADOW_DATABASE_URL=postgres://USERNAME:PASSWORD@XXX.neon.tech/shadow?pgbouncer=true&connect_timeout=10
+```
+SHADOW_DATABASE_URL=postgres://USERNAME:PASSWORD@XXX.neon.tech/shadow?pgbouncer=true&connect_timeout=10
 ```
 
 =======
@@ -35,7 +41,8 @@ For certain providers, shuch as Neon, a shadow database is required to run the m
 
 To run the Next.js server, just run the following command
 
-```bash
+```
+bash
 npm run dev
 # or
 yarn dev
