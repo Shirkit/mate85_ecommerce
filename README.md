@@ -1,3 +1,10 @@
+<h1 align="center">Projeto E-commerce G3 - MATE85</h1>
+
+<p align="center">Um simples projeto backend inicial de E-commerce utilizando Django Rest Framework para demonstração da disciplina MATE85 - Tópicos em Sistemas de Informação e Web I.</p>
+
+![Badge](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Badge](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 [Milestones](https://github.com/Murphyly/mate85_ecommerce/milestones) with the schedule of the project
