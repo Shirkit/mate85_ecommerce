@@ -8,12 +8,50 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
+  // shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
 model Produto {
   id          Int         @id @default(autoincrement())
   nome        String
   foto        String?
+}
+
+
+model User {
+  id    Int    @id @default(autoincrement())
+  name  String
+  email String
+  addresses Address[]
+  orders Order[]
+}
+
+model Order{
+  id               Int      @id @default(autoincrement())
+  users_id         Int
+  total            Int
+  order_number     Int
+  status           String
+  delivery_deadline String
+  delivery_time    String
+  user             User     @relation(fields: [users_id], references: [id])
+}
+
+
+model Address {
+  id          Int      @id @default(autoincrement())
+  users_id    Int[]
+  orders_id   Int[]
+  type        String
+  street      String
+  number      String
+  complement String?
+  neighborhood String
+  city        String
+  state       String
+  country     String
+  zip_code    String
+
+  user        User     @relation(fields: [users_id], references: [id])
 }
