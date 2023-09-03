@@ -25,9 +25,10 @@ model User {
   email String
   addresses Address[]
   orders Order[]
+  session Session?
 }
 
-model Order{
+model Order {
   id               Int      @id @default(autoincrement())
   users_id         Int
   total            Int
@@ -36,9 +37,18 @@ model Order{
   delivery_deadline String
   delivery_time    String
   user             User     @relation(fields: [users_id], references: [id])
+  address          Address[]
+  order_items      OrderItem[]
 }
 
-
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  price     Float
+  orderId   Int
+  productId Int
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
 model Address {
   id          Int      @id @default(autoincrement())
   users_id    Int[]
@@ -54,4 +64,33 @@ model Address {
   zip_code    String
 
   user        User     @relation(fields: [users_id], references: [id])
+  order       Order    @relation(fields: [orders_id], references: [id])
+}
+
+model Product{
+  id Int @id @default(autoincrement())
+  name String
+  description String
+  price Float
+  product_categories_id Int[]
+  sku String
+
+  product_category ProductCategory @relation(fields: [product_categories_id],references: [id])
+  order_items OrderItem[]
+}
+
+
+model ProductCategory{
+  id Int @id
+  name String
+  product Product[]
+}
+
+model Session{
+  id Int @id @default(autoincrement())
+  user_id Int @unique
+  cart_contents Json
+  session_token String
+
+  user User @relation(fields: [user_id],references: [id])
 }
