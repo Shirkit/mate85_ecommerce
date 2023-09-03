@@ -58,6 +58,13 @@ For certain providers, shuch as Neon, a shadow database is required to run the m
 SHADOW_DATABASE_URL=postgres://USERNAME:PASSWORD@XXX.neon.tech/shadow?pgbouncer=true&connect_timeout=10
 ```
 
+Depois de linkar o banco, basta rodar o script de pós instalação
+
+
+```
+npm run post-install
+```
+
 =======
 ## Development
 
