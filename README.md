@@ -1,3 +1,10 @@
+<h1 align="center">Projeto E-commerce G3 - MATE85</h1>
+
+<p align="center">Um simples projeto backend inicial de E-commerce utilizando NextJS Framework para demonstração da disciplina MATE85 - Tópicos em Sistemas de Informação e Web I.</p>
+
+![Badge](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![Badge](https://img.shields.io/badge/-ReactJs-61DAFB?logo=react&logoColor=white&style=for-the-badge)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 [Milestones](https://github.com/Murphyly/mate85_ecommerce/milestones) with the schedule of the project
@@ -7,6 +14,21 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 [Techonologies discussion](https://docs.google.com/document/d/1tNxArLmMkERyDy5abB3Fn9LJSFUgh1vAFx1bBVsxzfc/edit?usp=drive_link)
 
 [System Requirements](https://github.com/Murphyly/mate85_ecommerce/wiki/System-requirements)
+
+[Temporary running version](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/product)
+
+=======
+## Techonlogies
+
+The technologies used in this project are:
+
+- [Next.js](https://nextjs.org/) - as our backend metaframework provider, that allows SSR and other features while running React 
+- Postgres SQL (running at [Neon](https://neon.tech/) - as our database, but this can be changed due to Prisma
+- [Prisma](https://www.prisma.io/) - an ORM that act as an abstraction layer between the application and the database
+
+- Running [React](https://react.dev/) as our frontend at above Next.js
+- [Tailwind CSS](https://tailwindcss.com/) along with React
+
 
 =======
 ## Installation
