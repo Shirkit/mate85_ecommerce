@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "post-install": "npx prisma migrate dev --name init",
+    "dev-post-install": "npx prisma migrate dev",
+    "dev-update-schema": "npx prisma db push",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

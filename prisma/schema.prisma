@@ -51,8 +51,8 @@ model OrderItem {
 }
 model Address {
   id          Int      @id @default(autoincrement())
-  users_id    Int[]
-  orders_id   Int[]
+  users_id    Int
+  orders_id   Int
   type        String
   street      String
   number      String
@@ -72,7 +72,7 @@ model Product{
   name String
   description String
   price Float
-  product_categories_id Int[]
+  product_categories_id Int
   sku String
 
   product_category ProductCategory @relation(fields: [product_categories_id],references: [id])
