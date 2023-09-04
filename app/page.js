@@ -1,12 +1,6 @@
 import Image from 'next/image'
 import Card from '@/components/ui/Card'
 import { prisma } from '@/utils/prisma'
-import { Candal } from 'next/font/google'
-
-const candal = Candal({
-	weight: ['400'],
-	subsets: ['latin'],
-})
 
 export default async function Home() {
 	const products = [
@@ -20,9 +14,7 @@ export default async function Home() {
 
 	return (
 		<main>
-			<div
-				className={`${candal.className} min-h-screen flex flex-col items-center justify-start py-8`}
-			>
+			<div className="min-h-screen flex flex-col items-center justify-start py-8 ">
 				<div className="text-center font-bold text-xl mb-4">
 					NOVOS PRODUTOS
 				</div>
