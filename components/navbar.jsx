@@ -1,5 +1,6 @@
 import { Search, ShoppingCart, UserCircle2 } from 'lucide-react'
 import Link from 'next/link'
+import { SearchProduct } from './SearchProduct'
 
 export default function Navbar() {
 	return (
@@ -20,16 +21,7 @@ export default function Navbar() {
 						Marcas
 					</Link>
 				</nav>
-				<div className="relative w-full">
-					<input
-						type="text"
-						placeholder="Busque por produto"
-						className="w-full border rounded-full px-12 py-3 bg-zinc-200 focus:outline-none focus:ring focus:border-blue-300"
-					/>
-					<div className="absolute inset-y-0 left-4 flex items-center">
-						<Search className="text-gray-400" />
-					</div>
-				</div>
+				<SearchProduct placeholder="Busque por produto" />
 				<div className="flex items-center gap-4">
 					<div>
 						<ShoppingCart className="text-xl cursor-pointer" />
