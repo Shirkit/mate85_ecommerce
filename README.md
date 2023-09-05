@@ -15,6 +15,8 @@ Este projeto rosa usando [Next.js](https://nextjs.org/) e foi criado usando o [`
 
 [Requisitos do Sistema](https://github.com/Murphyly/mate85_ecommerce/wiki/System-requirements)
 
+[Documento de Arquitetura](https://github.com/Murphyly/mate85_ecommerce/wiki/Arquitetura)
+
 [Versáo temporária](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/product)
 
 =======
