@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev-post-install": "npx prisma migrate dev",
-    "dev-update-schema": "npx prisma db push",
+    "dev-update-schema": "npx prisma migrate deploy",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
