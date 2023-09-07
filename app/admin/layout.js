@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
 						<h1 className="font-primary font-black text-3xl">SHOP.CO</h1>
 					</Link>
 				</header>
-				<div className="flex flex-row flex-grow">
+				<div className="flex flex-row flex-grow bg-zinc-800">
 					<AdminNavbar></AdminNavbar>
 					{children}
 				</div>
