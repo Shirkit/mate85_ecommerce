@@ -30,13 +30,17 @@ export default function AdminNavbar() {
     }, []); // Empty array ensures that effect is only run on mount
 
     return (
-        <Sidebar backgroundColor="unset" className="bg-zinc-900 text-zinc-300" collapsed={collapsed}>
+        <Sidebar  backgroundColor="unset" className="bg-zinc-900 text-zinc-300" collapsed={collapsed}>
             <Menu menuItemStyles={{
                 button: {
                     '&:hover': {
                         backgroundColor: theme.colors.zinc[700],
                     },
                 },
+                subMenuContent: {
+                    width: 'auto',
+                    minWidth: '200px'
+                }
             }} >
                 <SubMenu icon={<UsersIcon></UsersIcon>} label="Usuários">
                     <MenuItem component={<Link href="/admin/users/add"></Link>} className="bg-zinc-800"> Adicionar novo usuário </MenuItem>
