@@ -30,9 +30,15 @@ export default function AdminNavbar() {
     }, []); // Empty array ensures that effect is only run on mount
 
     return (
-        <Sidebar  backgroundColor="unset" className="bg-zinc-900 text-zinc-300" collapsed={collapsed}>
+        <Sidebar rootStyles={{ borderRightColor: theme.colors.zinc[600] }} backgroundColor="unset" className="bg-zinc-900 text-zinc-300" collapsed={collapsed}>
             <Menu menuItemStyles={{
                 button: {
+                    paddingLeft: theme.padding[1],
+                    
+                    '&:only-child': {
+                        paddingLeft: theme.padding[4]
+                    },
+
                     '&:hover': {
                         backgroundColor: theme.colors.zinc[700],
                     },
