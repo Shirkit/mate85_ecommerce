@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/utils/prisma"
 import Link from 'next/link'
-import { CriarProduto } from './CiarProduto'
-import { EditarProduto } from "./EditarProduto";
+import { CreateProduct } from './CreateProduct'
+import { UpdateProduct } from "./UpdateProduct";
 
 
 export default async function Produtos() {
@@ -22,9 +22,9 @@ export default async function Produtos() {
                 )
             })}
 
-            <CriarProduto></CriarProduto>
+            <CreateProduct></CreateProduct>
 
-            <EditarProduto></EditarProduto>
+            <UpdateProduct></UpdateProduct>
 
         </div>
     )
