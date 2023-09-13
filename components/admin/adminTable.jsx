@@ -1,5 +1,5 @@
 
-
+// Adicionar server actions aqui para editar e deletar
 export async function AdminTable({title,headers,data}) {
   "use server"
   return (
@@ -21,9 +21,7 @@ export async function AdminTable({title,headers,data}) {
                 <th className="border p-4">{header}</th>
               )
             })}
-            {/* <th className="border p-4">Name</th>
-            <th className="border p-4">Email</th>
-            <th className="border p-4">Actions</th> */}
+         
           </tr>
         </thead>
         <tbody>

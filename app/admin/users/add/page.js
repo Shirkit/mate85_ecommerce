@@ -1,5 +1,5 @@
 "use client"
-import {createUser} from "@/app/admin/users/manage/actions";
+
 import {AdminForm} from "@/components/admin/adminForm"
 
 const dummyFunction = () => {
@@ -29,7 +29,7 @@ export default function AddEditUser() {
       ];
     return (
         <div className="flex justify-center w-full items-center">
-            <AdminForm  formTitle ="Adicionar Usuário" action ={createUser} fields = {fields} buttonLabel = "Criar Usuário"/>
+            <AdminForm  formTitle ="Adicionar Usuário" action ={dummyFunction} fields = {fields} buttonLabel = "Criar Usuário"/>
         </div>
     )
 }
