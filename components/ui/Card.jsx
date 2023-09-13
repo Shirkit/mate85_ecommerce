@@ -1,16 +1,7 @@
 import React from 'react';
+import { renderStars } from './stars';
 
 export default async function Card(props) {
-
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 0; i < rating; i++) {
-      stars.push(
-        <span key={i} className="text-yellow-500">&#9733;</span> // Star symbol
-      );
-    }
-    return stars;
-  };
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 m-4 flex flex-col items-center">

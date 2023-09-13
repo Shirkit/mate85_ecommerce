@@ -29,7 +29,7 @@ export default async function Home() {
 									Math.random() * 1084
 								)}/200`}
 								price={product.price}
-								rating={3}
+								rating={3.4}
 							/>
 						)
 					})}
