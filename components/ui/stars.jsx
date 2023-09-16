@@ -2,7 +2,12 @@ import { theme } from "@/utils/tailwind"
 import { Star, StarHalf } from "lucide-react"
 
 
-function renderStars(rating) {
+/***
+ * @param {Object} param0 
+ * @param {float} param0.rating 
+ * @param {boolean=} param0.hideNumber 
+ */
+export default function RenderStars({rating, hideNumber}) {
     const stars = []
     var i = rating
 
@@ -26,9 +31,9 @@ function renderStars(rating) {
     return (
         <div className="flex flex-row">
             {stars}
-            <span className="ml-1">{rating.toFixed(1)} / 5</span>
+            {(!hideNumber) &&
+                <span className="ml-1">{rating.toFixed(1)} / 5</span>
+            }
         </div>
     )
 }
-
-export { renderStars }

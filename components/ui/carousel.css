@@ -1,7 +1,7 @@
 .embla {
     --slide-spacing: 1rem;
     --slide-size: 100%;
-    --slide-height: 19rem;
+    --slide-height: 30rem;
     --border-radius: 20px;
 }
 
@@ -85,12 +85,6 @@
     min-width: 0;
     padding-left: var(--thumbs-slide-spacing);
     position: relative;
-}
-
-@media (min-width: 576px) {
-    .embla-thumbs__slide {
-        flex: 0 0 18%;
-    }
 }
 
 .embla-thumbs__slide__button {

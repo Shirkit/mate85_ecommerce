@@ -1,5 +1,5 @@
 import React from 'react';
-import { renderStars } from './stars';
+import RenderStars, { renderStars } from './stars';
 
 export default async function Card(props) {
 
@@ -13,8 +13,8 @@ export default async function Card(props) {
       />
       {props.rating && (
         <div className="flex items-center mt-2">
-        {renderStars(props.rating)}
-        <span className="ml-1">{props.rating}</span>
+          <RenderStars rating={props.rating}></RenderStars>
+        <span className="ml-1">{props.rating.toFixed(1)}</span>
         </div>
       )}
       <p className="text-gray-700 text-lg">${props.price.toFixed(2)}</p>
