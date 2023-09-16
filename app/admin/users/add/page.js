@@ -1,4 +1,5 @@
 "use client"
+
 import {AdminForm} from "@/components/admin/adminForm"
 
 const dummyFunction = () => {

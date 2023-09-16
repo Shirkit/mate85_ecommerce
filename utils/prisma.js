@@ -1,2 +1,8 @@
-import { PrismaClient  } from "@prisma/client"
-export const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client"
+
+
+if (!global.prisma) {
+global.prisma = new PrismaClient()
+}
+
+export let prisma = global.prisma
