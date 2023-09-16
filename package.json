@@ -11,7 +11,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@marketsystems/nextjs13-appdir-breadcrumbs": "^1.0.4",
     "@prisma/client": "^5.2.0",
     "@radix-ui/react-slot": "^1.0.2",
     "autoprefixer": "10.4.15",
@@ -32,6 +31,6 @@
     "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {
-    "prisma": "^5.2.0"
+    "prisma": "^5.3.1"
   }
 }
