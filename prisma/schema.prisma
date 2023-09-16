@@ -26,6 +26,7 @@ model User {
   addresses Address[]
   orders Order[]
   session Session?
+  reviews Review[]
 }
 
 model Order {
@@ -73,9 +74,23 @@ model Product{
   price Float
   product_categories_id Int
   sku String
+  rating Float?
+  reviews Review[]
 
   product_category ProductCategory @relation(fields: [product_categories_id],references: [id])
   order_items OrderItem[]
+}
+
+model Review {
+    id Int @id @default(autoincrement())
+    title String?
+    text String?
+    rating Float?
+    users_id Int
+    products_id Int
+
+    user User @relation(fields: [users_id], references: [id])
+    product Product @relation(fields: [products_id], references: [id])
 }
 
 

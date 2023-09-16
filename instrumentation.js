@@ -1,17 +1,10 @@
 import { prisma } from '@/utils/prisma'
-import { order_items, orders, orders_address, product_categoris, products, users, users_address } from '@/utils/sampledata';
+import { order_items, orders, orders_address, product_categoris, products, users, users_address, reviews } from '@/utils/sampledata';
 
 // setar isso pra true para rodar uma vez. depois de rodar o servidor, feche o servidor NEXT, sete para falso novamente
 var importarDadosMocks = false
 
 export async function register() {
-
-    if (await prisma.produto.count() == 0) {
-        await prisma.produto.create({ data: { nome: 'Camisa 1', foto: 'https://picsum.photos/id/10/200' } })
-        await prisma.produto.create({ data: { nome: 'Camisa 2', foto: 'https://picsum.photos/id/20/200' } })
-        await prisma.produto.create({ data: { nome: 'Camisa 3', foto: 'https://picsum.photos/id/40/200' } })
-        await prisma.produto.create({ data: { nome: 'Camisa 4', foto: 'https://picsum.photos/id/60/200' } })
-    }
 
     if (importarDadosMocks) {
         importarDadosMocks = false
@@ -51,9 +44,18 @@ export async function register() {
 
         for (let i = 0; i < orders_address.length; i++) {
             orders_address[i].orders_id = parseInt(orders_address[i].orders_id)
+            orders_address[i].number = toString(orders_address[i].number)
             orders_address[i].users_id = null
         }
 
+        for (let i = 0; i < reviews.length; i++) {
+            reviews[i].id = parseInt(reviews[i].id)
+            reviews[i].rating = parseInt(reviews[i].rating)
+            reviews[i].users_id = parseInt(reviews[i].users_id)
+            reviews[i].products_id = parseInt(reviews[i].products_id)
+        }
+
+        await prisma.review.deleteMany({});
         await prisma.address.deleteMany({});
         await prisma.orderItem.deleteMany({});
         await prisma.order.deleteMany({});
@@ -68,5 +70,30 @@ export async function register() {
         await prisma.orderItem.createMany({ data: order_items })
         await prisma.address.createMany({ data: users_address })
         await prisma.address.createMany({ data: orders_address })
+        await prisma.review.createMany({ data: reviews })
+
+        let db_products = await prisma.product.findMany({
+            include: {
+                reviews: {}
+            }
+        })
+        db_products.forEach((product) => {
+            if (product.reviews.length > 0) {
+                product.reviews.forEach((review) => {
+                    product.rating += review.rating
+                })
+                product.rating /= product.reviews.length
+                console.log(product.id + " = " + product.rating)
+                let res = prisma.product.update({
+                    where: {
+                        id: product.id
+                    },
+                    data: {
+                        rating: product.rating
+                    }
+                })
+            }
+        })
     }
+
 }
