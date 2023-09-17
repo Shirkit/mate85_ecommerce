@@ -60,28 +60,28 @@ export async function register() {
 
         console.debug('Limpando DB')
 
-        /*await prisma.review.deleteMany({});
+        await prisma.review.deleteMany({});
         await prisma.address.deleteMany({});
         await prisma.orderItem.deleteMany({});
         await prisma.order.deleteMany({});
         await prisma.product.deleteMany({});
         await prisma.productCategory.deleteMany({});
-        await prisma.user.deleteMany({});*/
+        await prisma.user.deleteMany({});
 
         console.debug('Atualizando DB')
 
-        /*await prisma.user.createMany({ data: users })
+        await prisma.user.createMany({ data: users })
         await prisma.productCategory.createMany({ data: product_categoris })
         await prisma.product.createMany({ data: products })
         await prisma.order.createMany({ data: orders })
         await prisma.orderItem.createMany({ data: order_items })
         await prisma.address.createMany({ data: users_address })
         await prisma.address.createMany({ data: orders_address })
-        await prisma.review.createMany({ data: reviews })*/
+        await prisma.review.createMany({ data: reviews })
 
         console.debug('Atualizando reviews')
 
-        /*let db_products = await prisma.product.findMany({
+        let db_products = await prisma.product.findMany({
             include: {
                 reviews: {}
             }
@@ -105,8 +105,9 @@ export async function register() {
                 })
                 
             }
-        }*/
+        }
         console.debug('Concluído - o processo vai terminar com erro mas é o comportamento esperado\n')
+        console.debug(' - Se o processo não encerrar, por favor aperte CTRL+C\n')
 
         process.stdout._write('\x03')
         
