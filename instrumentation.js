@@ -1,13 +1,16 @@
 import { prisma } from '@/utils/prisma'
 import { order_items, orders, orders_address, product_categoris, products, users, users_address, reviews } from '@/utils/sampledata';
 
-// setar isso pra true para rodar uma vez. depois de rodar o servidor, feche o servidor NEXT, sete para falso novamente
-var importarDadosMocks = false
+var importarDadosMocks = true
 
 export async function register() {
 
-    if (importarDadosMocks) {
+    if (process.env.APP_ENV && process.env.APP_ENV == 'schema' && importarDadosMocks) {
         importarDadosMocks = false
+
+        console.debug('\nAtualizando Prisma - ao final, o processo vai terminar com erro mas é o comportamento esperado\n')
+
+        console.debug('Preparando dados')
 
         for (let i = 0; i < users.length; i++) {
             users[i].id = parseInt(users[i].id)
@@ -55,36 +58,44 @@ export async function register() {
             reviews[i].products_id = parseInt(reviews[i].products_id)
         }
 
-        await prisma.review.deleteMany({});
+        console.debug('Limpando DB')
+
+        /*await prisma.review.deleteMany({});
         await prisma.address.deleteMany({});
         await prisma.orderItem.deleteMany({});
         await prisma.order.deleteMany({});
         await prisma.product.deleteMany({});
         await prisma.productCategory.deleteMany({});
-        await prisma.user.deleteMany({});
+        await prisma.user.deleteMany({});*/
 
-        await prisma.user.createMany({ data: users })
+        console.debug('Atualizando DB')
+
+        /*await prisma.user.createMany({ data: users })
         await prisma.productCategory.createMany({ data: product_categoris })
         await prisma.product.createMany({ data: products })
         await prisma.order.createMany({ data: orders })
         await prisma.orderItem.createMany({ data: order_items })
         await prisma.address.createMany({ data: users_address })
         await prisma.address.createMany({ data: orders_address })
-        await prisma.review.createMany({ data: reviews })
+        await prisma.review.createMany({ data: reviews })*/
 
-        let db_products = await prisma.product.findMany({
+        console.debug('Atualizando reviews')
+
+        /*let db_products = await prisma.product.findMany({
             include: {
                 reviews: {}
             }
         })
-        db_products.forEach((product) => {
+        for (let i = 0; i < db_products.length; i++) {
+            const product = db_products[i]
+            
             if (product.reviews.length > 0) {
-                product.reviews.forEach((review) => {
-                    product.rating += review.rating
-                })
+                for (let k = 0; k < product.reviews.length; k++) {
+                    product.rating += product.reviews[k].rating
+                }
                 product.rating /= product.reviews.length
-                console.log(product.id + " = " + product.rating)
-                let res = prisma.product.update({
+                
+                await prisma.product.update({
                     where: {
                         id: product.id
                     },
@@ -92,8 +103,13 @@ export async function register() {
                         rating: product.rating
                     }
                 })
+                
             }
-        })
+        }*/
+        console.debug('Concluído - o processo vai terminar com erro mas é o comportamento esperado\n')
+
+        process.stdout._write('\x03')
+        
     }
 
 }

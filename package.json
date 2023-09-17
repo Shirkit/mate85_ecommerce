@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev-post-install": "npx prisma migrate dev",
-    "dev-update-schema": "npx prisma migrate deploy",
+    "dev-post-install": "npx prisma migrate apply",
+    "dev-update-schema": "npx prisma migrate reset && cross-env APP_ENV=schema next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -31,6 +31,7 @@
     "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "prisma": "^5.3.1"
   }
 }
