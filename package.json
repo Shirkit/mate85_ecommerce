@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev-post-install": "npx prisma migrate dev",
-    "dev-update-schema": "npx prisma migrate deploy",
+    "dev-post-install": "npx prisma migrate apply",
+    "dev-update-schema": "npx prisma migrate reset && cross-env APP_ENV=schema next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -16,6 +16,7 @@
     "autoprefixer": "10.4.15",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "embla-carousel-react": "^8.0.0-rc12",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "lucide-react": "^0.268.0",
@@ -30,6 +31,7 @@
     "tailwindcss-animate": "^1.0.6"
   },
   "devDependencies": {
-    "prisma": "^5.2.0"
+    "cross-env": "^7.0.3",
+    "prisma": "^5.3.1"
   }
 }
