@@ -7,19 +7,14 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Produto {
-  id   Int     @id @default(autoincrement())
-  nome String
-  foto String?
-}
-
 model User {
   id        Int       @id @default(autoincrement())
   name      String
   email     String
   addresses Address[]
-  orders    Order[]
-  session   Session?
+  orders Order[]
+  session Session?
+  reviews Review[]
 }
 
 model Order {
@@ -64,16 +59,42 @@ model Product {
   id                    Int             @id @default(autoincrement())
   name                  String
   description           String
-  price                 Float
   product_categories_id Int
-  sku                   String
-  order_items           OrderItem[]
-  product_category      ProductCategory @relation(fields: [product_categories_id], references: [id])
+  rating Float?
+  reviews Review[]
+  product_item ProductItem[]
+
+  product_category ProductCategory @relation(fields: [product_categories_id],references: [id])
+  order_items OrderItem[]
 }
 
-model ProductCategory {
-  id      Int       @id
-  name    String
+model ProductItem {
+  id                    Int             @id @default(autoincrement())
+  product_id            Int
+  size                  Int
+  sku                   String
+  amout                 Int 
+  price                 Float 
+
+  productItem_product Product @relation(fields: [product_id],references: [id])
+}
+
+model Review {
+    id Int @id @default(autoincrement())
+    title String?
+    text String?
+    rating Float?
+    users_id Int
+    products_id Int
+
+    user User @relation(fields: [users_id], references: [id])
+    product Product @relation(fields: [products_id], references: [id])
+}
+
+
+model ProductCategory{
+  id Int @id
+  name String
   product Product[]
 }
 

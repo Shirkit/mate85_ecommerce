@@ -14,16 +14,13 @@ export default async function ManageUsers(){
     {
       name: 'Edit',
       color: 'blue',
-    },
-    {
-      name: 'Delete',
-      color: 'red',
-    },
+      dest: '/admin/users/edit/$1'
+    }
   ];
   const headers = ['id','Name', 'Email', "Actions"];
 
   return (
-    <AdminTable title = "Users" headers = {headers} data = {users} />
+    <AdminTable title = "Usuários" headers = {headers} data = {users} actions={actions} />
   )
   
 }
