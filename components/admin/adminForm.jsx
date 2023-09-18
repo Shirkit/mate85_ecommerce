@@ -6,7 +6,7 @@ export function AdminForm(props) {
     <div className="bg-zinc-700 p-8 text-white border-solid rounded-lg h-fit" >
 
       <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">{props.formTitle}</h1>
-      <form>
+      <form action={props.action}>
         {props.fields.map((field) => {
 
           return (
