@@ -30,8 +30,8 @@ export async function register() {
         for (let i = 0; i < products_items.length; i++) {
             products_items[i].id = parseInt(products_items[i].id)
             products_items[i].product_id = parseInt(products_items[i].product_id)
-            products_items[i].size = toString(products_items[i].size)
-            products_items[i].sku = toString(products_items[i].sku)
+            products_items[i].size = products_items[i].size
+            products_items[i].sku = products_items[i].sku
             products_items[i].amount = parseInt(products_items[i].amount)
             products_items[i].price = parseFloat(products_items[i].price)
         }
