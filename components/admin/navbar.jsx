@@ -50,11 +50,11 @@ export default function AdminNavbar() {
             }} >
                 <SubMenu icon={<UsersIcon></UsersIcon>} label="Usuários">
                     <MenuItem component={<Link href="/admin/users/add"></Link>} className="bg-zinc-800"> Adicionar novo usuário </MenuItem>
-                    <MenuItem component={<Link href="/admin/users"></Link>} className="bg-zinc-800"> Gerenciar usuários </MenuItem>
+                    <MenuItem component={<Link href="/admin/users/manage"></Link>} className="bg-zinc-800"> Gerenciar usuários </MenuItem>
                 </SubMenu>
                 <SubMenu icon={<PackageIcon></PackageIcon>} label="Produtos">
                     <MenuItem component={<Link href="/admin/products/add"></Link>} className="bg-zinc-800"> Adicionar novo produto </MenuItem>
-                    <MenuItem component={<Link href="/admin/products"></Link>} className="bg-zinc-800"> Gerenciar produtoss </MenuItem>
+                    <MenuItem component={<Link href="/admin/products"></Link>} className="bg-zinc-800"> Gerenciar produtos </MenuItem>
                     <MenuItem component={<Link href="/admin/products/categories"></Link>} className="bg-zinc-800"> Gerenciar categorias </MenuItem>
                 </SubMenu>
                 <SubMenu icon={<FilesIcon></FilesIcon>} label="Relatórios">
