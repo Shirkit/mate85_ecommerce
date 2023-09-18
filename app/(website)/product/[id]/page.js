@@ -26,7 +26,7 @@ export default async function Produto({ params }) {
                 <section className="flex flex-col w-1/2 gap-4">
                     <h1 className="text-4xl">{produto.name}</h1>
                     <RenderStars rating={produto.rating}></RenderStars>
-                    <span className="text-2xl">R${produto.price.toFixed(2)}</span>
+                    {/* <span className="text-2xl">R${produto.price.toFixed(2)}</span> */}
                     <p>{produto.description}</p>
                     <hr></hr>
                     Filtro 1

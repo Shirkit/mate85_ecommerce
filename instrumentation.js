@@ -1,5 +1,5 @@
 import { prisma } from '@/utils/prisma'
-import { order_items, orders, orders_address, product_categoris, products, users, users_address, reviews } from '@/utils/sampledata';
+import { order_items, orders, orders_address, product_categories, products, products_items, users, users_address, reviews } from '@/utils/sampledata';
 
 var importarDadosMocks = true
 
@@ -12,51 +12,61 @@ export async function register() {
 
         console.debug('Preparando dados')
 
-        // for (let i = 0; i < users.length; i++) {
-        //     users[i].id = parseInt(users[i].id)
-        // }
+        for (let i = 0; i < users.length; i++) {
+            users[i].id = parseInt(users[i].id)
+        }
 
-        // for (let i = 0; i < product_categoris.length; i++) {
-        //     product_categoris[i].id = parseInt(product_categoris[i].id)
-        // }
+        for (let i = 0; i < product_categories.length; i++) {
+            product_categories[i].id = parseInt(product_categories[i].id)
+        }
 
-        // for (let i = 0; i < products.length; i++) {
-        //     products[i].id = parseInt(products[i].id)
-        //     products[i].price = parseFloat(products[i].price)
-        //     products[i].product_categories_id = parseInt(products[i].product_categories_id)
-        // }
+        for (let i = 0; i < products.length; i++) {
+            products[i].id = parseInt(products[i].id)
+            products[i].name = products[i].name
+            products[i].description =products[i].description
+            products[i].product_categories_id = parseInt(products[i].product_categories_id)
+        }
 
-        // for (let i = 0; i < orders.length; i++) {
-        //     orders[i].id = parseInt(orders[i].id)
-        //     orders[i].users_id = parseInt(orders[i].users_id)
-        //     orders[i].total = parseFloat(orders[i].total)
-        //     orders[i].order_number = parseInt(orders[i].order_number)
+        for (let i = 0; i < products_items.length; i++) {
+            products_items[i].id = parseInt(products_items[i].id)
+            products_items[i].product_id = parseInt(products_items[i].product_id)
+            products_items[i].size = toString(products_items[i].size)
+            products_items[i].sku = toString(products_items[i].sku)
+            products_items[i].amount = parseInt(products_items[i].amount)
+            products_items[i].price = parseFloat(products_items[i].price)
+        }
 
-        // }
+        for (let i = 0; i < orders.length; i++) {
+            orders[i].id = parseInt(orders[i].id)
+            orders[i].users_id = parseInt(orders[i].users_id)
+            orders[i].total = parseFloat(orders[i].total)
+            orders[i].order_number = parseInt(orders[i].order_number)
 
-        // for (let i = 0; i < order_items.length; i++) {
-        //     order_items[i].orders_id = parseInt(order_items[i].orders_id)
-        //     order_items[i].products_id = parseInt(order_items[i].products_id)
-        //     order_items[i].price = parseFloat(order_items[i].price)
-        // }
+        }
 
-        // for (let i = 0; i < users_address.length; i++) {
-        //     users_address[i].users_id = parseInt(users_address[i].users_id)
-        //     users_address[i].orders_id = null
-        // }
+        for (let i = 0; i < order_items.length; i++) {
+            order_items[i].orders_id = parseInt(order_items[i].orders_id)
+            order_items[i].products_id = parseInt(order_items[i].products_id)
+            order_items[i].price = parseFloat(order_items[i].price)
+        }
 
-        // for (let i = 0; i < orders_address.length; i++) {
-        //     orders_address[i].orders_id = parseInt(orders_address[i].orders_id)
-        //     orders_address[i].number = toString(orders_address[i].number)
-        //     orders_address[i].users_id = null
-        // }
+        for (let i = 0; i < users_address.length; i++) {
+            users_address[i].users_id = parseInt(users_address[i].users_id)
+            users_address[i].orders_id = null
+        }
 
-        // for (let i = 0; i < reviews.length; i++) {
-        //     reviews[i].id = parseInt(reviews[i].id)
-        //     reviews[i].rating = parseInt(reviews[i].rating)
-        //     reviews[i].users_id = parseInt(reviews[i].users_id)
-        //     reviews[i].products_id = parseInt(reviews[i].products_id)
-        // }
+        for (let i = 0; i < orders_address.length; i++) {
+            orders_address[i].orders_id = parseInt(orders_address[i].orders_id)
+            orders_address[i].number = toString(orders_address[i].number)
+            orders_address[i].users_id = null
+        }
+
+        for (let i = 0; i < reviews.length; i++) {
+            reviews[i].id = parseInt(reviews[i].id)
+            reviews[i].rating = parseInt(reviews[i].rating)
+            reviews[i].users_id = parseInt(reviews[i].users_id)
+            reviews[i].products_id = parseInt(reviews[i].products_id)
+        }
 
         console.debug('Limpando DB')
 
@@ -70,42 +80,42 @@ export async function register() {
 
         console.debug('Atualizando DB')
 
-        // await prisma.user.createMany({ data: users })
-        // await prisma.productCategory.createMany({ data: product_categoris })
-        // await prisma.product.createMany({ data: products })
-        // await prisma.order.createMany({ data: orders })
-        // await prisma.orderItem.createMany({ data: order_items })
-        // await prisma.address.createMany({ data: users_address })
-        // await prisma.address.createMany({ data: orders_address })
-        // await prisma.review.createMany({ data: reviews })
+        await prisma.user.createMany({ data: users })
+        await prisma.productCategory.createMany({ data: product_categories })
+        await prisma.product.createMany({ data: products })
+        await prisma.order.createMany({ data: orders })
+        await prisma.orderItem.createMany({ data: order_items })
+        await prisma.address.createMany({ data: users_address })
+        await prisma.address.createMany({ data: orders_address })
+        await prisma.review.createMany({ data: reviews })
 
         console.debug('Atualizando reviews')
 
-        // let db_products = await prisma.product.findMany({
-        //     include: {
-        //         reviews: {}
-        //     }
-        // })
-        // for (let i = 0; i < db_products.length; i++) {
-        //     const product = db_products[i]
+        let db_products = await prisma.product.findMany({
+            include: {
+                reviews: {}
+            }
+        })
+        for (let i = 0; i < db_products.length; i++) {
+            const product = db_products[i]
             
-        //     if (product.reviews.length > 0) {
-        //         for (let k = 0; k < product.reviews.length; k++) {
-        //             product.rating += product.reviews[k].rating
-        //         }
-        //         product.rating /= product.reviews.length
+            if (product.reviews.length > 0) {
+                for (let k = 0; k < product.reviews.length; k++) {
+                    product.rating += product.reviews[k].rating
+                }
+                product.rating /= product.reviews.length
                 
-        //         await prisma.product.update({
-        //             where: {
-        //                 id: product.id
-        //             },
-        //             data: {
-        //                 rating: product.rating
-        //             }
-        //         })
+                await prisma.product.update({
+                    where: {
+                        id: product.id
+                    },
+                    data: {
+                        rating: product.rating
+                    }
+                })
                 
-        //     }
-        // }
+            }
+        }
         console.debug('Concluído - o processo vai terminar com erro mas é o comportamento esperado\n')
         console.debug(' - Se o processo não encerrar, por favor aperte CTRL+C\n')
 

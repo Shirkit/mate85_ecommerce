@@ -17,7 +17,7 @@ export default async function Card(props) {
         <span className="ml-1">{props.rating.toFixed(1)}</span>
         </div>
       )}
-      <p className="text-gray-700 text-lg">${props.price.toFixed(2)}</p>
+      {/* <p className="text-gray-700 text-lg">${props.price.toFixed(2)}</p> */}
 
     </div>
   );
