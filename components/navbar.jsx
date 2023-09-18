@@ -5,7 +5,7 @@ import { SearchProduct } from './SearchProduct'
 export default function Navbar() {
 	return (
 		<header className="mx-auto flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5">
-			<h1 className="font-primary font-black text-3xl">SHOP.CO</h1>
+			<h1 className="font-primary font-black text-3xl">SHOP.IC</h1>
 			<nav className="flex flex-row gap-6">
 				<Link href="/" className="w-max">
 					Shop
