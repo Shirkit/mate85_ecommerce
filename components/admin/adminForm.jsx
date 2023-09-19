@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 
+const categorias = await prisma.ProductCategory.findMany()
+
 export function AdminForm(props) {
 
   return (
@@ -10,13 +12,39 @@ export function AdminForm(props) {
         {props.fields.map((field) => {
 
           return (
+
             <div className="mb-4">
               <label className="block mb-2" htmlFor="name">{field.label}</label>
-              <input
-                type={field.type}
-                name={field.name}
-                className="bg-gray-800 text-white p-2 rounded-md w-full"
-              />
+
+              {(() => {
+                if (field.type == 'select'){
+                    return (
+                      <select name={field.name} className="bg-gray-800 text-white p-2 rounded-md w-full">
+                        {categorias.map((item) => (
+                          <option value={item.id}>{item.name}</option>
+                        ))}
+                    </select>
+                    )
+                }
+              
+                return null;
+              })()}
+
+
+              {(() => {
+                if (field.type != 'select'){
+                    return (
+                      <input
+                        type={field.type}
+                        name={field.name}
+                        className="bg-gray-800 text-white p-2 rounded-md w-full"
+                      />
+                    )
+                }
+              
+                return null;
+              })()}
+              
             </div>
           )
         })}
