@@ -3,6 +3,7 @@ import RenderStars, { renderStars } from "@/components/ui/stars"
 import Carousel from "@/components/ui/carousel"
 import Quantity from "@/components/ui/quantity"
 import { CheckCircle2 } from "lucide-react"
+import ReviewCard from "@/components/ui/review"
 
 export default async function Produto({ params }) {
     const produto = await prisma.product.findFirst({ where: { id: parseInt(params.id) }, include: { reviews: { include: { user: {} } } } })
@@ -44,17 +45,7 @@ export default async function Produto({ params }) {
                 <h2>Todas as Avaliações</h2>
                 <div className="grid grid-cols-2 gap-8 grid-flow-row">
                     {produto.reviews.map((review, index) => {
-                        return (
-                            <div key={index} className="p-4 gap-y-2 flex flex-col border border-zinc-200 rounded-3xl">
-                                <RenderStars rating={review.rating} hideNumber={true}></RenderStars>
-                                <h3>{review.title}</h3>
-                                <span className="flex flex-row gap-x-1">
-                                    <h4>{review.user.name}</h4>
-                                    <CheckCircle2 fill="green" stroke="white"></CheckCircle2>
-                                </span>
-                                <p>{review.text}</p>
-                            </div>
-                        )
+                        return <ReviewCard index={index} rating={review.rating} text={review.text} title={review.title} author={review.user.name}></ReviewCard>
                     })}
                 </div>
             </div>
