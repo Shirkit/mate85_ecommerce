@@ -1,12 +1,36 @@
-import { prisma } from "@/utils/prisma"
-import RenderStars, { renderStars } from "@/components/ui/stars"
+
+import RenderStars from "@/components/ui/stars"
 import Carousel from "@/components/ui/carousel"
 import Quantity from "@/components/ui/quantity"
-import { CheckCircle2 } from "lucide-react"
 import ReviewCard from "@/components/ui/review"
+import Link from "next/link"
+import { prisma } from "@/utils/prisma"
 
-export default async function Produto({ params }) {
-    const produto = await prisma.product.findFirst({ where: { id: parseInt(params.id) }, include: { reviews: { include: { user: {} } } } })
+export default async function Produto({ params, searchParams }) {
+    const page = searchParams.page ? parseInt(searchParams.page) : 1
+    const take = 6
+    let pages = await prisma.review.count({
+        where: {
+            products_id: parseInt(params.id)
+        }
+    })
+    pages = Math.ceil(pages / take)
+    const produto = await prisma.product.findFirst({
+        where: {
+            id: parseInt(params.id)
+        }, include: {
+            reviews: {
+                take: take,
+                skip: (page - 1) * take,
+                orderBy: {
+                    rating: 'desc'
+                },
+                include: {
+                    user: {}
+                }
+            }
+        }
+    })
 
     return (
         <article className="max-w-7xl mx-auto my-20">
@@ -47,6 +71,12 @@ export default async function Produto({ params }) {
                     {produto.reviews.map((review, index) => {
                         return <ReviewCard index={index} rating={review.rating} text={review.text} title={review.title} author={review.user.name}></ReviewCard>
                     })}
+                    {(page > 1) &&
+                        <Link href={"/product/" + params.id + "/?page=" + (page - 1)}>Página anterior</Link>
+                    }
+                    {(page < pages) &&
+                        <Link href={"/product/" + params.id + "/?page=" + (page + 1)}>Próxima página</Link>
+                    }
                 </div>
             </div>
 
