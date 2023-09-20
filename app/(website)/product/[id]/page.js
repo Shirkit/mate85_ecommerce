@@ -71,15 +71,23 @@ export default async function Produto({ params, searchParams }) {
                     {produto.reviews.map((review, index) => {
                         return <ReviewCard index={index} rating={review.rating} text={review.text} title={review.title} author={review.user.name}></ReviewCard>
                     })}
-                    {(page > 1) &&
-                        <Link href={"/product/" + params.id + "/?page=" + (page - 1)}>Página anterior</Link>
-                    }
-                    {(page < pages) &&
-                        <Link href={"/product/" + params.id + "/?page=" + (page + 1)}>Próxima página</Link>
-                    }
+                    {(produto.reviews.length % 2 != 0) && <div></div>}
+                    <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-start p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Avaliações anteriores" disabled={page <= 1} link={"/product/" + params.id + "/?page=" + (page - 1)}></PaginationButton>
+                    <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-end p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Próximas avaliações" disabled={page >= pages} link={"/product/" + params.id + "/?page=" + (page + 1)} ></PaginationButton>
                 </div>
             </div>
 
         </article>
     )
+
+    function PaginationButton({text, link, disabled = false, className = ""}) {
+        if (!disabled)
+            return <Link className={className} href={link}>{ActualBtn(text, disabled)}</Link>
+        else
+            return ActualBtn(text, disabled, className)
+    }
+
+    function ActualBtn(text, disabled, className = "") {
+        return <button className={className + (disabled? " bg-zinc-50":" underline")} type="button" disabled={disabled}>{text}</button>
+    }
 }
