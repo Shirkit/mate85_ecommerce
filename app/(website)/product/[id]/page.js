@@ -5,6 +5,7 @@ import Quantity from "@/components/ui/quantity"
 import ReviewCard from "@/components/ui/review"
 import Link from "next/link"
 import { prisma } from "@/utils/prisma"
+import AddReview from "@/components/ui/addReview"
 
 export default async function Produto({ params, searchParams }) {
     const page = searchParams.page ? parseInt(searchParams.page) : 1
@@ -14,6 +15,10 @@ export default async function Produto({ params, searchParams }) {
             products_id: parseInt(params.id)
         }
     })
+    
+    // ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
+    // TODO procurar entender porque isso acontece
+
     pages = Math.ceil(pages / take)
     const produto = await prisma.product.findFirst({
         where: {
@@ -75,6 +80,7 @@ export default async function Produto({ params, searchParams }) {
                     <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-start p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Avaliações anteriores" disabled={page <= 1} link={"/product/" + params.id + "/?page=" + (page - 1)}></PaginationButton>
                     <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-end p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Próximas avaliações" disabled={page >= pages} link={"/product/" + params.id + "/?page=" + (page + 1)} ></PaginationButton>
                 </div>
+                <AddReview productId={parseInt(params.id)}></AddReview>
             </div>
 
         </article>
