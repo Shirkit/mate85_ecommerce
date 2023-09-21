@@ -2,7 +2,6 @@
 import { prisma } from "@/utils/prisma"
 import { createProduct } from "../actions"
 import {AdminForm} from "@/components/admin/adminForm"
-import Card from '@/components/ui/Card'
 
 export default async function AddEditProduct() {
 
@@ -11,13 +10,6 @@ export default async function AddEditProduct() {
     "label": "Nome do Produto",
     "type":"text",
   },
-  
-  {
-    "name" : "price",
-    "label" : "Preço",
-    "type": "number",
-  },
-
   {
     "name": "description",
     "label": "Descrição",
@@ -27,9 +19,32 @@ export default async function AddEditProduct() {
     "name" : "category",
     "label": "Categorias",
     "type" : "select"
-  }  ];
+  } , 
 
-  const products = await prisma.product.findMany();
+  {
+    "name" : "size",
+    "label": "Tamanho",
+    "type" : "text"
+  } , 
+  {
+    "name" : "sku",
+    "label": "SKU",
+    "type" : "text"
+  } , 
+  {
+    "name" : "amout",
+    "label": "Quantidade",
+    "type" : "number"
+  } , 
+  
+  {
+    "name" : "price",
+    "label" : "Preço",
+    "type": "number",
+  },
+
+  ];
+
   return (
     <div className="flex justify-center w-full items-center">
       <AdminForm  formTitle ="Adicionar Produto" action ={createProduct} fields = {fields} buttonLabel = "Adicionar"/>
