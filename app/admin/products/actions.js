@@ -1,11 +1,9 @@
 'use server'
-
 import { prisma } from "@/utils/prisma"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 async function createProduct(data){
-
     // create to tables product and product_item 
     await prisma.product.create({
         data:{
@@ -42,4 +40,14 @@ async function updateProduct(data){
     redirect("/admin/products/")
 }
 
-export {createProduct, updateProduct}
+async function queryAllProducts() {
+    return await prisma.product.findMany({
+        select: {
+            id: true,
+            name: true,
+            rating: true,
+        },
+    })
+}
+
+export {createProduct, updateProduct, queryAllProducts}
