@@ -5,7 +5,7 @@ const categorias = await prisma.ProductCategory.findMany()
 export function AdminForm(props) {
 
   return (
-    <div className="bg-zinc-700 p-8 text-white border-solid rounded-lg h-fit" >
+    <div className="bg-sky-950 p-8 mt-5 mb-3 text-gray-300 border-solid rounded-lg h-fit w-fit w-8/12" >
 
       <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">{props.formTitle}</h1>
       <form action={props.action}>
@@ -13,7 +13,7 @@ export function AdminForm(props) {
 
           return (
 
-            <div className="mb-4">
+            <div className="m-4">
               <label className="block mb-2" htmlFor="name">{field.label}</label>
 
               {field.type == "select" ? (
@@ -26,7 +26,7 @@ export function AdminForm(props) {
                 <input
                         type={field.type}
                         name={field.name}
-                        className="bg-gray-800 text-white p-2 rounded-md w-full"
+                        className="bg-neutral-300 text-black p-2 rounded-md w-full"
                       />
               ) }
               
@@ -34,7 +34,7 @@ export function AdminForm(props) {
           )
         })}
 
-        <Button>{props.buttonLabel}</Button>
+        <Button className="ml-5 mt-3" variant="form" size="lg">{props.buttonLabel}</Button>
       </form>
     </div>
   )
