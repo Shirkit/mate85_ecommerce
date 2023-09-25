@@ -1,11 +1,41 @@
-import { prisma } from "@/utils/prisma"
-import RenderStars, { renderStars } from "@/components/ui/stars"
+
+import RenderStars from "@/components/ui/stars"
 import Carousel from "@/components/ui/carousel"
 import Quantity from "@/components/ui/quantity"
-import { CheckCircle2 } from "lucide-react"
+import ReviewCard from "@/components/ui/review"
+import Link from "next/link"
+import { prisma } from "@/utils/prisma"
+import AddReview from "@/components/ui/addReview"
 
-export default async function Produto({ params }) {
-    const produto = await prisma.product.findFirst({ where: { id: parseInt(params.id) }, include: { reviews: { include: { user: {} } } } })
+export default async function Produto({ params, searchParams }) {
+    const page = searchParams.page ? parseInt(searchParams.page) : 1
+    const take = 6
+    let pages = await prisma.review.count({
+        where: {
+            products_id: parseInt(params.id)
+        }
+    })
+    
+    // ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
+    // TODO procurar entender porque isso acontece
+
+    pages = Math.ceil(pages / take)
+    const produto = await prisma.product.findFirst({
+        where: {
+            id: parseInt(params.id)
+        }, include: {
+            reviews: {
+                take: take,
+                skip: (page - 1) * take,
+                orderBy: {
+                    rating: 'desc'
+                },
+                include: {
+                    user: {}
+                }
+            }
+        }
+    })
 
     return (
         <article className="max-w-7xl mx-auto my-20">
@@ -44,21 +74,26 @@ export default async function Produto({ params }) {
                 <h2>Todas as Avaliações</h2>
                 <div className="grid grid-cols-2 gap-8 grid-flow-row">
                     {produto.reviews.map((review, index) => {
-                        return (
-                            <div key={index} className="p-4 gap-y-2 flex flex-col border border-zinc-200 rounded-3xl">
-                                <RenderStars rating={review.rating} hideNumber={true}></RenderStars>
-                                <h3>{review.title}</h3>
-                                <span className="flex flex-row gap-x-1">
-                                    <h4>{review.user.name}</h4>
-                                    <CheckCircle2 fill="green" stroke="white"></CheckCircle2>
-                                </span>
-                                <p>{review.text}</p>
-                            </div>
-                        )
+                        return <ReviewCard index={index} rating={review.rating} text={review.text} title={review.title} author={review.user.name}></ReviewCard>
                     })}
+                    {(produto.reviews.length % 2 != 0) && <div></div>}
+                    <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-start p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Avaliações anteriores" disabled={page <= 1} link={"/product/" + params.id + "/?page=" + (page - 1)}></PaginationButton>
+                    <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-end p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Próximas avaliações" disabled={page >= pages} link={"/product/" + params.id + "/?page=" + (page + 1)} ></PaginationButton>
                 </div>
+                <AddReview productId={parseInt(params.id)}></AddReview>
             </div>
 
         </article>
     )
+
+    function PaginationButton({text, link, disabled = false, className = ""}) {
+        if (!disabled)
+            return <Link className={className} href={link}>{ActualBtn(text, disabled)}</Link>
+        else
+            return ActualBtn(text, disabled, className)
+    }
+
+    function ActualBtn(text, disabled, className = "") {
+        return <button className={className + (disabled? " bg-zinc-50":" underline")} type="button" disabled={disabled}>{text}</button>
+    }
 }
