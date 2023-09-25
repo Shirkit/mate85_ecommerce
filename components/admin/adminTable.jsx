@@ -1,7 +1,9 @@
+import Link from "next/link"
 
 // Adicionar server actions aqui para editar e deletar
-export async function AdminTable({title,headers,data}) {
+export async function AdminTable({title,headers,data,actions}) {
   "use server"
+  console.log(actions)
   return (
 
     
@@ -33,13 +35,14 @@ export async function AdminTable({title,headers,data}) {
                 {row[key]}
               </td>
             ))}
-            <td className="border p-4">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mr-2">
-                Edit
-              </button>
-              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4">
-                Delete
-              </button>
+              <td className="border p-4">
+            {actions.map((action, index) => (
+              <Link href={action.dest.replace('$1', row.id)}>
+                <button className={"bg-" + action.color + "-500 hover:bg-" + action.color + "-700 text-white font-bold py-2 px-4 mr-2"}>
+                  {action.name}
+                </button>
+                </Link>
+            ))}
             </td>
           </tr>
         ))}
