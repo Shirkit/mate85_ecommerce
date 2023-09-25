@@ -6,7 +6,7 @@ import { UpdateProductCategory } from "./UpdateProductCategory";
 import { CreateProductCategory } from "./CreateProductCategory";
 
 export default async function Categorias() {
-  const categorias = await prisma.categoria.findMany();
+  const categorias = await prisma.productCategory.findMany();
 
   return (
     <div>
