@@ -12,9 +12,9 @@ export async function register() {
 
         console.debug('Preparando dados')
 
-        for (let i = 0; i < users.length; i++) {
-            users[i].id = parseInt(users[i].id)
-        }
+        // for (let i = 0; i < users.length; i++) {
+        //     users[i].id = parseInt(users[i].id)
+        // }
 
         for (let i = 0; i < product_categoris.length; i++) {
             product_categoris[i].id = parseInt(product_categoris[i].id)
@@ -28,7 +28,7 @@ export async function register() {
 
         for (let i = 0; i < orders.length; i++) {
             orders[i].id = parseInt(orders[i].id)
-            orders[i].users_id = parseInt(orders[i].users_id)
+            // orders[i].users_id = parseInt(orders[i].users_id)
             orders[i].total = parseFloat(orders[i].total)
             orders[i].order_number = parseInt(orders[i].order_number)
 
@@ -41,8 +41,9 @@ export async function register() {
         }
 
         for (let i = 0; i < users_address.length; i++) {
-            users_address[i].users_id = parseInt(users_address[i].users_id)
+            // users_address[i].users_id = parseInt(users_address[i].users_id)
             users_address[i].orders_id = null
+            users_address[i].number = toString(users_address[i].number)
         }
 
         for (let i = 0; i < orders_address.length; i++) {
@@ -54,7 +55,7 @@ export async function register() {
         for (let i = 0; i < reviews.length; i++) {
             reviews[i].id = parseInt(reviews[i].id)
             reviews[i].rating = parseInt(reviews[i].rating)
-            reviews[i].users_id = parseInt(reviews[i].users_id)
+            // reviews[i].users_id = parseInt(reviews[i].users_id)
             reviews[i].products_id = parseInt(reviews[i].products_id)
         }
 
@@ -109,7 +110,7 @@ export async function register() {
         console.log('Atualizando autoincrements')
         await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Order"', 'id'), coalesce(max(id)+1, 1), false) FROM "Order";`
         await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Review"', 'id'), coalesce(max(id)+1, 1), false) FROM "Review";`
-        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"User"', 'id'), coalesce(max(id)+1, 1), false) FROM "User";`
+        // await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"User"', 'id'), coalesce(max(id)+1, 1), false) FROM "User";`
         await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"OrderItem"', 'id'), coalesce(max(id)+1, 1), false) FROM "OrderItem";`
         await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Address"', 'id'), coalesce(max(id)+1, 1), false) FROM "Address";`
         await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Product"', 'id'), coalesce(max(id)+1, 1), false) FROM "Product";`
