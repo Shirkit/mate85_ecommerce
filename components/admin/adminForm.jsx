@@ -5,7 +5,7 @@ const categorias = await prisma.ProductCategory.findMany()
 export function AdminForm(props) {
 
   return (
-    <div className="bg-sky-950 p-8 mt-5 mb-3 text-gray-300 border-solid rounded-lg h-fit w-fit w-8/12" >
+    <div className="bg-sky-950 p-8 mt-5 mb-3 text-gray-300 border-solid rounded-lg h-fit w-fit w-6/12" >
 
       <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">{props.formTitle}</h1>
       <form action={props.action}>
@@ -13,12 +13,14 @@ export function AdminForm(props) {
 
           return (
 
+            // eslint-disable-next-line react/jsx-key
             <div className="m-4">
               <label className="block mb-2" htmlFor="name">{field.label}</label>
 
               {field.type == "select" ? (
                 <select name={field.name} className="bg-gray-800 text-white p-2 rounded-md w-full">
                         {categorias.map((item) => (
+                          // eslint-disable-next-line react/jsx-key
                           <option value={item.id}>{item.name}</option>
                         ))}
                     </select>
