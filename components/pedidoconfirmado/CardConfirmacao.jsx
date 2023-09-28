@@ -1,11 +1,13 @@
-import React from 'react';
+'use server'
 
-
-
-export default function CardConfirmacao(props) {
+export default async function CardConfirmacao(props) {
     const pedido = props.pedido;
+    
     const produtos = pedido.order_items;
     const user = pedido.user;  
+    const adress = pedido.address;
+
+  
     return ( 
     
     
@@ -31,49 +33,47 @@ endereço<strong> {user.email} </strong>
 
         <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/4 rounded-sm '>
         <h4 className='font-bold'>Informações Do Pedido</h4>
+        <br></br>
         <p> Numero do pedido: {pedido.order_number}</p>
+        <br></br>
         <div className='flex justify-center bg-black text-white'>Items</div>
-        <table className='border-collapse'>
-        <thead>
+        
+        <table className='border-collapse w-full h-full'>
+        <thead className="border-2 border-solid border-grey-300 p-2 text-justify">
             
         <tr>
           <th>Produto</th>
           <th>Total</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="border-2 border-solid border-grey-200 p-4 text-justify">
 
-        {/* {produtos.forEach(produto => {
-            <tr key={produto.id}>
-            <td>{produto.produto.nome} x 1</td> 
-            <td>R${produto.produto.preco}</td>
+        {produtos.map(produto => (
+            <tr className="border-2 border-solid border-grey-200 p-4 text-justify" key={produto.products_id}>
+            <td>{produto.product.name} x 1</td> 
+            <td>R${produto.price}</td>
           </tr>
     
-        })} */}
+        ))}
 
-        {/*Adicionar estilização de tabela*/}
-        <tr>
-            <td>azul</td>
-            <td>quente</td>
-        </tr>
-        <tr>
-            <td>azul x1</td>
-            <td>quente </td>
-        </tr>
-        <tr>
-            <td>azul</td>
-            <td>quente</td>
-        </tr>
         
-        <p> Total: R${pedido.total}</p>
+         <br></br>
+        <p> Total: <strong>R${pedido.total}</strong></p>
         </tbody>
         </table>
+       
         <br>
         </br>
         <p>*Os produtos serão enviados em até 2 dias após a confirmação do pagamento.</p>
         </div>
         <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/4 rounded-sm '>
         <h4 className='font-bold'>Informações de Cobrança</h4>
+
+     <p>{user.name}</p>
+     <p>Cep: {adress[0].zip_code}</p>
+     <p>{adress[0].street} {adress[0].number} {adress[0].complement} {adress[0].neighborhood}</p>
+     <p>{adress[0].complemente2} {adress[0].city} - {adress[0].state}</p>
+     <p>{adress[0].country}</p>
         {/*Adicionar campos de endereço*/}
         </div>
 
