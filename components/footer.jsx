@@ -7,7 +7,7 @@ export default function Footer() {
 			<div className="max-w-7xl mx-auto flex justify-between">
 				<div className="flex flex-col gap-8">
 					<div className="flex flex-col gap-6">
-						<h2 className="text-3xl font-black">SHOP.IC</h2>
+						<h2 className="text-3xl font-black">SHOPIC</h2>
 						<p className="max-w-[248px] text-sm text-zinc-600">
 							Temos roupas que se adequam ao seu estilo e das quais você
 							se orgulha de usar. Tanto para mulheres quanto para homens.
