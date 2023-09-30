@@ -1,9 +1,21 @@
 "use server"
 import { prisma } from "@/utils/prisma"
-import { updateProduct, createProductItem } from "../../../actions"
+import { updateProduct, createProductItem, queryAllProductsItem } from "../../../actions"
 import {AdminForm} from "@/components/admin/adminForm"
+import {AdminTable} from "@/components/admin/adminTable"
+
 
 export default async function EditProduct({params}) {
+  const productsItem = await queryAllProductsItem(params.id);
+  
+  const actions = [
+    {
+      name: 'Edit',
+      color: 'blue',
+      dest: '/admin/products/edit/$1'
+    }
+  ];
+  const headers = ['Tamanho', 'Quantidade', "Preço"];
 
   const fieldsProductupdate = [{
     "name" : "productName",
@@ -51,13 +63,25 @@ export default async function EditProduct({params}) {
 ];
 
   return (
-    <div>
-      <div className="flex justify-center w-full items-center">
-        <AdminForm  formTitle ="Adicionar Produto" action ={updateProduct} fields = {fieldsProductupdate} buttonLabel = "Adicionar"/>
+    <div className="flex justify-center flex-wrap">
+      <div className="flex flex-nowrap">
+        <div className="flex justify-center w-full items-center flex-auto mx-6">
+          <AdminForm  formTitle ="Adicionar Produto" action ={updateProduct} fields = {fieldsProductupdate} buttonLabel = "Adicionar"/>
+        </div>
+        <div className="flex justify-center w-full items-center flex-auto mx-6">
+          <AdminForm  formTitle ="Adicionar Itens" action ={createProductItem } fields = {fieldsItem} buttonLabel = "Adicionar"/>
+        </div>
       </div>
-      <div className="flex justify-center w-full items-center">
-        <AdminForm  formTitle ="Adicionar Produto" action ={createProductItem } fields = {fieldsItem} buttonLabel = "Adicionar"/>
+        <div className="w-full flex justify-center items-center pt-6">
+          <AdminTable 
+            title="Produtos" 
+            headers={headers} 
+            data={productsItem} 
+            actions={actions} 
+            hasSearchBar={true}
+          />
+        </div>
       </div>
-    </div>
+        
   );
 }

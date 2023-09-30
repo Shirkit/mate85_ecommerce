@@ -62,4 +62,17 @@ async function queryAllProducts() {
     })
 }
 
-export {createProduct, createProductItem, updateProduct, queryAllProducts}
+async function queryAllProductsItem(data) {
+    return await prisma.productItem.findMany({
+        where: {
+            product_id: parseInt(data)
+        },
+        select: {
+            size: true,
+            amout: true,
+            price: true,
+        },
+    })
+}
+
+export {createProduct, createProductItem, updateProduct, queryAllProducts, queryAllProductsItem}
