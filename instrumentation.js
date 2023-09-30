@@ -116,6 +116,15 @@ export async function register() {
                 
             }
         }
+        console.log('Atualizando autoincrements')
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Order"', 'id'), coalesce(max(id)+1, 1), false) FROM "Order";`
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Review"', 'id'), coalesce(max(id)+1, 1), false) FROM "Review";`
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"User"', 'id'), coalesce(max(id)+1, 1), false) FROM "User";`
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"OrderItem"', 'id'), coalesce(max(id)+1, 1), false) FROM "OrderItem";`
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Address"', 'id'), coalesce(max(id)+1, 1), false) FROM "Address";`
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"Product"', 'id'), coalesce(max(id)+1, 1), false) FROM "Product";`
+        await prisma.$executeRaw`SELECT setval(pg_get_serial_sequence('"ProductCategory"', 'id'), coalesce(max(id)+1, 1), false) FROM "ProductCategory";`
+
         console.debug('Concluído - o processo vai terminar com erro mas é o comportamento esperado\n')
         console.debug(' - Se o processo não encerrar, por favor aperte CTRL+C\n')
 
