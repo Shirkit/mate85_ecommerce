@@ -21,28 +21,6 @@ export default async function AddEditProduct() {
     "type" : "select"
   } , 
 
-  {
-    "name" : "size",
-    "label": "Tamanho",
-    "type" : "text"
-  } , 
-  {
-    "name" : "sku",
-    "label": "SKU",
-    "type" : "text"
-  } , 
-  {
-    "name" : "amout",
-    "label": "Quantidade",
-    "type" : "number"
-  } , 
-  
-  {
-    "name" : "price",
-    "label" : "Preço",
-    "type": "number",
-  },
-
   ];
 
   return (

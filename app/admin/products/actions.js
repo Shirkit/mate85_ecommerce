@@ -2,23 +2,39 @@
 import { prisma } from "@/utils/prisma"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { NextRequest } from 'next/server'
 
 async function createProduct(data){
     // create to tables product and product_item 
-    await prisma.product.create({
+    const newProduct = await prisma.product.create({
         data:{
             name: data.get("productName"),
             description: data.get("description"),
             product_categories_id: parseInt(data.get("category")), 
-            product_item : {
-                create: {
-                    size : data.get("size"),
-                    sku: data.get("sku"),
-                    amout : parseInt(data.get("amout")),
-                    price: parseFloat(data.get("price")),
-                },
-            },   
         },
+    }) 
+
+    const productId = newProduct.id;
+
+    await createProductItem(data, productId);
+
+    redirect(`/admin/products/${productId}/productsItem/add`)
+}
+
+async function createProductItem(data, productId){
+
+    await prisma.productItem.create({ 
+        data:{
+            size : data.get("size"),
+            sku: data.get("sku"),
+            amout : parseInt(data.get("amout")),
+            price: parseFloat(data.get("price")),
+            productItem_product: {
+                connect: {
+                  id: productId
+                }
+            },
+        },   
     }) 
 
     redirect("/admin/products/add")
@@ -32,8 +48,8 @@ async function updateProduct(data){
         data: {
             name: data.get("productName"),
             description: data.get("description"),
-            price: parseFloat(data.get("price")),
-            sku: "",
+            // price: parseFloat(data.get("price")),
+            // sku: "",
             product_categories_id: parseFloat(data.get("category"))
         }
     })
@@ -50,4 +66,4 @@ async function queryAllProducts() {
     })
 }
 
-export {createProduct, updateProduct, queryAllProducts}
+export {createProduct, createProductItem, updateProduct, queryAllProducts}
