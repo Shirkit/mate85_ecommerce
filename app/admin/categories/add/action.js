@@ -1,12 +1,43 @@
 "use server";
 
 import { prisma } from "@/utils/prisma";
+import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-async function addCategories(category) {
-  // await prisma.category.create({where : {id : category.get("id")}});
+async function CreateProductCategory(data) {
+  await prisma.categoria.create({
+    data: { nome: data.get("nome") },
+  });
 
-  redirect("/categories/add");
+  revalidatePath("/productCategory/");
 }
 
-export { addCategories };
+async function removeProductCategory(data) {
+  await prisma.categoria.delete({
+    where: {
+      id: +data.get("id"),
+    },
+  });
+
+  redirect("/productCategory/");
+}
+
+async function updateProductCategory(data) {
+  "use server";
+
+  await prisma.categoria.update({
+    where: {
+      id: parseInt(data.get("id")),
+    },
+    data: {
+      nome: data.get("nome"),
+    },
+  });
+  revalidatePath("/productCategory/");
+}
+
+export {
+  CreateProductCategory,
+  removeProductCategory,
+  updateProductCategory,
+};

@@ -4,7 +4,7 @@ import { prisma } from "@/utils/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-async function asyncCreateProductCategory(data) {
+async function CreateProductCategory(data) {
   await prisma.categoria.create({
     data: { nome: data.get("nome") },
   });
@@ -23,7 +23,6 @@ async function removeProductCategory(data) {
 }
 
 async function updateProductCategory(data) {
-  "use server";
 
   await prisma.categoria.update({
     where: {
