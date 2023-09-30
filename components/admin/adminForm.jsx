@@ -28,6 +28,7 @@ export function AdminForm(props) {
                 <input
                         type={field.type}
                         name={field.name}
+                        value={field.value}
                         className="bg-neutral-300 text-black p-2 rounded-md w-full"
                       />
               ) }

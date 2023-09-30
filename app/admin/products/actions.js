@@ -2,7 +2,6 @@
 import { prisma } from "@/utils/prisma"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
-import { NextRequest } from 'next/server'
 
 async function createProduct(data){
     // create to tables product and product_item 
@@ -16,13 +15,10 @@ async function createProduct(data){
 
     const productId = newProduct.id;
 
-    await createProductItem(data, productId);
-
     redirect(`/admin/products/${productId}/productsItem/add`)
 }
 
-async function createProductItem(data, productId){
-
+async function createProductItem(data){
     await prisma.productItem.create({ 
         data:{
             size : data.get("size"),
@@ -31,13 +27,13 @@ async function createProductItem(data, productId){
             price: parseFloat(data.get("price")),
             productItem_product: {
                 connect: {
-                  id: productId
+                  id: parseInt(data.get("product_id")),
                 }
             },
         },   
     }) 
 
-    redirect("/admin/products/add")
+    revalidatePath("/admin/products/[id]/productsItem/add")
 }
 
 async function updateProduct(data){
