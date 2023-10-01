@@ -6,6 +6,7 @@ import ReviewCard from "@/components/ui/review"
 import Link from "next/link"
 import { prisma } from "@/utils/prisma"
 import AddReview from "@/components/ui/addReview"
+import AddToCartButton from "@/components/ui/addToCartButton"
 
 export default async function Produto({ params, searchParams }) {
     const page = searchParams.page ? parseInt(searchParams.page) : 1
@@ -64,8 +65,7 @@ export default async function Produto({ params, searchParams }) {
                     Filtro 2
                     <hr></hr>
                     <div className="flex flex-row text-black gap-4">
-                        <Quantity></Quantity>
-                        <button className="w-auto flex-grow py-4 px-8 rounded-full bg-black text-white">Adicionar ao carrinho</button>
+                        <AddToCartButton id={produto.id} produto={produto} ></AddToCartButton>
                     </div>
                 </section>
             </div>
