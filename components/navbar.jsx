@@ -1,8 +1,7 @@
-import { Search, ShoppingCart, UserCircle2 } from "lucide-react";
+import { ShoppingCart, UserCircle2 } from "lucide-react";
 import Link from "next/link";
 import { SearchProduct } from "./SearchProduct";
 import Image from "next/image";
-import { useCart } from "@/app/(website)/CartContext";
 import NavbarCart from "./navbarCart";
 
 export default function Navbar() {

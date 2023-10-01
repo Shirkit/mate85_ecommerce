@@ -4,7 +4,7 @@ import Navbar from '@/components/navbar'
 import Footer from '@/components/footer'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { CartProvider } from './CartContext'
+import { CartProvider } from '@/components/CartContext'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {

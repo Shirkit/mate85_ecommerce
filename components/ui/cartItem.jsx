@@ -1,6 +1,6 @@
 "use client"
 
-import { useCart } from "@/app/(website)/CartContext";
+import { useCart } from "@/components/CartContext";
 import Image from "next/image";
 import { Fragment, useState } from "react";
 

@@ -1,7 +1,7 @@
 "use client"
 
 import { CartItem } from "@/components/ui/cartItem"
-import { useCart } from "../CartContext"
+import { useCart } from "@/components/CartContext"
 
 export default function Cart() {
     const { cartItems, cartTotal } = useCart()

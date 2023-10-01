@@ -1,10 +1,8 @@
 "use client"
 
-import { prisma } from "@/utils/prisma"
-import emblaCarouselReact from "embla-carousel-react"
 import { createContext, useContext, useEffect, useState, useTransition } from "react"
 import { toast } from "react-toastify"
-import { getProductsFromIds } from "./cart/actions"
+import { getProductsFromIds } from "../app/(website)/cart/actions"
 
 const CartContext = createContext({
   cartItems: [],
