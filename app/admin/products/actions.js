@@ -5,7 +5,6 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
 async function createProduct(data){
-    // create to tables product and product_item 
     const newProduct = await prisma.product.create({
         data:{
             name: data.get("productName"),
@@ -14,7 +13,9 @@ async function createProduct(data){
         },
     }) 
 
-    revalidatePath("/admin/products/[id]/productsItem/add")
+    const productId = newProduct.id;
+
+    redirect(`/admin/products/${productId}/productsItem/add`)
 }
 
 async function createProductItem(data){
@@ -22,8 +23,9 @@ async function createProductItem(data){
         data:{
             size : data.get("size"),
             sku: data.get("sku"),
-            amout : parseInt(data.get("amout")),
+            amount : parseInt(data.get("amount")),
             price: parseFloat(data.get("price")),
+            color: data.get("color"),
             productItem_product: {
                 connect: {
                   id: parseInt(data.get("product_id")),
@@ -38,20 +40,20 @@ async function createProductItem(data){
 async function updateProduct(data){
     await prisma.product.update({
         where: {
-            id: parseInt(data)
+            id: parseInt(data),
         },
         data: {
             name: data.get("productName"),
             description: data.get("description"),
             product_categories_id: parseFloat(data.get("category"))
-        }
+        },
 
     })
 
 revalidatePath(`/admin`)
 }
 
-async function queryProduct(data) {
+async function queryProductById(data) {
     return await prisma.product.findMany({
         where: {
             id: parseInt(data)
@@ -60,6 +62,7 @@ async function queryProduct(data) {
             id: true,
             name: true,
             description: true,
+            rating: true,
             product_categories_id: true
         },
     })
@@ -93,11 +96,14 @@ async function queryAllProductsItem(data) {
             product_id: parseInt(data)
         },
         select: {
-            size: true,
-            amout: true,
+            id: true,
+            sku: true,
             price: true,
+            size: true,
+            color: true,
+            amount: true,
         },
     })
 }
 
-export {createProduct, createProductItem, updateProduct, queryProduct, queryAllProducts, queryAllProductsItem, queryProductCategory}
+export {createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory}

@@ -9,16 +9,17 @@ const action = {
     name: 'Salvar',
     dest: '/admin/products/edit/$1'
 }   
+
 const headers = ["ID", "SKU", "Preço", "Tamanho", "Cor", "Estoque", "Ação"];
 
-export default async function EditProduct(req, res) {
-    const productID = req.params.id
+export default async function EditProduct({params}) {
+    const productID = params.id
 	//const productID = useRouter().query.id
     let product = await queryProductByID(parseInt(productID))
     let productItems = product.product_item
 
     return (
-        <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4">
+        <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
             <div className="flex gap-3 max-w-3xl">
                 <div>
                     <Image 

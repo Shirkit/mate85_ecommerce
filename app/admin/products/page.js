@@ -7,7 +7,7 @@ const actions = [
 	{
 		name: 'Edit',
 		color: 'blue',
-		dest: '/admin/products/edit/$1'
+		dest: '/admin/products/$1/productsItem/add'
 	}
 ];
 const headers = ['ID','Nome', 'Avaliação', "Ação"];

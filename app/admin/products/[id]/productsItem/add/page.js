@@ -1,19 +1,23 @@
 "use server"
 import { prisma } from "@/utils/prisma"
-import { updateProduct, createProductItem, queryAllProductsItem, queryProduct, queryProductCategory} from "../../../actions"
+import { createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory} from "../../../actions"
 import {AdminForm} from "@/components/admin/adminForm"
 import {AdminTable} from "@/components/admin/adminTable"
+import Image from 'next/image'
+import RenderStars from '@/components/ui/stars';
+import EditIcon from "@/components/admin/editIcon";
+import EditableTable from "@/components/admin/editableTable/editableTable";
 
 export default async function EditProduct({params}) {
 
   const productsItem = await queryAllProductsItem(params.id);
 
-  const product = await queryProduct(params.id);
+  const product = await queryProductById(params.id);
+  console.log(product);
   const firstProduct = product[0];
   
   const categorie = await queryProductCategory(firstProduct.product_categories_id);
   const firstCategory = categorie[0];
-  console.log(firstCategory.id);
   
   const actions = [
     {
@@ -22,7 +26,7 @@ export default async function EditProduct({params}) {
       dest: '/admin/products/edit/$1'
     }
   ];
-  const headers = ['Tamanho', 'Quantidade', "Preço", "Atualizar"];
+  const headers = ["ID", "SKU", "Preço", "Tamanho", "Cor", "Estoque", "Ação"];
 
   const fieldsProductupdate = [{
     "name" : "productName",
@@ -54,15 +58,19 @@ export default async function EditProduct({params}) {
     "type" : "text"
   } , 
   {
-    "name" : "amout",
+    "name" : "amount",
     "label": "Quantidade",
     "type" : "number"
   } , 
-
+  {
+    "name" : "color",
+    "label": "Cor",
+    "type" : "string"
+  } , 
   {
     "name" : "price",
     "label" : "Preço",
-    "type": "number",
+    "type" : "number",
   },
   {
     "name" : "product_id",
@@ -72,8 +80,8 @@ export default async function EditProduct({params}) {
 ];
 
   return (
-    <div className="flex justify-center flex-wrap">
-      <div className="flex flex-nowrap">
+      <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
+              <div className="flex flex-nowrap">
         <div className="flex justify-center w-full items-center flex-auto mx-6">
           <AdminForm  formTitle ="Editar Produto" action ={updateProduct(params.id)} fields = {fieldsProductupdate} buttonLabel = "Salvar"/>
         </div>
@@ -81,16 +89,41 @@ export default async function EditProduct({params}) {
           <AdminForm formTitle ="Adicionar Itens" action ={createProductItem } fields = {fieldsItem} buttonLabel = "Adicionar"/>
         </div>
       </div>
-        <div className="w-full flex justify-center items-center pt-6">
-          <AdminTable 
-            title="Estoque" 
-            headers={headers} 
-            data={productsItem} 
-            actions={actions} 
-            hasSearchBar={false}
-          />
-        </div>
+      <div className="flex gap-3 max-w-3xl">
+          <div>
+              <Image 
+                  src={`https://picsum.photos/id/${Math.round(
+                      Math.random() * 1084
+                  )}/200`}
+                  alt="Foto do produto"
+                  width={300}
+      height={300}
+              />
+              <div className="flex items-center mt-2">
+                  <RenderStars rating={product.rating}></RenderStars>
+              </div>
+          </div>
+          <div className="w-fit">
+    <div className="flex justify-between items-center pb-4">
+      <h3 className="text-2xl font-bold border-b-zinc-600 border-b">
+        {firstProduct.name}
+      </h3>
+      <EditIcon />
+    </div>
+              
+    <p>{firstProduct.description}</p>
+          </div>
       </div>
+      
+      <div className="max-w-[70%] overflow-x-auto">
+          <EditableTable 
+              title="Sub-produtos" 
+              headers={headers} 
+              data={productsItem} 
+              action={actions} 
+          />
+      </div>
+  </div>
         
   );
 }

@@ -32,7 +32,7 @@ export default function RenderStars({rating, hideNumber}) {
         <div className="flex flex-row">
             {stars}
             {(!hideNumber) &&
-                <span className="ml-1">{rating.toFixed(1)} / 5</span>
+                <span className="ml-1">{rating} / 5</span>
             }
         </div>
     )

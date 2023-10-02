@@ -73,8 +73,9 @@ model ProductItem {
   product_id            Int
   size                  String
   sku                   String
-  amout                 Int 
+  amount                 Int 
   price                 Float 
+  color                 String
 
   productItem_product Product @relation(fields: [product_id],references: [id])
 }
