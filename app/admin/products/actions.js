@@ -34,13 +34,13 @@ async function createProductItem(data){
         },   
     }) 
 
-    revalidatePath("/admin/products/[id]/productsItem/add")
+    revalidatePath(`/admin/products/$1/productsItem/add`)
 }
 
 async function updateProduct(data){
     await prisma.product.update({
         where: {
-            id: parseInt(data),
+            id: parseInt(data.get("id")),
         },
         data: {
             name: data.get("productName"),

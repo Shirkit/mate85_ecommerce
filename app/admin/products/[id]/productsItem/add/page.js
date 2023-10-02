@@ -29,15 +29,20 @@ export default async function EditProduct({params}) {
   const headers = ["ID", "SKU", "Preço", "Tamanho", "Cor", "Estoque", "Ação"];
 
   const fieldsProductupdate = [{
+    "name" : "id",
+    "value" : firstProduct.id,
+    "type": "hidden",
+  },
+  {
     "name" : "productName",
     "label": "Nome do Produto",
-    "value": firstProduct.name
+    "placeholder": firstProduct.name,
   },
   {
     "name": "description",
     "label": "Descrição",
     "type": "textarea",
-    "value": firstProduct.description,
+    "placeholder": firstProduct.description,
   },
   {
     "name" : "category",
@@ -83,7 +88,7 @@ export default async function EditProduct({params}) {
       <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
               <div className="flex flex-nowrap">
         <div className="flex justify-center w-full items-center flex-auto mx-6">
-          <AdminForm  formTitle ="Editar Produto" action ={updateProduct(params.id)} fields = {fieldsProductupdate} buttonLabel = "Salvar"/>
+          <AdminForm  formTitle ="Editar Produto" action ={updateProduct} fields = {fieldsProductupdate} buttonLabel = "Salvar"/>
         </div>
         <div className="flex justify-center w-full items-center flex-auto mx-6">
           <AdminForm formTitle ="Adicionar Itens" action ={createProductItem } fields = {fieldsItem} buttonLabel = "Adicionar"/>
@@ -100,7 +105,7 @@ export default async function EditProduct({params}) {
       height={300}
               />
               <div className="flex items-center mt-2">
-                  <RenderStars rating={product.rating}></RenderStars>
+                  <RenderStars rating={firstProduct.rating}></RenderStars>
               </div>
           </div>
           <div className="w-fit">
