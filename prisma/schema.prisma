@@ -94,9 +94,9 @@ model Review {
 
 
 model ProductCategory{
-  id Int @id
+  id Int @id @default(autoincrement())
   name String
-  product Product[]
+  products Product[]
 }
 
 model Session {

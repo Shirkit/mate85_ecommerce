@@ -91,10 +91,6 @@ export async function register() {
 
         console.debug('Atualizando reviews')
 
-        let db_productsCategory = await prisma.productCategory.findMany({
-
-        })
-
         let db_products = await prisma.product.findMany({
             include: {
                 reviews: {}

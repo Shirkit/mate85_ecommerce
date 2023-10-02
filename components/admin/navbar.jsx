@@ -55,6 +55,7 @@ export default function AdminNavbar() {
                 <SubMenu icon={<PackageIcon></PackageIcon>} label="Produtos">
                     <MenuItem component={<Link href="/admin/products/add"></Link>} className="bg-zinc-800"> Adicionar novo produto </MenuItem>
                     <MenuItem component={<Link href="/admin/products"></Link>} className="bg-zinc-800"> Gerenciar produtos </MenuItem>
+                    <MenuItem component={<Link href="/admin/products/categories/add"></Link>} className="bg-zinc-800"> Adicionar categoria </MenuItem>
                     <MenuItem component={<Link href="/admin/products/categories"></Link>} className="bg-zinc-800"> Gerenciar categorias </MenuItem>
                 </SubMenu>
                 <SubMenu icon={<FilesIcon></FilesIcon>} label="Relatórios">

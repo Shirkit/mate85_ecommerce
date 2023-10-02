@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "@/utils/prisma"
-import { removeProductCategory,updateProductCategory, queryAllProductCategories} from "./add/action";
+import { removeProductCategory,updateProductCategory, queryAllProductCategories} from "../../add/action";
 import { AdminForm} from "@/components/admin/adminForm";
 import EditableTable from "@/components/admin/editableTable/editableTable";
 

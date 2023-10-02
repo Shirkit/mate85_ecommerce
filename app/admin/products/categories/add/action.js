@@ -5,11 +5,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 async function CreateProductCategory(data) {
-  await prisma.categoria.create({
-    data: { nome: data.get("nome") },
+  const newProductCategory = await prisma.productCategory.create({
+    data: { name: data.get("categoryName") },
   });
 
-  revalidatePath("/productCategory/");
+  const categoryId = newProductCategory.id;
+  redirect(`/admin/products/categories/${categoryId}/edit`);
 }
 
 async function removeProductCategory(data) {
@@ -36,8 +37,18 @@ async function updateProductCategory(data) {
   revalidatePath("/productCategory/");
 }
 
+async function queryAllProductCategories() {
+  return await prisma.productCategory.findMany({
+      select: {
+          id: true,
+          name: true
+      },
+  })
+}
+
 export {
   CreateProductCategory,
   removeProductCategory,
   updateProductCategory,
+  queryAllProductCategories
 };

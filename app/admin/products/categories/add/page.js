@@ -1,8 +1,9 @@
-"use client";
-import { addCategories } from "./action";
+"use server";
+import { prisma } from "@/utils/prisma"
+import {  CreateProductCategory} from "./action";
 import { AdminForm } from "@/components/admin/adminForm";
 
-export default function AddEditCategories() {
+export default async function AddEditCategories() {
   const fields = [
     {
       name: "categoryName",
@@ -10,11 +11,12 @@ export default function AddEditCategories() {
       type: "text",
     },
   ];
+
   return (
     <div className="flex justify-center w-full items-center">
       <AdminForm
         formTitle="Adicionar Categoria"
-        action={addCategories}
+        action={CreateProductCategory}
         fields={fields}
         buttonLabel="Criar Categoria"
       />
