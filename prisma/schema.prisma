@@ -18,9 +18,9 @@ model User {
   name      String
   email     String
   addresses Address[]
-  orders Order[]
-  session Session?
-  reviews Review[]
+  orders    Order[]
+  session   Session?
+  reviews   Review[]
 }
 
 model Order {
@@ -62,35 +62,34 @@ model Address {
 }
 
 model Product {
-  id                    Int             @id @default(autoincrement())
+  id                    Int      @id @default(autoincrement())
   name                  String
   description           String
   price                 Float
   product_categories_id Int
-  sku String
-  rating Float?
-  reviews Review[]
+  sku                   String
+  rating                Float?
+  reviews               Review[]
 
-  product_category ProductCategory @relation(fields: [product_categories_id],references: [id])
-  order_items OrderItem[]
+  product_category ProductCategory @relation(fields: [product_categories_id], references: [id])
+  order_items      OrderItem[]
 }
 
 model Review {
-    id Int @id @default(autoincrement())
-    title String?
-    text String?
-    rating Float?
-    users_id Int
-    products_id Int
+  id          Int     @id @default(autoincrement())
+  title       String?
+  text        String?
+  rating      Float?
+  users_id    Int
+  products_id Int
 
-    user User @relation(fields: [users_id], references: [id])
-    product Product @relation(fields: [products_id], references: [id])
+  user    User    @relation(fields: [users_id], references: [id])
+  product Product @relation(fields: [products_id], references: [id])
 }
 
-
-model ProductCategory{
-  id Int @id
-  name String
+model ProductCategory {
+  id      Int       @id
+  name    String
   product Product[]
 }
 
@@ -100,4 +99,10 @@ model Session {
   cart_contents Json
   session_token String
   user          User   @relation(fields: [user_id], references: [id])
+}
+
+model Option {
+  key   String @id
+  value String
+  type  String
 }

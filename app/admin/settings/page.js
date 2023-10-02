@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
 import { useState } from 'react'
+import { updateSettings } from './actions'
 
 export default function Settings() {
 	const [name, setName] = useState('')
@@ -11,8 +12,21 @@ export default function Settings() {
 	const [phone, setPhone] = useState('')
 	const [hidePrices, setHidePrices] = useState(false)
 
+	async function handleSubmit(e) {
+		e.preventDefault()
+		await updateSettings([
+			{ key: 'name', value: name },
+			{ key: 'email', value: email },
+			{ key: 'phone', value: phone },
+			{ key: 'hidePrices', value: hidePrices },
+		])
+	}
+
 	return (
-		<form className="flex flex-col gap-8 m-2 bg-zinc-700 p-8 text-white border-solid rounded-lg h-fit">
+		<form
+			className="flex flex-col gap-8 m-2 bg-zinc-700 p-8 text-white border-solid rounded-lg h-fit"
+			onSubmit={handleSubmit}
+		>
 			<h1 className="text-2xl font-bold border-b-zinc-600 border-b">
 				Configurações gerais do site
 			</h1>
