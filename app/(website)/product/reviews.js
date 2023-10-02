@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache"
 
 async function processReview(formData) {
     // TODO pegar o usuário atual
-    const currentUserId = 11
+    const currentUserId = (await prisma.user.findFirst({})).id
     const productsId = parseInt(formData.get('productId'))
     if (await canAddReview(currentUserId, productsId)) {
         await prisma.review.create({
