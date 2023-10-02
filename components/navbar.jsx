@@ -1,13 +1,29 @@
+'use client'
+
 import { Search, ShoppingCart, UserCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { SearchProduct } from './SearchProduct'
 import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { getNameDB } from '@/app/(website)/actionsSettings'
 
 export default function Navbar() {
+	const [name, setName] = useState('')
+
+	async function getName() {
+		const response = await getNameDB()
+		setName(response.data.name)
+	}
+
+	useEffect(() => {
+		getName()
+	}, [])
 	return (
 		<header className="mx-auto flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5">
-				<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
-				<h1 className="font-primary font-black text-3xl">SHOPIC</h1>
+			<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
+			<h1 className="font-primary font-black text-3xl">
+				{name ? name : 'SHOPIC'}
+			</h1>
 			<nav className="flex flex-row gap-6">
 				<Link href="/" className="w-max">
 					Shop
