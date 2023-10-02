@@ -5,15 +5,14 @@ import {AdminForm} from "@/components/admin/adminForm"
 import {AdminTable} from "@/components/admin/adminTable"
 import Image from 'next/image'
 import RenderStars from '@/components/ui/stars';
-import EditIcon from "@/components/admin/editIcon";
 import EditableTable from "@/components/admin/editableTable/editableTable";
+import Card from '@/components/admin/Card'
 
 export default async function EditProduct({params}) {
 
   const productsItem = await queryAllProductsItem(params.id);
 
   const product = await queryProductById(params.id);
-  console.log(product);
   const firstProduct = product[0];
   
   const categorie = await queryProductCategory(firstProduct.product_categories_id);
@@ -86,37 +85,21 @@ export default async function EditProduct({params}) {
 
   return (
       <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
-              <div className="flex flex-nowrap">
-        <div className="flex justify-center w-full items-center flex-auto mx-6">
-          <AdminForm  formTitle ="Editar Produto" action ={updateProduct} fields = {fieldsProductupdate} buttonLabel = "Salvar"/>
-        </div>
-        <div className="flex justify-center w-full items-center flex-auto mx-6">
-          <AdminForm formTitle ="Adicionar Itens" action ={createProductItem } fields = {fieldsItem} buttonLabel = "Adicionar"/>
-        </div>
-      </div>
-      <div className="flex gap-3 max-w-3xl">
-          <div>
-              <Image 
-                  src={`https://picsum.photos/id/${Math.round(
-                      Math.random() * 1084
-                  )}/200`}
-                  alt="Foto do produto"
-                  width={300}
-      height={300}
-              />
-              <div className="flex items-center mt-2">
-                  <RenderStars rating={firstProduct.rating}></RenderStars>
-              </div>
+        <div className="flex flex-nowrap">
+          <div className="flex justify-center w-full items-center flex-auto mx-6">
+            <Card
+              key={firstProduct.id}
+              name={firstProduct.name}
+              description={firstProduct.description}
+              image={`https://picsum.photos/${firstProduct.id}/200`}
+              rating={firstProduct.rating}
+						/>
           </div>
-          <div className="w-fit">
-    <div className="flex justify-between items-center pb-4">
-      <h3 className="text-2xl font-bold border-b-zinc-600 border-b">
-        {firstProduct.name}
-      </h3>
-      <EditIcon />
-    </div>
-              
-    <p>{firstProduct.description}</p>
+          <div className="flex justify-center w-full items-center flex-auto">
+            <AdminForm  formTitle ="Editar Produto" action ={updateProduct} fields = {fieldsProductupdate} buttonLabel = "Salvar"/>
+          </div>
+          <div className="flex justify-center w-full items-center flex-auto">
+            <AdminForm formTitle ="Adicionar Itens" action ={createProductItem } fields = {fieldsItem} buttonLabel = "Adicionar"/>
           </div>
       </div>
       
