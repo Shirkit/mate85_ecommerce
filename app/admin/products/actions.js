@@ -1,5 +1,6 @@
 'use server'
 import { prisma } from "@/utils/prisma"
+import { product_categories } from "@/utils/sampledata"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
@@ -13,9 +14,7 @@ async function createProduct(data){
         },
     }) 
 
-    const productId = newProduct.id;
-
-    redirect(`/admin/products/${productId}/productsItem/add`)
+    revalidatePath("/admin/products/[id]/productsItem/add")
 }
 
 async function createProductItem(data){
@@ -39,17 +38,43 @@ async function createProductItem(data){
 async function updateProduct(data){
     await prisma.product.update({
         where: {
-            id: parseInt(data.get("productID"))
+            id: parseInt(data)
         },
         data: {
             name: data.get("productName"),
             description: data.get("description"),
-            // price: parseFloat(data.get("price")),
-            // sku: "",
             product_categories_id: parseFloat(data.get("category"))
         }
+
     })
-    redirect("/admin/products/")
+
+revalidatePath(`/admin`)
+}
+
+async function queryProduct(data) {
+    return await prisma.product.findMany({
+        where: {
+            id: parseInt(data)
+        },
+        select: {
+            id: true,
+            name: true,
+            description: true,
+            product_categories_id: true
+        },
+    })
+}
+
+async function queryProductCategory(data) {
+    return await prisma.productCategory.findMany({
+        where: {
+            id: parseInt(data)
+        },
+        select: {
+            id: true,
+            name: true,
+        },
+    })
 }
 
 async function queryAllProducts() {
@@ -75,4 +100,4 @@ async function queryAllProductsItem(data) {
     })
 }
 
-export {createProduct, createProductItem, updateProduct, queryAllProducts, queryAllProductsItem}
+export {createProduct, createProductItem, updateProduct, queryProduct, queryAllProducts, queryAllProductsItem, queryProductCategory}
