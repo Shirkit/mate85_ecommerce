@@ -1,20 +1,15 @@
-"use client"
-import {addProduct} from "./actions"
+"use server"
+import { prisma } from "@/utils/prisma"
+import {createProduct} from "../actions"
 import {AdminForm} from "@/components/admin/adminForm"
 
-export default function AddEditProduct() {
-  const fields = [{
+export default async function AddProduct() {
+
+  const fieldsProduct = [{
     "name" : "productName",
     "label": "Nome do Produto",
     "type":"text",
   },
-  
-  {
-    "name" : "price",
-    "label" : "Preço",
-    "type": "number",
-  },
-
   {
     "name": "description",
     "label": "Descrição",
@@ -23,13 +18,13 @@ export default function AddEditProduct() {
   {
     "name" : "category",
     "label": "Categorias",
-    "type" : "text"
-  }
+    "type" : "select"
+  } , 
   ];
+
   return (
     <div className="flex justify-center w-full items-center">
-      <AdminForm  formTitle ="Adicionar Produto" action ={addProduct} fields = {fields} buttonLabel = "Criar Produto"/>
+      <AdminForm  formTitle ="Adicionar Produto" action ={createProduct} fields = {fieldsProduct} buttonLabel = "Adicionar"/>
     </div>
-    
   );
 }
