@@ -33,7 +33,7 @@ export function AdminTable(props) {
         />
       } 
       
-      <div className="m-2 bg-zinc-700 p-8 text-white border-solid rounded-lg h-fit">
+      <div className="m-2 bg-white p-8 text-zin-700 border-solid rounded-lg h-fit">
 
         <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">{props.title}</h1>
         <table className="min-w-full border-collapse border border-gray-300">
@@ -60,7 +60,7 @@ export function AdminTable(props) {
                 <td className="border p-4">
                   {props.actions.map((action, index) => (
                     <Link href={action.dest.replace('$1', row.id)}>
-                      <button className={"bg-" + action.color + "-500 hover:bg-" + action.color + "-700 text-white font-bold py-2 px-4 mr-2"}>
+                      <button className={"bg-" + action.color + "-500 hover:bg-" + action.color + "-700 text-zin-900 font-bold py-2 px-4 mr-2"}>
                         {action.name}
                       </button>
                     </Link>

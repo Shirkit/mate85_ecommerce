@@ -28,7 +28,7 @@ export default async function AddEditCategories({params}) {
 
   return (
     <div className="max-w-[70%] overflow-x-auto flex flex-wrap justify-center mx-6">
-        <h3 className="text-2xl font-bold border-b-zinc-600 border-b text-white mb-6">Categorias</h3>
+        <h3 className="text-2xl font-bold border-b-zinc-600 border-b text-zinc-900 mt-5 mb-6">Categorias</h3>
         <EditableTable 
             title="Sub-produtos" 
             headers={headers} 

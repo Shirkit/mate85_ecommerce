@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
 						<h1 className="font-primary font-black text-3xl">SHOPIC</h1>
 					</Link>
 				</header>
-				<div className="flex flex-row flex-grow bg-slate-900">
+				<div className="flex flex-row flex-grow bg-neutral-100">
 					<AdminNavbar></AdminNavbar>
 					{children}
 				</div>

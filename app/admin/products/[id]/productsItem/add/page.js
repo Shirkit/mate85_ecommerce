@@ -35,13 +35,13 @@ export default async function EditProduct({params}) {
   {
     "name" : "productName",
     "label": "Nome do Produto",
-    "placeholder": firstProduct.name,
+    "placeholder": firstProduct.name, // TODO trocar de placeholder para value
   },
   {
     "name": "description",
     "label": "Descrição",
     "type": "textarea",
-    "placeholder": firstProduct.description,
+    "placeholder": firstProduct.description, // TODO trocar de placeholder para value
   },
   {
     "name" : "category",

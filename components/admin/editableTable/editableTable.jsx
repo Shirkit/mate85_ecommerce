@@ -2,14 +2,15 @@
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import EditableCell from './editableCell';
+import { Edit2Icon } from 'lucide-react';
 
 export default function EditableTable(props) {
     const [data, setData] = useState(props.data)
     const [editedRows, setEditedRows] = useState([])
 
     return (
-        <table class="w-full text-sm text-center text-gray-400">
-            <thead class="text-xs uppercase bg-gray-700 text-gray-400">
+        <table class="w-full text-sm text-center text-zinc-600">
+            <thead class="text-xs uppercase bg-neutral-200 text-zinc-900">
                 <tr>
                     {props.headers.map((header) => (
                         <th key={header} scope="col" class="px-6 py-3 w-fit">
@@ -20,7 +21,7 @@ export default function EditableTable(props) {
             </thead>
             <tbody>
                 {data.map((row, rowIndex) => (
-                    <tr key={rowIndex} class="border-b bg-gray-800 border-gray-700">
+                    <tr key={rowIndex} class="border-b bg-white border-neutral-300">
                         {Object.keys(row).map(key => {
                             const initialValue = [...props.data]
                             return (
@@ -40,7 +41,7 @@ export default function EditableTable(props) {
                                 disabled={!(editedRows.includes(rowIndex))}
                                 variant="form"
                             >
-                                {props.action.name}
+                                <Edit2Icon></Edit2Icon>{props.action.name}
                             </Button>
                         </td>
                     </tr>
