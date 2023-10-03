@@ -1,14 +1,14 @@
 
 "use server"
 import { prisma } from "@/utils/prisma"
-import {AdminTable} from "@/components/admin/adminTable"
+import { AdminTable } from "@/components/admin/adminTable"
 
 
 
 const users = await prisma.user.findMany();
 
-export default async function ManageUsers(){
-  
+export default async function ManageUsers() {
+
 
   const actions = [
     {
@@ -17,10 +17,10 @@ export default async function ManageUsers(){
       dest: '/admin/users/edit/$1'
     }
   ];
-  const headers = ['id','Name', 'Email', "Actions"];
+  const headers = ['id', 'Name', 'Email', "Actions"];
 
   return (
-    <AdminTable title = "Usuários" headers = {headers} data = {users} actions={actions} />
+    <AdminTable title="Usuários" headers={headers} data={users} actions={actions} />
   )
-  
+
 }

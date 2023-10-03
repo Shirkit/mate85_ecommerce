@@ -10,16 +10,14 @@ datasource db {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  bio           String? @db.Text
+  bio           String?   @db.Text
   age           Int?
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  addresses Address[]
-  orders Order[]
-
-  reviews Review[]
-
+  addresses     Address[]
+  orders        Order[]
+  reviews       Review[]
   accounts      Account[]
   sessions      Session[]
 }
@@ -67,73 +65,65 @@ model Product {
   name                  String
   description           String
   product_categories_id Int
-  rating Float?
-  reviews Review[]
-  product_item ProductItem[]
-
-  product_category ProductCategory @relation(fields: [product_categories_id],references: [id])
-  order_items OrderItem[]
+  rating                Float?
+  reviews               Review[]
+  product_item          ProductItem[]
+  product_category      ProductCategory @relation(fields: [product_categories_id], references: [id])
+  order_items           OrderItem[]
 }
 
 model ProductItem {
-  sku                   String          @id
-  product_id            Int
-  size                  String
-  amount                 Int 
-  price                 Float 
-
-
-  productItem_product Product @relation(fields: [product_id],references: [id])
+  sku                 String  @id
+  product_id          Int
+  size                String
+  amount              Int
+  price               Float
+  productItem_product Product @relation(fields: [product_id], references: [id])
 }
 
 model Review {
-    id Int @id @default(autoincrement())
-    title String?
-    text String?
-    rating Float?
-    users_id String
-    products_id Int
-
-    user User @relation(fields: [users_id], references: [id])
-    product Product @relation(fields: [products_id], references: [id])
+  id          Int     @id @default(autoincrement())
+  title       String?
+  text        String?
+  rating      Float?
+  users_id    String
+  products_id Int
+  user        User    @relation(fields: [users_id], references: [id])
+  product     Product @relation(fields: [products_id], references: [id])
 }
 
-
-model ProductCategory{
-  id Int @id @default(autoincrement())
-  name String
+model ProductCategory {
+  id       Int       @id @default(autoincrement())
+  name     String
   products Product[]
 }
 
 model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
+  id            String   @id @default(cuid())
+  sessionToken  String   @unique
+  userId        String
+  expires       DateTime
   cart_contents Json?
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
-
 
 // NextAuth Schema
 
 model Account {
-  id                 String  @id @default(cuid())
-  userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?  @db.Text
-  access_token       String?  @db.Text
-  expires_at         Int?
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String? @db.Text
+  access_token             String? @db.Text
+  expires_at               Int?
   refresh_token_expires_in Int?
-  token_type         String?
-  scope              String?
-  id_token           String?  @db.Text
-  session_state      String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token_type               String?
+  scope                    String?
+  id_token                 String? @db.Text
+  session_state            String?
+  user                     User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }

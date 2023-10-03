@@ -16,7 +16,7 @@ export default async function Produto({ params, searchParams }) {
             products_id: parseInt(params.id)
         }
     })
-    
+
     // ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
     // TODO procurar entender porque isso acontece
 
@@ -86,7 +86,7 @@ export default async function Produto({ params, searchParams }) {
         </article>
     )
 
-    function PaginationButton({text, link, disabled = false, className = ""}) {
+    function PaginationButton({ text, link, disabled = false, className = "" }) {
         if (!disabled)
             return <Link className={className} href={link}>{ActualBtn(text, disabled)}</Link>
         else
@@ -94,6 +94,6 @@ export default async function Produto({ params, searchParams }) {
     }
 
     function ActualBtn(text, disabled, className = "") {
-        return <button className={className + (disabled? " bg-zinc-50":" underline")} type="button" disabled={disabled}>{text}</button>
+        return <button className={className + (disabled ? " bg-zinc-50" : " underline")} type="button" disabled={disabled}>{text}</button>
     }
 }

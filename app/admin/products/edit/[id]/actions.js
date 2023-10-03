@@ -18,7 +18,7 @@ async function queryProductByID(productID) {
                     amount: true
                 }
             }
-        }        
+        }
     })
 }
 

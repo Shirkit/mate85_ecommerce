@@ -15,7 +15,7 @@ function PrismaAdapter(p) {
             });
             return (_a = account === null || account === void 0 ? void 0 : account.user) !== null && _a !== void 0 ? _a : null;
         },
-        updateUser: ({ id, ...data }) => p.user.update({ where: { id }, data }) ,
+        updateUser: ({ id, ...data }) => p.user.update({ where: { id }, data }),
         deleteUser: (id) => p.user.delete({ where: { id } }),
         linkAccount: (data) => p.account.create({ data }),
         unlinkAccount: (provider_providerAccountId) => p.account.delete({

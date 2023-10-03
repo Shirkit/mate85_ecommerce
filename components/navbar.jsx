@@ -29,7 +29,7 @@ export default function Navbar() {
         <div className="relative">
           <Link href="/cart">
             <ShoppingCart className="text-xl cursor-pointer" />
-		        <NavbarCart></NavbarCart>
+            <NavbarCart></NavbarCart>
           </Link>
         </div>
         <div>

@@ -19,7 +19,7 @@ async function processReview(formData) {
         })
         return revalidatePath(`/product/${productsId}`)
     }
-    return { message: 'Não autorizado!'}
+    return { message: 'Não autorizado!' }
 }
 
 async function canAddReview(userId, productId) {

@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import {SearchProduct} from "@/components/SearchProduct"
+import { SearchProduct } from "@/components/SearchProduct"
 import { useEffect, useState } from "react"
 
 // Adicionar server actions aqui para editar e deletar
@@ -9,7 +9,7 @@ export function AdminTable(props) {
   const [propsData, setPropsData] = useState([])
 
   useEffect(() => {
-    if(filterValue) {
+    if (filterValue) {
       setPropsData(props.data.filter(el => {
         return el.name.toLowerCase().includes(filterValue.toLowerCase())
       }))
@@ -17,27 +17,27 @@ export function AdminTable(props) {
   }, [filterValue])
 
   useEffect(() => {
-    if(props.data) {
+    if (props.data) {
       setPropsData(props.data)
     }
   }, [])
 
   return (
     <div className="flex flex-col items-center justify-center">
-      {props.hasSearchBar && 
-        <SearchProduct 
-          placeholder="Pesquisa pelo nome" 
+      {props.hasSearchBar &&
+        <SearchProduct
+          placeholder="Pesquisa pelo nome"
           filterValue={filterValue}
           setFilterValue={setFilterValue}
           className='w-3'
         />
-      } 
-      
+      }
+
       <div className="m-2 bg-white p-8 text-zin-700 border-solid rounded-lg h-fit">
 
         <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">{props.title}</h1>
         <table className="min-w-full border-collapse border border-gray-300">
-          
+
           <thead >
             <tr className="bg-gray-100 text-black">
               {props.headers.map((header) => {
@@ -45,10 +45,10 @@ export function AdminTable(props) {
                   <th className="border p-4">{header}</th>
                 )
               })}
-            
+
             </tr>
           </thead>
-          
+
           <tbody>
             {propsData.map((row, rowIndex) => (
               <tr key={rowIndex}>

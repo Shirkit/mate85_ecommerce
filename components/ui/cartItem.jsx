@@ -37,8 +37,8 @@ export const CartItem = ({ item }) => {
       <div className="flex justify-center"><Image width={100} height={100} src={`https://picsum.photos/id/${item.product.id}/100`}></Image></div>
       <div className="flex justify-center items-center">
         <div>
-          <div className="inline-block">{item.product.name}</div><br/>
-          <div className="inline-block text-xs">{item.product.sku}</div><br/>
+          <div className="inline-block">{item.product.name}</div><br />
+          <div className="inline-block text-xs">{item.product.sku}</div><br />
           <div className="inline-block text-xs text-red-400 cursor-pointer" onClick={handleRemoveClick}>Remover</div>
         </div>
       </div>

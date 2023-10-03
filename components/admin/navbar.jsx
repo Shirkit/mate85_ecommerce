@@ -30,11 +30,11 @@ export default function AdminNavbar() {
     }, []); // Empty array ensures that effect is only run on mount
 
     return (
-        <Sidebar rootStyles={{ borderRightColor: theme.colors.zinc[600]}} backgroundColor="unset" className="bg-[url('/static/images/dash_bg.jpg')] bg-slate-100 text-white" collapsed={collapsed}>
+        <Sidebar rootStyles={{ borderRightColor: theme.colors.zinc[600] }} backgroundColor="unset" className="bg-[url('/static/images/dash_bg.jpg')] bg-slate-100 text-white" collapsed={collapsed}>
             <Menu menuItemStyles={{
                 button: {
                     paddingLeft: theme.padding[1],
-                    
+
                     '&:only-child': {
                         paddingLeft: theme.padding[4]
                     },

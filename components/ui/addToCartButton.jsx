@@ -12,7 +12,7 @@ import React, { useState } from "react";
 export default function AddToCartButton({ id, produto }) {
   const { addToCart } = useCart();
   function handleClick() {
-    addToCart( produto, qty);
+    addToCart(produto, qty);
   }
 
   const [qty, setQty] = useState(1)

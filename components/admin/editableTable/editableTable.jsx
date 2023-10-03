@@ -25,19 +25,20 @@ export default function EditableTable(props) {
                         {Object.keys(row).map(key => {
                             const initialValue = [...props.data]
                             return (
-                            <td key={key} class="px-6 py-4">
-                                <EditableCell 
-                                    initialValue={initialValue[rowIndex][key]} 
-                                    setEditedRows={setEditedRows}    
-                                    rowIndex={rowIndex}
-                                    editedRows={editedRows}
-                                    setData={setData}
-                                    cellKey={key}
-                                />
-                            </td>
-                        )})}
+                                <td key={key} class="px-6 py-4">
+                                    <EditableCell
+                                        initialValue={initialValue[rowIndex][key]}
+                                        setEditedRows={setEditedRows}
+                                        rowIndex={rowIndex}
+                                        editedRows={editedRows}
+                                        setData={setData}
+                                        cellKey={key}
+                                    />
+                                </td>
+                            )
+                        })}
                         <td class="px-6 py-4">
-                            <Button 
+                            <Button
                                 disabled={!(editedRows.includes(rowIndex))}
                                 variant="form"
                             >

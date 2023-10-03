@@ -7,7 +7,7 @@ import { Star, StarHalf } from "lucide-react"
  * @param {float} param0.rating 
  * @param {boolean=} param0.hideNumber 
  */
-export default function RenderStars({rating, hideNumber}) {
+export default function RenderStars({ rating, hideNumber }) {
     const stars = []
     var i = rating
 

@@ -1,6 +1,6 @@
 "use server";
 import { prisma } from "@/utils/prisma"
-import {  CreateProductCategory} from "./action";
+import { CreateProductCategory } from "./action";
 import { AdminForm } from "@/components/admin/adminForm";
 
 export default async function AddEditCategories() {

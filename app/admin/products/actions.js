@@ -4,39 +4,39 @@ import { product_categories } from "@/utils/sampledata"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
-async function createProduct(data){
+async function createProduct(data) {
     const newProduct = await prisma.product.create({
-        data:{
+        data: {
             name: data.get("productName"),
             description: data.get("description"),
-            product_categories_id: parseInt(data.get("category")), 
+            product_categories_id: parseInt(data.get("category")),
         },
-    }) 
+    })
 
     const productId = newProduct.id;
 
     redirect(`/admin/products/${productId}/productsItem/add`)
 }
 
-async function createProductItem(data){
-    await prisma.productItem.create({ 
-        data:{
+async function createProductItem(data) {
+    await prisma.productItem.create({
+        data: {
             sku: data.get("sku"),
-            size : data.get("size"),
-            amount : parseInt(data.get("amount")),
+            size: data.get("size"),
+            amount: parseInt(data.get("amount")),
             price: parseFloat(data.get("price")),
             productItem_product: {
                 connect: {
-                  id: parseInt(data.get("product_id")),
+                    id: parseInt(data.get("product_id")),
                 }
             },
-        },   
-    }) 
+        },
+    })
 
     revalidatePath(`/admin/products/$1/productsItem/add`)
 }
 
-async function updateProduct(data){
+async function updateProduct(data) {
     await prisma.product.update({
         where: {
             id: parseInt(data.get("id")),
@@ -49,7 +49,7 @@ async function updateProduct(data){
 
     })
 
-revalidatePath(`/admin/products/$1/productsItem/add`)
+    revalidatePath(`/admin/products/$1/productsItem/add`)
 }
 
 async function queryProductById(data) {
@@ -104,4 +104,4 @@ async function queryAllProductsItem(data) {
     })
 }
 
-export {createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory}
+export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory }

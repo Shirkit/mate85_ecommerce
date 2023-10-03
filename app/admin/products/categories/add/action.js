@@ -39,10 +39,10 @@ async function updateProductCategory(data) {
 
 async function queryAllProductCategories() {
   return await prisma.productCategory.findMany({
-      select: {
-          id: true,
-          name: true
-      },
+    select: {
+      id: true,
+      name: true
+    },
   })
 }
 
