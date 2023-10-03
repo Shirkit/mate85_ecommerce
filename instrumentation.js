@@ -1,5 +1,5 @@
 import { prisma } from '@/utils/prisma'
-import { order_items, orders, orders_address, product_categoris, products, users, users_address, reviews } from '@/utils/sampledata';
+import { order_items, orders, orders_address, product_categories, products, products_items, users, users_address, reviews } from '@/utils/sampledata';
 
 var importarDadosMocks = true
 
@@ -16,14 +16,24 @@ export async function register() {
             users[i].id = parseInt(users[i].id)
         }
 
-        for (let i = 0; i < product_categoris.length; i++) {
-            product_categoris[i].id = parseInt(product_categoris[i].id)
+        for (let i = 0; i < product_categories.length; i++) {
+            product_categories[i].id = parseInt(product_categories[i].id)
         }
 
         for (let i = 0; i < products.length; i++) {
             products[i].id = parseInt(products[i].id)
-            products[i].price = parseFloat(products[i].price)
+            products[i].name = products[i].name
+            products[i].description =products[i].description
             products[i].product_categories_id = parseInt(products[i].product_categories_id)
+        }
+
+        for (let i = 0; i < products_items.length; i++) {
+            products_items[i].id = parseInt(products_items[i].id)
+            products_items[i].product_id = parseInt(products_items[i].product_id)
+            products_items[i].size = products_items[i].size
+            products_items[i].sku = products_items[i].sku
+            products_items[i].amount = parseInt(products_items[i].amount)
+            products_items[i].price = parseFloat(products_items[i].price)
         }
 
         for (let i = 0; i < orders.length; i++) {
@@ -71,7 +81,7 @@ export async function register() {
         console.debug('Atualizando DB')
 
         await prisma.user.createMany({ data: users })
-        await prisma.productCategory.createMany({ data: product_categoris })
+        await prisma.productCategory.createMany({ data: product_categories })
         await prisma.product.createMany({ data: products })
         await prisma.order.createMany({ data: orders })
         await prisma.orderItem.createMany({ data: order_items })
