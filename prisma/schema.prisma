@@ -69,13 +69,12 @@ model Product {
 }
 
 model ProductItem {
-  id                    Int             @id @default(autoincrement())
+  sku                   String          @id
   product_id            Int
   size                  String
-  sku                   String
   amount                 Int 
   price                 Float 
-  color                 String
+
 
   productItem_product Product @relation(fields: [product_id],references: [id])
 }

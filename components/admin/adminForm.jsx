@@ -26,6 +26,8 @@ export function AdminForm(props) {
                           <option value={item.id}>{item.name}</option>
                         ))}
                     </select>
+              ) : field.type === "textarea" ? (
+                <textarea className="bg-neutral-300 text-black p-2 rounded-md w-full" name={field.name} rows={4} cols={40} />
               ) : (
                 <input
                         type={field.type}
@@ -34,6 +36,7 @@ export function AdminForm(props) {
                         placeholder={field.placeholder}
                         className="bg-neutral-300 text-black p-2 rounded-md w-full"
                       />
+                      //TODO arrumar value hidden para atualização e mostrar value no editform
               ) }
               
             </div>

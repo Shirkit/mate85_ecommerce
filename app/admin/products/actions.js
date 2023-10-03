@@ -21,11 +21,10 @@ async function createProduct(data){
 async function createProductItem(data){
     await prisma.productItem.create({ 
         data:{
-            size : data.get("size"),
             sku: data.get("sku"),
+            size : data.get("size"),
             amount : parseInt(data.get("amount")),
             price: parseFloat(data.get("price")),
-            color: data.get("color"),
             productItem_product: {
                 connect: {
                   id: parseInt(data.get("product_id")),
@@ -50,7 +49,7 @@ async function updateProduct(data){
 
     })
 
-revalidatePath(`/admin`)
+revalidatePath(`/admin/products/$1/productsItem/add`)
 }
 
 async function queryProductById(data) {
@@ -86,6 +85,7 @@ async function queryAllProducts() {
             id: true,
             name: true,
             rating: true,
+            product_categories_id: true,
         },
     })
 }
@@ -96,11 +96,9 @@ async function queryAllProductsItem(data) {
             product_id: parseInt(data)
         },
         select: {
-            id: true,
             sku: true,
             price: true,
             size: true,
-            color: true,
             amount: true,
         },
     })
