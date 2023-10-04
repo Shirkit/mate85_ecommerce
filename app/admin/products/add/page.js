@@ -1,30 +1,30 @@
 "use server"
 import { prisma } from "@/utils/prisma"
-import {createProduct} from "../actions"
-import {AdminForm} from "@/components/admin/adminForm"
+import { createProduct } from "../actions"
+import { AdminForm } from "@/components/admin/adminForm"
 
 export default async function AddProduct() {
 
   const fieldsProduct = [{
-    "name" : "productName",
+    "name": "productName",
     "label": "Nome do Produto",
-    "type":"text",
+    "type": "text",
   },
   {
     "name": "description",
     "label": "Descrição",
-    "type":"textarea"
+    "type": "textarea"
   },
   {
-    "name" : "category",
+    "name": "category",
     "label": "Categorias",
-    "type" : "select"
-  } , 
+    "type": "select"
+  },
   ];
 
   return (
     <div className="flex justify-center w-full items-center">
-      <AdminForm  formTitle ="Adicionar Produto" action ={createProduct} fields = {fieldsProduct} buttonLabel = "Adicionar"/>
+      <AdminForm formTitle="Adicionar Produto" action={createProduct} fields={fieldsProduct} buttonLabel="Adicionar" />
     </div>
   );
 }

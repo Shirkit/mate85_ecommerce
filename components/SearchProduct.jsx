@@ -5,7 +5,7 @@ import { Search } from 'lucide-react'
 export function SearchProduct({ placeholder, filterValue, setFilterValue }) {
 	const searchValue = filterValue
 	const setSearchValue = setFilterValue
-	
+
 	const handleKeyPress = (e) => {
 		if (e.key === 'Enter') {
 			setSearchValue(e.target.value)
