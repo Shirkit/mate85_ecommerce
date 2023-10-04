@@ -34,12 +34,12 @@ model Order {
 }
 
 model OrderItem {
-  id          Int     @id @default(autoincrement())
-  price       Float
-  orders_id   Int
-  products_id Int
-  order       Order   @relation(fields: [orders_id], references: [id])
-  product     Product @relation(fields: [products_id], references: [id])
+  id        Int         @id @default(autoincrement())
+  price     Float
+  orders_id Int
+  sku       String
+  order     Order       @relation(fields: [orders_id], references: [id])
+  product   ProductItem @relation(fields: [sku], references: [sku])
 }
 
 model Address {
@@ -51,10 +51,10 @@ model Address {
   number       String?
   complement   String?
   neighborhood String?
-  city         String
-  state        String
-  country      String
-  zip_code     String
+  city         String?
+  state        String?
+  country      String?
+  zip_code     String?
   complement2  String?
   order        Order?  @relation(fields: [orders_id], references: [id])
   user         User?   @relation(fields: [users_id], references: [id])
@@ -69,16 +69,16 @@ model Product {
   reviews               Review[]
   product_item          ProductItem[]
   product_category      ProductCategory @relation(fields: [product_categories_id], references: [id])
-  order_items           OrderItem[]
 }
 
 model ProductItem {
-  sku                 String  @id
+  sku                 String      @id
   product_id          Int
   size                String
   amount              Int
   price               Float
-  productItem_product Product @relation(fields: [product_id], references: [id])
+  order_items         OrderItem[]
+  productItem_product Product     @relation(fields: [product_id], references: [id])
 }
 
 model Review {
