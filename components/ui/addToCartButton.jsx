@@ -2,6 +2,7 @@
 
 import { useCart } from "@/components/CartContext";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 /***
  * @param {Object} param0
@@ -9,10 +10,14 @@ import React, { useState } from "react";
  * @param {string} param0.price
  * @param {string} param0.name
  */
-export default function AddToCartButton({ id, produto }) {
+export default function AddToCartButton({ sku, produto }) {
   const { addToCart } = useCart();
   function handleClick() {
-    addToCart(produto, qty);
+    console.log("🚀 ~ file: addToCartButton.jsx:17 ~ handleClick ~ sku:", sku)
+    if (!sku)
+      toast.error("Selecione um tamanho primeiro")
+    else
+      addToCart(sku, produto, qty);
   }
 
   const [qty, setQty] = useState(1)

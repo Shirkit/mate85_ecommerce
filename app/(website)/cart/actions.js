@@ -9,6 +9,9 @@ async function getProductsFromIds(data) {
     return await prisma.product.findMany({
         where: {
             id: { in: data }
+        },
+        include: {
+            product_item: {}
         }
     })
 }

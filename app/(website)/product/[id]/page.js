@@ -1,12 +1,11 @@
 
 import RenderStars from "@/components/ui/stars"
 import Carousel from "@/components/ui/carousel"
-import Quantity from "@/components/ui/quantity"
 import ReviewCard from "@/components/ui/review"
 import Link from "next/link"
 import { prisma } from "@/utils/prisma"
 import AddReview from "@/components/ui/addReview"
-import AddToCartButton from "@/components/ui/addToCartButton"
+import Filtros from "@/components/ui/filtros"
 
 export default async function Produto({ params, searchParams }) {
     const page = searchParams.page ? parseInt(searchParams.page) : 1
@@ -34,7 +33,8 @@ export default async function Produto({ params, searchParams }) {
                 include: {
                     user: {}
                 }
-            }
+            },
+            product_item: {}
         }
     })
 
@@ -60,13 +60,7 @@ export default async function Produto({ params, searchParams }) {
                     {/* <span className="text-2xl">R${produto.price.toFixed(2)}</span> */}
                     <p>{produto.description}</p>
                     <hr></hr>
-                    Filtro 1
-                    <hr></hr>
-                    Filtro 2
-                    <hr></hr>
-                    <div className="flex flex-row text-black gap-4">
-                        <AddToCartButton id={produto.id} produto={produto} ></AddToCartButton>
-                    </div>
+                    <Filtros produto={produto}></Filtros>
                 </section>
             </div>
 
