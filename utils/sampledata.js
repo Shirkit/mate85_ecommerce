@@ -736,7 +736,7 @@ export var products = [
   {
     "id": 27,
     "name": "Beef - Tender Tips",
-    "description": "imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue vivamus metus arcu adipiscing molestie hendrerit at vulputate vitae",
+    "description": "imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien in sapien iaculis congue vivamus metus arcu adipiscinFg molestie hendrerit at vulputate vitae",
     "price": 72.07,
     "sku": "hh26::07",
     "product_categories_id": 5
