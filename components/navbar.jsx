@@ -40,8 +40,11 @@ export default function Navbar() {
 			</nav>
 			<SearchProduct placeholder="Busque por produto" />
 			<div className="flex items-center gap-4">
-				<div>
-					<ShoppingCart className="text-xl cursor-pointer" />
+				<div className="relative">
+					<Link href="/cart">
+						<ShoppingCart className="text-xl cursor-pointer" />
+						<NavbarCart></NavbarCart>
+					</Link>
 				</div>
 				<div>
 					<UserCircle2 className="text-xl cursor-pointer" />

@@ -10,7 +10,6 @@ export default function AddReview({ productId }) {
     const FORM_NAME = "addReview"
 
     async function onProcessReview(formData) {
-        console.log('here')
         const res = await processReview(formData)
         if (res && res.message)
             toast.error(res.message)

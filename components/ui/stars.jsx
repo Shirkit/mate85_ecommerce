@@ -7,7 +7,7 @@ import { Star, StarHalf } from "lucide-react"
  * @param {float} param0.rating 
  * @param {boolean=} param0.hideNumber 
  */
-export default function RenderStars({rating, hideNumber}) {
+export default function RenderStars({ rating, hideNumber }) {
     const stars = []
     var i = rating
 
@@ -32,7 +32,7 @@ export default function RenderStars({rating, hideNumber}) {
         <div className="flex flex-row">
             {stars}
             {(!hideNumber) &&
-                <span className="ml-1">{rating.toFixed(1)} / 5</span>
+                <span className="ml-1">{rating.toFixed(1)}/ 5.0</span>
             }
         </div>
     )

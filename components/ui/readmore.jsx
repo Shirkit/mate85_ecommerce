@@ -12,7 +12,7 @@ export default function ReadMore() {
     return (
         <a className="cursor-pointer underline" onClick={(e, b) => {
             const p = e.target.parentElement.querySelector("p")
-            
+
             if (!toggle) {
                 if (window.expandedPReview) {
                     window.expandedPReview.style.maxHeight = null
@@ -31,6 +31,6 @@ export default function ReadMore() {
             }
             setToggle(!toggle)
 
-        }}>{!toggle? "Leia mais" : "Recolher"}</a>
+        }}>{!toggle ? "Leia mais" : "Recolher"}</a>
     )
 }

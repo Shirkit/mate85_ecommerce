@@ -1,11 +1,11 @@
 
 import RenderStars from "@/components/ui/stars"
 import Carousel from "@/components/ui/carousel"
-import Quantity from "@/components/ui/quantity"
 import ReviewCard from "@/components/ui/review"
 import Link from "next/link"
 import { prisma } from "@/utils/prisma"
 import AddReview from "@/components/ui/addReview"
+import Filtros from "@/components/ui/filtros"
 
 export default async function Produto({ params, searchParams }) {
     const page = searchParams.page ? parseInt(searchParams.page) : 1
@@ -15,7 +15,7 @@ export default async function Produto({ params, searchParams }) {
             products_id: parseInt(params.id)
         }
     })
-    
+
     // ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
     // TODO procurar entender porque isso acontece
 
@@ -33,7 +33,8 @@ export default async function Produto({ params, searchParams }) {
                 include: {
                     user: {}
                 }
-            }
+            },
+            product_item: {}
         }
     })
 
@@ -56,17 +57,10 @@ export default async function Produto({ params, searchParams }) {
                 <section className="flex flex-col w-1/2 gap-4">
                     <h1 className="text-4xl">{produto.name}</h1>
                     <RenderStars rating={produto.rating}></RenderStars>
-                    <span className="text-2xl">R${produto.price.toFixed(2)}</span>
+                    {/* <span className="text-2xl">R${produto.price.toFixed(2)}</span> */}
                     <p>{produto.description}</p>
                     <hr></hr>
-                    Filtro 1
-                    <hr></hr>
-                    Filtro 2
-                    <hr></hr>
-                    <div className="flex flex-row text-black gap-4">
-                        <Quantity></Quantity>
-                        <button className="w-auto flex-grow py-4 px-8 rounded-full bg-black text-white">Adicionar ao carrinho</button>
-                    </div>
+                    <Filtros produto={produto}></Filtros>
                 </section>
             </div>
 
@@ -86,7 +80,7 @@ export default async function Produto({ params, searchParams }) {
         </article>
     )
 
-    function PaginationButton({text, link, disabled = false, className = ""}) {
+    function PaginationButton({ text, link, disabled = false, className = "" }) {
         if (!disabled)
             return <Link className={className} href={link}>{ActualBtn(text, disabled)}</Link>
         else
@@ -94,6 +88,6 @@ export default async function Produto({ params, searchParams }) {
     }
 
     function ActualBtn(text, disabled, className = "") {
-        return <button className={className + (disabled? " bg-zinc-50":" underline")} type="button" disabled={disabled}>{text}</button>
+        return <button className={className + (disabled ? " bg-zinc-50" : " underline")} type="button" disabled={disabled}>{text}</button>
     }
 }
