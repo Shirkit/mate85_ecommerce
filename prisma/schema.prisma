@@ -61,7 +61,7 @@ model Address {
 }
 
 model Product {
-  id                    Int             @id @default(autoincrement())
+  id                    Int      @id @default(autoincrement())
   name                  String
   description           String
   product_categories_id Int
@@ -134,4 +134,10 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Option {
+  key   String @id
+  value String
+  type  String
 }
