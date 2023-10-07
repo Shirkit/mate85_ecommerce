@@ -21024,3 +21024,24 @@ export var reviews = [
     "products_id": 21
   }
 ]
+
+export var options = [
+  {
+    key: 'name',
+    value: 'shopic@ufba.br',
+    type: 'string'
+  },
+  {
+    key: 'phone',
+    value: '7199999999',
+    type: 'string'
+  },{
+    key: 'name',
+    value: 'SHOP IC',
+    type: 'string'
+  },{
+    key: 'hidePrices',
+    value: 'true',
+    type: 'boolean'
+  }
+]
