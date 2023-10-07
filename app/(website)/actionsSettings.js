@@ -4,7 +4,7 @@ import { prisma } from '@/utils/prisma'
 import { redirect } from 'next/navigation'
 
 export async function getNameDB() {
-	return await prisma.option.find({
+	return await prisma.option.findFirst({
 		where: {
 			key: 'name',
 		},
@@ -14,13 +14,20 @@ export async function getNameDB() {
 export async function getContactDB() {
 	return await prisma.option.findMany({
 		where: {
-			key: 'name' | 'email',
+			OR: [
+				{
+					key: 'name'
+				},
+				{
+					key: 'email'	
+				}
+			]
 		},
 	})
 }
 
 export async function getHidePricesDB() {
-	return await prisma.option.find({
+	return await prisma.option.findFirst({
 		where: {
 			key: 'hidePrices',
 		},
