@@ -1,5 +1,5 @@
 import { prisma } from '@/utils/prisma'
-import { order_items, orders, orders_address, product_categories, products, products_items, users, users_address, reviews } from '@/utils/sampledata';
+import { order_items, orders, orders_address, product_categories, products, products_items, users, users_address, reviews, options } from '@/utils/sampledata';
 
 var importarDadosMocks = true
 
@@ -60,6 +60,7 @@ export async function register() {
 
         await prisma.verificationToken.deleteMany({})
         await prisma.session.deleteMany({})
+        await prisma.option.deleteMany({})
         await prisma.account.deleteMany({})
         await prisma.review.deleteMany({})
         await prisma.address.deleteMany({})
@@ -81,6 +82,7 @@ export async function register() {
         await prisma.address.createMany({ data: users_address })
         await prisma.address.createMany({ data: orders_address })
         await prisma.review.createMany({ data: reviews })
+        await prisma.option.createMany({data: options})
 
         console.debug('Atualizando reviews')
 
