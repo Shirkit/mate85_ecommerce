@@ -4,15 +4,20 @@ import { Search, ShoppingCart, UserCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { SearchProduct } from './SearchProduct'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useTransition } from 'react'
 import { getNameDB } from '@/app/(website)/actionsSettings'
+import NavbarCart from './navbarCart'
 
 export default function Navbar() {
 	const [name, setName] = useState('')
+	const [isPending, startTransition] = useTransition()
 
 	async function getName() {
-		const response = await getNameDB()
-		setName(response.data.name)
+		if (!isPending)
+			startTransition(async () => {
+				const response = await getNameDB()
+				setName(response.value)
+			})
 	}
 
 	useEffect(() => {

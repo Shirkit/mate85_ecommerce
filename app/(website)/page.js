@@ -5,15 +5,8 @@ import Link from 'next/link'
 import { getHidePricesDB } from './actionsSettings'
 
 export default async function Home() {
-	let products = [
-		{ id: 1, name: 'seila', price: 1 },
-		{ id: 2, name: 'seila2', price: 2 },
-		{ id: 3, name: 'seila3', price: 3 },
-		{ id: 4, name: 'seila4', price: 5 },
-	]
-
-	products = await prisma.product.findMany()
-	hidePrices = await getHidePricesDB()
+	const products = await prisma.product.findMany()
+	const hidePrices = await getHidePricesDB()
 
 	return (
 		<main>

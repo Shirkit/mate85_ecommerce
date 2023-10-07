@@ -21027,7 +21027,7 @@ export var reviews = [
 
 export var options = [
   {
-    key: 'name',
+    key: 'email',
     value: 'shopic@ufba.br',
     type: 'string'
   },
@@ -21037,7 +21037,7 @@ export var options = [
     type: 'string'
   },{
     key: 'name',
-    value: 'SHOP IC',
+    value: 'SHOPIC',
     type: 'string'
   },{
     key: 'hidePrices',
