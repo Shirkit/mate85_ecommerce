@@ -36,7 +36,7 @@ async function updateProductCategory(data) {
 }
 
 export {
-  asyncCreateProductCategory,
+  CreateProductCategory,
   removeProductCategory,
   updateProductCategory,
 };

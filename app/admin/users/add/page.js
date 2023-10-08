@@ -1,8 +1,7 @@
-"use client"
-
 import { AdminForm } from "@/components/admin/adminForm"
 
-const dummyFunction = () => {
+const dummyFunction = async () => {
+  "use server"
   return;
 }
 

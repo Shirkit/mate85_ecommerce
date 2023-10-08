@@ -13,7 +13,7 @@ export default function Filtros({ produto }) {
             <p>Tamanho:</p>
             <ToggleGroup.Root value={sku} onChange={setSku}>
                 {produto.product_item.map((item, index) => {
-                    return <ToggleGroup.Button value={item.sku}> {item.size} </ToggleGroup.Button>
+                    return <ToggleGroup.Button key={item.sku} value={item.sku}> {item.size} </ToggleGroup.Button>
                 })}
             </ToggleGroup.Root>
             <hr></hr>

@@ -68,7 +68,7 @@ export default async function Produto({ params, searchParams }) {
                 <h2>Todas as Avaliações</h2>
                 <div className="grid grid-cols-2 gap-8 grid-flow-row">
                     {produto.reviews.map((review, index) => {
-                        return <ReviewCard index={index} rating={review.rating} text={review.text} title={review.title} author={review.user.name}></ReviewCard>
+                        return <ReviewCard key={review.id} index={index} rating={review.rating} text={review.text} title={review.title} author={review.user.name}></ReviewCard>
                     })}
                     {(produto.reviews.length % 2 != 0) && <div></div>}
                     <PaginationButton className="outline outline-2 outline-zinc-200 justify-self-start p-4 rounded-lg shadow-lg hover:bg-zinc-50" text="Avaliações anteriores" disabled={page <= 1} link={"/product/" + params.id + "/?page=" + (page - 1)}></PaginationButton>
