@@ -25,6 +25,22 @@ export default function AddEditUser() {
     "label": "Endereço",
     "type": "text"
   },
+
+  {
+    "name": "roles",
+    "label": "Permissões",
+    "type": "select",
+    "options": [
+      {
+        id: "admin",
+        name: "Admin",
+      },
+      {
+        id: "user",
+        name: "Usuário",
+      }
+    ]
+  }
   ];
   return (
     <div className="flex justify-center w-full items-center">
