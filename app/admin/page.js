@@ -12,7 +12,7 @@ export default async function Home() {
 	]
 
 	// const products = await prisma.product.findMany();
-  hidePrices = await getHidePricesDB()
+  const hidePrices = await getHidePricesDB()
 
 	return (
 		<main>
@@ -30,7 +30,7 @@ export default async function Home() {
 								image={`https://picsum.photos/id/${Math.round(
 									Math.random() * 1084
 								)}/200`}
-								price={hidePrices ? product.price : 'R$ **, *'}
+								price={hidePrices ? null : product.price}
 								rating={3}
 							/>
 						)

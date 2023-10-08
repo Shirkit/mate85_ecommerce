@@ -23,7 +23,7 @@ export default async function Home() {
 									key={product.id}
 									name={product.name}
 									image={`https://picsum.photos/id/${product.id}/200`}
-									price={hidePrices ? product.price : 'R$ **, *'}
+									price={hidePrices ? null : product.price}
 									rating={product.rating}
 								/>
 							</Link>

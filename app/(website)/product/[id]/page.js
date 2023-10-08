@@ -38,6 +38,12 @@ export default async function Produto({ params, searchParams }) {
         }
     })
 
+    let maxPrice = -1, minPrice = Number.MAX_SAFE_INTEGER
+    produto.product_item.forEach(item => {
+        maxPrice = Math.max(maxPrice, item.price)
+        minPrice = Math.min(minPrice, item.price)
+    });
+
     return (
         <article className="max-w-7xl mx-auto my-20">
 
@@ -57,7 +63,12 @@ export default async function Produto({ params, searchParams }) {
                 <section className="flex flex-col w-1/2 gap-4">
                     <h1 className="text-4xl">{produto.name}</h1>
                     <RenderStars rating={produto.rating}></RenderStars>
-                    {/* <span className="text-2xl">R${produto.price.toFixed(2)}</span> */}
+                    <span className="text-lg">
+                        {(minPrice != maxPrice) ?
+                            <>R${minPrice.toFixed(2)} - R${maxPrice.toFixed(2)}</>
+                            : <>R${minPrice.toFixed(2)}</>
+                        }
+                    </span>
                     <p>{produto.description}</p>
                     <hr></hr>
                     <Filtros produto={produto}></Filtros>
