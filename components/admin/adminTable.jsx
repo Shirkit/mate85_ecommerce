@@ -42,7 +42,7 @@ export function AdminTable(props) {
             <tr className="bg-gray-100 text-black">
               {props.headers.map((header) => {
                 return (
-                  <th className="border p-4">{header}</th>
+                  <th key={header} className="border p-4">{header}</th>
                 )
               })}
 
@@ -59,7 +59,7 @@ export function AdminTable(props) {
                 ))}
                 <td className="border p-4">
                   {props.actions.map((action, index) => (
-                    <Link href={action.dest.replace('$1', row.id)}>
+                    <Link key={action.name + "-" + index} href={action.dest.replace('$1', row.id)}>
                       <button className={"bg-" + action.color + "-500 hover:bg-" + action.color + "-700 text-zin-900 font-bold py-2 px-4 mr-2"}>
                         {action.name}
                       </button>
