@@ -10,7 +10,7 @@ import { useState } from "react"
  * @param {float} param0.rating 
  * @param {boolean=} param0.hideNumber 
  */
-export default function ClickableStars({ hideNumber, form = "", name = ""}) {
+export default function ClickableStars({ hideNumber, form = "", name = "" }) {
 
     const [rating, setRating] = useState(0)
 

@@ -1,35 +1,36 @@
-"use client"
-import {addProduct} from "./actions"
-import {AdminForm} from "@/components/admin/adminForm"
+"use server"
+import { prisma } from "@/utils/prisma"
+import { createProduct } from "../actions"
+import { AdminForm } from "@/components/admin/adminForm"
 
-export default function AddEditProduct() {
-  const fields = [{
-    "name" : "productName",
+export default async function AddProduct() {
+
+
+  const fieldsProduct = [{
+    "name": "productName",
     "label": "Nome do Produto",
-    "type":"text",
+    "type": "text",
   },
-  
-  {
-    "name" : "price",
-    "label" : "Preço",
-    "type": "number",
-  },
-
   {
     "name": "description",
     "label": "Descrição",
-    "type":"textarea"
+    "type": "textarea"
   },
   {
-    "name" : "category",
+    "name": "category",
     "label": "Categorias",
-    "type" : "text"
-  }
+    "type": "select",
+    "options": []
+  },
   ];
+
+  const categorias = (await prisma.ProductCategory.findMany()).forEach(categoria => {
+    fieldsProduct[2].options.push({ "id": categoria.id, "name": categoria.name })
+  });
+
   return (
     <div className="flex justify-center w-full items-center">
-      <AdminForm  formTitle ="Adicionar Produto" action ={addProduct} fields = {fields} buttonLabel = "Criar Produto"/>
+      <AdminForm formTitle="Adicionar Produto" action={createProduct} fields={fieldsProduct} buttonLabel="Adicionar" />
     </div>
-    
   );
 }

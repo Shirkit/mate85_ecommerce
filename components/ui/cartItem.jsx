@@ -11,12 +11,12 @@ export const CartItem = ({ item }) => {
   const handleQuantityChange = (qty) => {
     const quantity = Number(qty);
     if (quantity >= 0) {
-      updateCartItemQuantity(item.product.id, quantity);
+      updateCartItemQuantity(item.item.sku, quantity);
     }
   };
 
   const handleRemoveClick = () => {
-    removeFromCart(item.product.id);
+    removeFromCart(item.item.sku);
   };
 
   function addQty() {
@@ -37,8 +37,9 @@ export const CartItem = ({ item }) => {
       <div className="flex justify-center"><Image width={100} height={100} src={`https://picsum.photos/id/${item.product.id}/100`}></Image></div>
       <div className="flex justify-center items-center">
         <div>
-          <div className="inline-block">{item.product.name}</div><br/>
-          <div className="inline-block text-xs">{item.product.sku}</div><br/>
+          <div className="inline-block">{item.product.name}</div><br />
+          <div className="inline-block text-xs">{item.item.sku}</div><br />
+          <div className="inline-block text-xs">Tamanho: {item.item.size}</div><br />
           <div className="inline-block text-xs text-red-400 cursor-pointer" onClick={handleRemoveClick}>Remover</div>
         </div>
       </div>
@@ -49,8 +50,8 @@ export const CartItem = ({ item }) => {
           <button onClick={addQty} className="bg-zinc-300 px-2 py-1 rounded-r-full">+</button>
         </div>
       </div>
-      <div className="text-center self-center">R${item.product.price.toFixed(2)}</div>
-      <div className="text-center self-center">R${(item.product.price * qty).toFixed(2)}</div>
+      <div className="text-center self-center">R${item.item.price.toFixed(2)}</div>
+      <div className="text-center self-center">R${(item.item.price * qty).toFixed(2)}</div>
     </Fragment>
   )
 };

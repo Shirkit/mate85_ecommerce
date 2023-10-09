@@ -14,6 +14,7 @@ const CartContext = createContext({
 })
 
 export const useCart = () => {
+  
   return useContext(CartContext)
 }
 
@@ -31,9 +32,19 @@ export const CartProvider = ({ children }) => {
       saveCart()
   }, [cartItems])
 
-  const addToCart = (product, qty = 1, silent = false) => {
+  const addToCart = (sku, product, qty = 1, silent = false) => {
+    let found = false
+    for (let i = 0; i < product.product_item.length; i++) {
+      const item  = product.product_item[i];
+      if (item.sku == sku)
+        found = item
+    }
+    if (!found) {
+      toast.error("Selecione um SKU primeiro")
+      return null
+    }
     const existingCartItemIndex = cartItems.findIndex(
-      (item) => item.product.id === product.id
+      (item) => item.item.sku === sku
     )
     if (existingCartItemIndex !== -1) {
       const existingCartItem = cartItems[existingCartItemIndex]
@@ -45,7 +56,7 @@ export const CartProvider = ({ children }) => {
       updatedCartItems[existingCartItemIndex] = updatedCartItem
       setCartItems(updatedCartItems)
     } else {
-      setCartItems([...cartItems, { product, quantity: qty }])
+      setCartItems([...cartItems, { product: product, item: found, quantity: qty }])
     }
     if (!silent)
       toast.success(qty + "x " + product.name + " adicionado ao carrinho")
@@ -56,7 +67,7 @@ export const CartProvider = ({ children }) => {
     products.forEach((el) => {
 
       const existingCartItemIndex = cartItems.findIndex(
-        (item) => item.product.id === el.product.id
+        (item) => item.item.sku === el.item.sku
       )
       if (existingCartItemIndex !== -1) {
         const existingCartItem = cartItems[existingCartItemIndex]
@@ -66,22 +77,22 @@ export const CartProvider = ({ children }) => {
         }
         updatedCartItems[existingCartItemIndex] = updatedCartItem
       } else {
-        updatedCartItems.push({ product: el.product, quantity: el.quantity })
+        updatedCartItems.push({ product: el.product, quantity: el.quantity, item: el.item })
       }
     })
     setCartItems(updatedCartItems)
   }
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = (sku) => {
     const updatedCartItems = cartItems.filter(
-      (item) => item.product.id !== productId
+      (item) => item.item.sku !== sku
     )
     setCartItems(updatedCartItems)
   }
 
-  const updateCartItemQuantity = (productId, quantity) => {
+  const updateCartItemQuantity = (sku, quantity) => {
     const existingCartItemIndex = cartItems.findIndex(
-      (item) => item.product.id === productId
+      (item) => item.item.sku === sku
     )
     if (existingCartItemIndex !== -1) {
       const existingCartItem = cartItems[existingCartItemIndex]
@@ -96,7 +107,7 @@ export const CartProvider = ({ children }) => {
   }
 
   const cartTotal = cartItems.reduce(
-    (total, item) => total + item.product.price * item.quantity,
+    (total, item) => total + item.item.price * item.quantity,
     0
   )
 
@@ -106,7 +117,7 @@ export const CartProvider = ({ children }) => {
     if (localStorage) {
       let obj = []
       cartItems.forEach((el) => {
-        obj.push({ id: el.product.id, quantity: el.quantity })
+        obj.push({ id: el.product.id, quantity: el.quantity, sku: el.item.sku })
       })
       localStorage.setItem('cartItems', JSON.stringify(obj))
     }
@@ -127,9 +138,11 @@ export const CartProvider = ({ children }) => {
               const toAdd = []
               data.forEach((el) => {
                 for (let i = 0; i < loaded.length; i++) {
-                  if (loaded[i].id == el.id) {
-                    console.log(el.id + ' - ' + loaded[i].quantity)
-                    toAdd.push({ product: el, quantity: loaded[i].quantity })
+                  for (let k = 0; k < el.product_item.length; k++) {
+                    const element = el.product_item[k];
+                    if (loaded[i].sku == element.sku) {
+                      toAdd.push({ product: el, quantity: loaded[i].quantity, item: element })
+                    }
                   }
                 }
               })

@@ -5,10 +5,10 @@ import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation'
 
 async function removeProduct(data) {
-    await prisma.produto.delete({ 
-        where: { 
-            id: +data.get('id') 
-        } 
+    await prisma.produto.delete({
+        where: {
+            id: +data.get('id')
+        }
     })
 
     redirect('/product')
@@ -16,9 +16,10 @@ async function removeProduct(data) {
 
 async function createProduct(data) {
 
-    await prisma.produto.create({ 
-        data: { nome: data.get("nome"), 
-        foto: `https://picsum.photos/id/${Math.round(Math.random() * 1084)}/200` 
+    await prisma.produto.create({
+        data: {
+            nome: data.get("nome"),
+            foto: `https://picsum.photos/id/${Math.round(Math.random() * 1084)}/200`
         }
     })
 
@@ -26,7 +27,7 @@ async function createProduct(data) {
 
 }
 
-async function updateProduct(data){
+async function updateProduct(data) {
     'use server'
 
     await prisma.produto.update({
