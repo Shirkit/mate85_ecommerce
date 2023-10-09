@@ -7,7 +7,6 @@ import Image from 'next/image'
 import RenderStars from '@/components/ui/stars';
 import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
-import Category from "@/app/(website)/[category]/page"
 
 export default async function EditProduct({ params }) {
 
