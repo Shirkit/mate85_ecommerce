@@ -1,6 +1,6 @@
 "use client"
 import { theme } from '@/utils/tailwind';
-import { FilesIcon, PackageIcon, SettingsIcon, UsersIcon } from 'lucide-react';
+import { FilesIcon, PackageIcon, SettingsIcon, UsersIcon, ShoppingBagIcon } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
@@ -64,6 +64,9 @@ export default function AdminNavbar() {
                 </SubMenu>
                 <SubMenu icon={<SettingsIcon></SettingsIcon>} label="Configurações">
                     <MenuItem component={<Link href="/admin/settings"></Link>} className="bg-zinc-800"> Geral do site </MenuItem>
+                </SubMenu>
+                <SubMenu icon={<ShoppingBagIcon />} label="Pedidos">
+                    <MenuItem component={<Link href="/admin/order"></Link>} className="bg-zinc-800"> Gerenciar pedidos </MenuItem>
                 </SubMenu>
             </Menu>
         </Sidebar>
