@@ -14,7 +14,7 @@ export default async function CardConfirmacao(props) {
 
     <div className='bg-white  flex flex-col items-center  shadow-lg h-4/5 w-full'>
 
-      {pedido.status === "completed" ? (
+      {pedido.status === "completado" ? (
         <React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Confirmado</h2>
@@ -32,7 +32,7 @@ export default async function CardConfirmacao(props) {
 
             </div>
           </div>
-        </React.Fragment>) : pedido.status === "waiting" ? (<React.Fragment>
+        </React.Fragment>) : pedido.status === "pendente" || pedido.status === "processando" ? (<React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Confirmado</h2>
           </div>
@@ -52,23 +52,29 @@ export default async function CardConfirmacao(props) {
 
             </div>
           </div>
-        </React.Fragment>) : pedido.status === "payment-pending" ? (<React.Fragment>
+        </React.Fragment>) : pedido.status === "cancelado" ? (<React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Cancelado</h2>
           </div>
 
           <div className='bg-red-100 p-4 h-auto md:h-2/6 border border-red-400 w-auto md:w-2/4 rounded-sm'>
-            <p className='text-red-800'> <strong>Pagamento não aprovado.</strong></p><br></br>
+            <p className='text-red-800'> <strong></strong></p><br></br>
             <p className='text-red-700'>Prezado <strong>{user.name}</strong>,<br>
-            </br><br></br> Lamentamos informar que seu pedido foi cancelado devido à não aprovação do pagamento.<br></br>
-              Entendemos que imprevistos podem ocorrer, e lamentamos qualquer inconveniente que isso possa ter causado.
-              Se desejar, você pode verificar o status do seu pagamento e tentar novamente, ou entrar
-              em contato conosco para obter assistência adicional.<br></br><br></br>
-              Agradecemos o seu interesse em fazer compras conosco e esperamos poder atendê-lo melhor em uma futura oportunidade.
-              Se precisar de qualquer esclarecimento ou assistência, não hesite em nos contatar. Estamos à disposição para ajudá-lo.
+            </br><br></br> 
+            Lamentamos informar que seu pedido foi cancelado. Entendemos que circunstâncias imprevistas podem ocorrer, levando a esse cancelamento.
+            Pedimos desculpas por qualquer inconveniente causado. Se você tiver alguma dúvida ou precisar
+            de assistência adicional, por favor, não hesite em entrar em contato conosco.<br></br><br></br>
+            Agradecemos pelo seu interesse em nossa loja e esperamos poder atendê-lo(a) novamente no futuro.
+            Estamos à disposição para ajudá-lo(a) com qualquer outra questão que possa ter.
             </p>
             <div className='flex items-center bg-red-500 h-auto md:h-2/6 border border-red-400 w-auto md:w-full mt-8'>
-              <p className='text-red-50'><strong>🚫 Pagamento Recusado </strong></p>
+              <p className='text-red-50'><strong>🚫 Pedido Cancelado </strong></p>
+
+
+
+
+
+
 
 
             </div>
