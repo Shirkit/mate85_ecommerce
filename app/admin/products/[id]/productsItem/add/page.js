@@ -7,6 +7,7 @@ import Image from 'next/image'
 import RenderStars from '@/components/ui/stars';
 import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
+import Category from "@/app/(website)/[category]/page"
 
 export default async function EditProduct({ params }) {
 
@@ -15,9 +16,13 @@ export default async function EditProduct({ params }) {
   const product = await queryProductById(params.id);
   const firstProduct = product[0];
 
-  const categorie_vector = await queryProductCategory(firstProduct.product_categories_id);
-  const firstCategory = categorie_vector[0];
-  const categorie = firstCategory.name;
+  const categorie_vector = await prisma.productCategory.findMany({
+    select: {
+      id: true,
+      name: true,
+    },
+  })
+  let categorie = ""
 
   const actions = [
     {
@@ -36,21 +41,28 @@ export default async function EditProduct({ params }) {
   {
     "name": "productName",
     "label": "Nome do Produto",
-    "placeholder": firstProduct.name, // TODO trocar de placeholder para value
+    "value": firstProduct.name, // TODO trocar de placeholder para value
   },
   {
     "name": "description",
     "label": "Descrição",
     "type": "textarea",
-    "placeholder": firstProduct.description, // TODO trocar de placeholder para value
+    "value": firstProduct.description, // TODO trocar de placeholder para value
   },
   {
     "name": "category",
-    "label": firstCategory.name,
-    "type": "select"
+    "label": "Categoria",
+    "type": "select",
+    "value": firstProduct.product_categories_id,
+    "options": []
   },
-
   ];
+
+  categorie_vector.forEach(el => {
+    fieldsProductupdate[3].options.push({ "id": el.id, "name": el.name })
+    if (firstProduct.product_categories_id == el.id)
+      categorie = el.name
+  });
 
   const fieldsItem = [{
     "name": "sku",
@@ -77,7 +89,7 @@ export default async function EditProduct({ params }) {
     "value": params.id,
     "type": "hidden",
   },
-  ];
+  ];  
 
   return (
     <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">

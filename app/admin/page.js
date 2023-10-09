@@ -30,7 +30,7 @@ export default async function Home() {
 								image={`https://picsum.photos/id/${Math.round(
 									Math.random() * 1084
 								)}/200`}
-								price={hidePrices ? product.price : 'R$ **, *'}
+								price={hidePrices ? null : product.price}
 								rating={3}
 							/>
 						)

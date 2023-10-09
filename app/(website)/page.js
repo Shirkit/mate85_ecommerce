@@ -18,12 +18,12 @@ export default async function Home() {
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 					{products.map((product) => {
 						return (
-							<Link href={'/product/' + product.id}>
+							<Link key={product.id} href={'/product/' + product.id}>
 								<Card
 									key={product.id}
 									name={product.name}
 									image={`https://picsum.photos/id/${product.id}/200`}
-									price={hidePrices ? product.price : 'R$ **, *'}
+									price={hidePrices ? null : product.price}
 									rating={product.rating}
 								/>
 							</Link>

@@ -21041,7 +21041,7 @@ export var options = [
     type: 'string'
   },{
     key: 'hidePrices',
-    value: 'true',
+    value: 'false',
     type: 'boolean'
   }
 ]

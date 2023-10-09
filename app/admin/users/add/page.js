@@ -1,8 +1,7 @@
-"use client"
-
 import { AdminForm } from "@/components/admin/adminForm"
 
-const dummyFunction = () => {
+const dummyFunction = async () => {
+  "use server"
   return;
 }
 
@@ -26,6 +25,22 @@ export default function AddEditUser() {
     "label": "Endereço",
     "type": "text"
   },
+
+  {
+    "name": "roles",
+    "label": "Permissões",
+    "type": "select",
+    "options": [
+      {
+        id: "admin",
+        name: "Admin",
+      },
+      {
+        id: "user",
+        name: "Usuário",
+      }
+    ]
+  }
   ];
   return (
     <div className="flex justify-center w-full items-center">

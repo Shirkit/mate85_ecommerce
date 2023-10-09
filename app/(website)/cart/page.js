@@ -23,7 +23,7 @@ export default function Cart() {
                     </div>
                     <div className="grid [grid-template-columns:subgrid] col-span-5 gap-5 my-5">
                         {cartItems.map((item) => (
-                            <CartItem item={item} />
+                            <CartItem key={item.item.sku} item={item} />
                         ))}
                     </div>
 

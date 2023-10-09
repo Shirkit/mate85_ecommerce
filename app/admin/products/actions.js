@@ -70,7 +70,7 @@ async function queryProductById(data) {
 async function queryProductCategory(data) {
     return await prisma.productCategory.findMany({
         where: {
-            id: parseInt(data)
+            id: data? parseInt(data): null
         },
         select: {
             id: true,

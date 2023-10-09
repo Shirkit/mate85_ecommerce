@@ -2,8 +2,6 @@ import { Button } from "@/components/ui/button";
 import { prisma } from "@/utils/prisma";
 import { EditIcon } from "lucide-react";
 
-const categorias = await prisma.ProductCategory.findMany()
-
 export function AdminForm(props) {
 
   return (
@@ -20,14 +18,14 @@ export function AdminForm(props) {
               <label className="block mb-2" htmlFor="name">{field.label}</label>
 
               {field.type == "select" ? (
-                <select name={field.name} className="bg-gray-800 text-white p-2 rounded-md w-full">
-                  {categorias.map((item) => (
+                <select name={field.name} value={field.value} className="bg-gray-800 text-white p-2 rounded-md w-full">
+                  {field.options.map((item) => (
                     // eslint-disable-next-line react/jsx-key
                     <option value={item.id}>{item.name}</option>
                   ))}
                 </select>
               ) : field.type === "textarea" ? (
-                <textarea className="bg-neutral-300 text-black p-2 rounded-md w-full" name={field.name} rows={4} cols={40} />
+                <textarea className="bg-neutral-300 text-black p-2 rounded-md w-full" value={field.value} name={field.name} rows={4} cols={40} />
               ) : (
                 <input
                   type={field.type}
