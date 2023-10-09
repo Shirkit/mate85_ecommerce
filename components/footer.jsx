@@ -1,17 +1,43 @@
+'use client'
+
+import { getContactDB, getNameDB } from '@/app/(website)/actionsSettings'
 import { Facebook, Github, Instagram, Twitter } from 'lucide-react'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 
 export default function Footer() {
+	const [name, setName] = useState('')
+	const [email, setEmail] = useState('')
+
+	async function getContact() {
+		const response = await getContactDB()
+		console.log("🚀 ~ file: footer.jsx:14 ~ getContact ~ response:", response)
+		setName(response[0].name)
+		setEmail(response[1].email)
+	}
+
+	useEffect(() => {
+		getContact()
+	}, [])
+
 	return (
 		<footer className="bg-zinc-100 py-20">
 			<div className="max-w-7xl mx-auto flex justify-between">
 				<div className="flex flex-col gap-8">
 					<div className="flex flex-col gap-6">
-						<h2 className="text-3xl font-black">SHOP.CO</h2>
-						<p className="max-w-[248px] text-sm text-zinc-600">
-							Temos roupas que se adequam ao seu estilo e das quais você
-							se orgulha de usar. Tanto para mulheres quanto para homens.
-						</p>
+						<h2 className="text-3xl font-black">
+							{name ? name : 'SHOPIC'}
+						</h2>
+						<div className="flex flex-col gap-4">
+							<p className="max-w-[248px] text-sm text-zinc-600">
+								Temos roupas que se adequam ao seu estilo e das quais
+								você se orgulha de usar. Tanto para mulheres quanto para
+								homens.
+							</p>
+							<p className="max-w-[248px] text-sm text-zinc-600">
+								{email ? email : 'contato@shopic.com.br'}
+							</p>
+						</div>
 					</div>
 					<div className="flex gap-4">
 						<Twitter

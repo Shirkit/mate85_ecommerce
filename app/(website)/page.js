@@ -1,16 +1,12 @@
 import Image from 'next/image'
 import Card from '@/components/ui/Card'
 import { prisma } from '@/utils/prisma'
+import Link from 'next/link'
+import { getHidePricesDB } from './actionsSettings'
 
 export default async function Home() {
-	const products = [
-		{ id: 1, name: 'seila', price: 1 },
-		{ id: 2, name: 'seila2', price: 2 },
-		{ id: 3, name: 'seila3', price: 3 },
-		{ id: 4, name: 'seila4', price: 5 },
-	]
-
-	// const products = await prisma.product.findMany();
+	const products = await prisma.product.findMany()
+	const hidePrices = await getHidePricesDB()
 
 	return (
 		<main>
@@ -22,15 +18,15 @@ export default async function Home() {
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 					{products.map((product) => {
 						return (
-							<Card
-								key={product.id}
-								name={product.name}
-								image={`https://picsum.photos/id/${Math.round(
-									Math.random() * 1084
-								)}/200`}
-								price={product.price}
-								rating={3}
-							/>
+							<Link href={'/product/' + product.id}>
+								<Card
+									key={product.id}
+									name={product.name}
+									image={`https://picsum.photos/id/${product.id}/200`}
+									price={hidePrices ? product.price : 'R$ **, *'}
+									rating={product.rating}
+								/>
+							</Link>
 						)
 					})}
 				</div>

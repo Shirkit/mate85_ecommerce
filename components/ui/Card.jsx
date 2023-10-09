@@ -1,16 +1,7 @@
 import React from 'react';
+import RenderStars, { renderStars } from './stars';
 
 export default async function Card(props) {
-
-  const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 0; i < rating; i++) {
-      stars.push(
-        <span key={i} className="text-yellow-500">&#9733;</span> // Star symbol
-      );
-    }
-    return stars;
-  };
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 m-4 flex flex-col items-center">
@@ -22,11 +13,11 @@ export default async function Card(props) {
       />
       {props.rating && (
         <div className="flex items-center mt-2">
-        {renderStars(props.rating)}
-        <span className="ml-1">{props.rating}</span>
+          <RenderStars rating={props.rating}></RenderStars>
+          <span className="ml-1">{props.rating.toFixed(1)}</span>
         </div>
       )}
-      <p className="text-gray-700 text-lg">${props.price.toFixed(2)}</p>
+      {/* <p className="text-gray-700 text-lg">${props.price.toFixed(2)}</p> */}
 
     </div>
   );

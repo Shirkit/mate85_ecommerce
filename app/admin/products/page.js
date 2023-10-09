@@ -1,7 +1,29 @@
+import { AdminTable } from "@/components/admin/adminTable"
+import { queryAllProducts, queryProductByName } from "./actions"
 
-export default function Products() {
+const products = await queryAllProducts()
 
-    return (
-        <div></div>
-    )
+const actions = [
+	{
+		name: 'Edit',
+		color: 'blue',
+		dest: '/admin/products/$1/productsItem/add'
+	}
+];
+const headers = ['ID', 'Nome', 'Avaliação', "Ação"];
+
+export default async function ManageProducts() {
+	return (
+		<div className="w-full flex justify-center items-center pt-6">
+			<AdminTable
+				title="Produtos"
+				headers={headers}
+				data={products}
+				actions={actions}
+				hasSearchBar={true}
+			/>
+		</div>
+
+	)
+
 }
