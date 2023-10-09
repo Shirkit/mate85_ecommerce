@@ -31,14 +31,24 @@ export default async function Shop({searchParams}) {
   priceSearch.gte = searchParams?.minPrice ? parseFloat(searchParams?.minPrice) : undefined
   priceSearch.lte = searchParams?.maxPrice ? parseFloat(searchParams?.maxPrice) : undefined
   
+  // const products = categoryId? await prisma.product.findMany({
+  //   where:{
+  //     product_categories_id: categoryId? categoryId.id : undefined,
+  //     price:priceSearch
+  //   }
+  // }) : []
+
   const products = categoryId? await prisma.product.findMany({
     where:{
       product_categories_id: categoryId? categoryId.id : undefined,
-      price:priceSearch
+      product_item:{
+        some:{
+          price:priceSearch
+        }
+      }
     }
   }) : []
 
-  
   return(
     <div className="mt-16 flex justify-center min-h-screen">
       
