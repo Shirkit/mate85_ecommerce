@@ -34,7 +34,7 @@ export default function Cart() {
                     </div>
                     <span className="col-span-3"></span>
                     <div className="col-span-2 bg-zinc-50 p-5">
-                        <Link href="/cart" className="col-span-2">
+                        <Link href="/order" className="col-span-2">
                             <button className="bg-zinc-300 w-full rounded-full py-2 px-4">Finalizar compra</button>
                         </Link>
                     </div>
