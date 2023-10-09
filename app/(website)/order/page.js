@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useState } from 'react'
+import React, { startTransition, useEffect, useState } from 'react'
 import ProductList from '@/components/order/productList';
 import RadioButton from '@/components/order/radioButton';
 import { CreditCardIcon } from "lucide-react";
 import { useCart } from '@/components/CartContext';
+import { GetAddressesFromUserId } from './actions';
+import { Switch } from '@/components/ui/switch';
 
 const CheckoutPage = () => {
     const paymentOptions = [
@@ -14,6 +16,33 @@ const CheckoutPage = () => {
     ]
 
     const { cartItems, cartTotal } = useCart()
+    const [address, setAddress] = useState({
+        type: "",
+        street: "",
+        number: "",
+        complement: "",
+        neighborhood: "",
+        city: "",
+        state: "",
+        country: "",
+        zip_code: "",
+        complement2: ""
+    })
+
+    const [address2, setAddress2] = useState({
+        type: "",
+        street: "",
+        number: "",
+        complement: "",
+        neighborhood: "",
+        city: "",
+        state: "",
+        country: "",
+        zip_code: "",
+        complement2: ""
+    })
+
+    const [multipleAddresses, setMultipleAddresses] = useState(false)
 
     const [selectedOption, setSelectedOption] = useState(paymentOptions[0].label)
 
@@ -21,23 +50,19 @@ const CheckoutPage = () => {
         setSelectedOption(event.currentTarget.value)
     }
 
-    const handleChange = () => { }
-
-    const address = {
-        "id": 331,
-        "users_id": "ff8eda38-a707-4013-91cb-c5e514dce984",
-        "orders_id": null,
-        "type": "billing",
-        "street": "Melrose",
-        "number": "[object Undefined]",
-        "complement": "Room 50",
-        "neighborhood": "Junction",
-        "city": "Conceiçăo do Tocantins",
-        "state": "Ceará",
-        "country": "Brasil",
-        "zip_code": "07147-928",
-        "complement2": "Suite 79"
-    }
+    useEffect(() => {
+        startTransition(() => {
+            // TODO pegar o usuário logado atual
+            GetAddressesFromUserId("ff8eda38-a707-4013-91cb-c5e514dce984").then((res) => {
+                res.forEach(el => {
+                    if (el && el.type === 'billing')
+                        setAddress(el)
+                    else if (el && el.type === 'shipping')
+                        setAddress2(el)
+                });
+            })
+        })
+    }, [])
 
     return (
         <>
@@ -50,164 +75,291 @@ const CheckoutPage = () => {
                     <div className="mb-4">
                         <div className="bg-white p-4 rounded shadow">
 
-                            <h2 className="text-lg font-semibold mb-2">Endereço de Entrega</h2>
+                            <form className="space-y-4" id="order">
 
-                            <form className="space-y-4">
-                                <div>
-                                    <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-                                        Tipo de endereço
-                                    </label>
-                                    <select
-                                        name="type"
-                                        id="type"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={'billing'}
-                                    >
-                                        <option value="">Selecione uma opção</option>
-                                        <option value="shipping">Entrega</option>
-                                        <option value="billing">Cobrança</option>
-                                    </select>
-                                </div>
+                                <h2 className="text-lg font-semibold mb-2">Endereço de Cobrança</h2>
 
                                 <div>
-                                    <label htmlFor="street" className="block text-sm font-medium text-gray-700">
-                                        Rua
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="street"
-                                        name="street"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.street}
-                                    />
+                                    <div>
+                                        <label htmlFor="street" className="block text-sm font-medium text-gray-700">
+                                            Rua
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="street"
+                                            name="street"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.street}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="number" className="block text-sm font-medium text-gray-700">
+                                            Número
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="number"
+                                            name="number"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.number}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="complement" className="block text-sm font-medium text-gray-700">
+                                            Complemento
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="complement"
+                                            name="complement"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.complement}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700">
+                                            Bairro
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="neighborhood"
+                                            name="neighborhood"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.neighborhood}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                                            Cidade
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="city"
+                                            name="city"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.city}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="state" className="block text-sm font-medium text-gray-700">
+                                            Estado
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="state"
+                                            name="state"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.state}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                                            País
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="country"
+                                            name="country"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.country}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
+                                            CEP
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="zipCode"
+                                            name="zipCode"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.zip_code}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
+                                            Complemento 2
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="complement2"
+                                            name="complement2"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.complement2}
+                                            form="order"
+                                        />
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <label htmlFor="number" className="block text-sm font-medium text-gray-700">
-                                        Número
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="number"
-                                        name="number"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.number}
-                                    />
-                                </div>
 
-                                <div>
-                                    <label htmlFor="complement" className="block text-sm font-medium text-gray-700">
-                                        Complemento
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="complement"
-                                        name="complement"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.complement}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700">
-                                        Bairro
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="neighborhood"
-                                        name="neighborhood"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.neighborhood}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="city" className="block text-sm font-medium text-gray-700">
-                                        Cidade
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="city"
-                                        name="city"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.city}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="state" className="block text-sm font-medium text-gray-700">
-                                        Estado
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="state"
-                                        name="state"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.state}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="country" className="block text-sm font-medium text-gray-700">
-                                        País
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="country"
-                                        name="country"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.country}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
-                                        CEP
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="zipCode"
-                                        name="zipCode"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.zip_code}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
-                                        Complemento 2
-                                    </label>
-                                    <input
-                                        type="text"
-                                        id="complement2"
-                                        name="complement2"
-                                        className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                        onChange={handleChange}
-                                        value={address.complement2}
-                                    />
-                                </div>
-
-                                <div>
-                                    {/* Se o cara tiver billing ou shipping, buscar e preencher, e se tiver bloquear o adicionar, caso o cara não tenha um dos dois e não esteja com um endereço pré-preenchido (e.g. o cara tem billing mas não tem shipping, então o billing é selecionado por padrão e o botão adicionar fica desabilitado a menos que ele troque para shipping, no qual o botão vai ficar habilitado e ele vai poder adicionar ou endereço, desta forma o cara só vai ter a desgraça de dois endereços) */}
-                                    <button
-                                        type="submit"
-                                        className="bg-blue-500 text-white rounded-md py-2 px-4 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-200"
-                                    >
-                                        Adicionar endereço
-                                    </button>
-                                </div>
                             </form>
                         </div>
                     </div>
+
+                    <div className="mb-4 bg-white p-4 rounded shadow">
+                        <label htmlFor="multipleaddresses" className="block text-sm font-medium text-gray-700 mb-1">
+                            Endereço de <strong>entrega diferente</strong> do endereço de cobrança?
+                        </label>
+                        { /* // ! FIX TODO não está funcionando até o momento */}
+                        <Switch
+                            id="multipleaddresses"
+                            value={multipleAddresses}
+                            checked={multipleAddresses}
+                            onChange={e => setMultipleAddresses(e.target.value)}
+                        />
+                    </div>
+
+                    {(multipleAddresses) &&
+                        (<><div className="mb-4">
+                            <div className="bg-white p-4 rounded shadow">
+                                <h2 className="text-lg font-semibold mb-2">Endereço de Entrega</h2>
+
+                                <div>
+                                    <div>
+                                        <label htmlFor="street" className="block text-sm font-medium text-gray-700">
+                                            Rua
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="street"
+                                            name="street"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.street}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="number" className="block text-sm font-medium text-gray-700">
+                                            Número
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="number"
+                                            name="number"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.number}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="complement" className="block text-sm font-medium text-gray-700">
+                                            Complemento
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="complement"
+                                            name="complement"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.complement}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700">
+                                            Bairro
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="neighborhood"
+                                            name="neighborhood"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.neighborhood}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="city" className="block text-sm font-medium text-gray-700">
+                                            Cidade
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="city"
+                                            name="city"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.city}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="state" className="block text-sm font-medium text-gray-700">
+                                            Estado
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="state"
+                                            name="state"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.state}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="country" className="block text-sm font-medium text-gray-700">
+                                            País
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="country"
+                                            name="country"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.country}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
+                                            CEP
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="zipCode"
+                                            name="zipCode"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.zip_code}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
+                                            Complemento 2
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="complement2"
+                                            name="complement2"
+                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address2.complement2}
+                                            form="order"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div></>)
+                    }
 
                     {/* Métodos de Pagamento */}
                     <div className="mb-4">
