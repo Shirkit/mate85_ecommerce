@@ -30,11 +30,11 @@ export default function AdminNavbar() {
     }, []); // Empty array ensures that effect is only run on mount
 
     return (
-        <Sidebar rootStyles={{ borderRightColor: theme.colors.zinc[600] }} backgroundColor="unset" className="bg-zinc-900 text-zinc-300" collapsed={collapsed}>
+        <Sidebar rootStyles={{ borderRightColor: theme.colors.zinc[600] }} backgroundColor="unset" className="bg-[url('/static/images/dash_bg.jpg')] bg-slate-100 text-white" collapsed={collapsed}>
             <Menu menuItemStyles={{
                 button: {
                     paddingLeft: theme.padding[1],
-                    
+
                     '&:only-child': {
                         paddingLeft: theme.padding[4]
                     },
@@ -55,6 +55,7 @@ export default function AdminNavbar() {
                 <SubMenu icon={<PackageIcon></PackageIcon>} label="Produtos">
                     <MenuItem component={<Link href="/admin/products/add"></Link>} className="bg-zinc-800"> Adicionar novo produto </MenuItem>
                     <MenuItem component={<Link href="/admin/products"></Link>} className="bg-zinc-800"> Gerenciar produtos </MenuItem>
+                    <MenuItem component={<Link href="/admin/products/categories/add"></Link>} className="bg-zinc-800"> Adicionar categoria </MenuItem>
                     <MenuItem component={<Link href="/admin/products/categories"></Link>} className="bg-zinc-800"> Gerenciar categorias </MenuItem>
                 </SubMenu>
                 <SubMenu icon={<FilesIcon></FilesIcon>} label="Relatórios">

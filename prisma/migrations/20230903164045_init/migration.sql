@@ -71,7 +71,7 @@ CREATE TABLE "Product" (
 
 -- CreateTable
 CREATE TABLE "ProductCategory" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
 
     CONSTRAINT "ProductCategory_pkey" PRIMARY KEY ("id")

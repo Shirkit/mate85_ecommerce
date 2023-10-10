@@ -1,11 +1,34 @@
+'use client'
+
 import { Search, ShoppingCart, UserCircle2 } from 'lucide-react'
 import Link from 'next/link'
 import { SearchProduct } from './SearchProduct'
+import Image from 'next/image'
+import { useEffect, useState, useTransition } from 'react'
+import { getNameDB } from '@/app/(website)/actionsSettings'
+import NavbarCart from './navbarCart'
 
 export default function Navbar() {
+	const [name, setName] = useState('')
+	const [isPending, startTransition] = useTransition()
+
+	async function getName() {
+		if (!isPending)
+			startTransition(async () => {
+				const response = await getNameDB()
+				setName(response.value)
+			})
+	}
+
+	useEffect(() => {
+		getName()
+	}, [])
 	return (
 		<header className="mx-auto flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5">
-			<h1 className="font-primary font-black text-3xl">SHOP.CO</h1>
+			<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
+			<h1 className="font-primary font-black text-3xl">
+				{name ? name : 'SHOPIC'}
+			</h1>
 			<nav className="flex flex-row gap-6">
 				<Link href="/" className="w-max">
 					Shop
@@ -22,8 +45,11 @@ export default function Navbar() {
 			</nav>
 			<SearchProduct placeholder="Busque por produto" />
 			<div className="flex items-center gap-4">
-				<div>
-					<ShoppingCart className="text-xl cursor-pointer" />
+				<div className="relative">
+					<Link href="/cart">
+						<ShoppingCart className="text-xl cursor-pointer" />
+						<NavbarCart></NavbarCart>
+					</Link>
 				</div>
 				<div>
 					<UserCircle2 className="text-xl cursor-pointer" />

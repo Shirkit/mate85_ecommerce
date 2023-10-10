@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Card from '@/components/ui/Card'
 import { prisma } from '@/utils/prisma'
+import { getHidePricesDB } from '../(website)/actionsSettings'
 
 export default async function Home() {
 	const products = [
@@ -11,6 +12,7 @@ export default async function Home() {
 	]
 
 	// const products = await prisma.product.findMany();
+  const hidePrices = await getHidePricesDB()
 
 	return (
 		<main>
@@ -28,7 +30,7 @@ export default async function Home() {
 								image={`https://picsum.photos/id/${Math.round(
 									Math.random() * 1084
 								)}/200`}
-								price={product.price}
+								price={hidePrices ? null : product.price}
 								rating={3}
 							/>
 						)
