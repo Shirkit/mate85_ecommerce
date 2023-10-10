@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import React, { useEffect, useState,useTransition } from "react";
 import {AiFillFilter} from "react-icons/ai";
 import {useRouter} from "next/navigation";
+import { getCategories } from "@/app/(website)/shop/actions";
 
 
 
@@ -14,8 +15,10 @@ export default function Sidebar() {
 
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100);
-  const [category,setCategory] = useState("");
-
+  const [categoryId,setCategoryId] = useState("");
+  const [categoryName,setCategoryName] = useState("");
+  const [isPending,startTransition] = useTransition();
+  const [categories,setCategories] = useState([]);
   const router = useRouter()
 
   const handleMinPriceChange = (e) => {
@@ -28,12 +31,22 @@ export default function Sidebar() {
   }
   
   const handleCategoryChange = (e) => {
-    setCategory(e.target.value);
+    setCategoryId(e.target.value);
+
+    setCategoryName(e.target.options[e.target.selectedIndex].text)
   }
 
   const apllyFilter = () => {
-    router.push( `/shop?category=${category}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
+    router.push( `/shop?categoryId=${categoryId}&categoryName=${categoryName}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
   }
+  useEffect(() => {
+    if(!isPending){
+      startTransition(async () => {
+        const res = await getCategories();
+        setCategories(res);
+      });
+    }
+  }, [])
 
   return (
     <div className="text-gray h-full w-1/5 p-4 rounded-lg border-solid border">
@@ -65,12 +78,14 @@ export default function Sidebar() {
           />
         </div>
         <label className="font-bold block mb-1">Categoria</label>
-        <input 
-          type="text" 
-          onChange={handleCategoryChange}
-          value={category}
-          className="w-1/2 p-2 border rounded"
-        />
+
+        <select onChange={handleCategoryChange}>
+          {categories.map((cat) => {
+            
+            return (<option value={cat.id}>{cat.name}</option>)
+          })}
+        </select>
+
       </div>
 
       <div className="p-5 mb-4">
