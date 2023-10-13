@@ -7,7 +7,7 @@ import Image from 'next/image'
 import RenderStars from '@/components/ui/stars';
 import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
-import Category from "@/app/(website)/[category]/page"
+import { updateProductItem } from "../actions"
 
 export default async function EditProduct({ params }) {
 
@@ -26,7 +26,7 @@ export default async function EditProduct({ params }) {
 
   const actions = [
     {
-      name: 'Edit',
+      name: {updateProductItem},
       color: 'blue',
       dest: '/admin/products/edit/$1'
     }
