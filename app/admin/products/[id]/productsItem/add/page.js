@@ -7,7 +7,9 @@ import Image from 'next/image'
 import RenderStars from '@/components/ui/stars';
 import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
-import Category from "@/app/(website)/[category]/page"
+
+import ReturnComponent from "@/components/ui/insertProduct"
+
 
 export default async function EditProduct({ params }) {
 
@@ -90,37 +92,12 @@ export default async function EditProduct({ params }) {
     "type": "hidden",
   },
   ];  
+  const dados = {firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, actions, categorie}
 
   return (
-    <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
-      <div className="flex flex-nowrap">
-        <div className="flex justify-center w-full items-center flex-auto mx-6">
-          <Card
-            key={firstProduct.id}
-            name={firstProduct.name}
-            description={firstProduct.description}
-            image={`https://picsum.photos/${firstProduct.id}/200`}
-            rating={firstProduct.rating}
-            categorie={categorie}
-          />
-        </div>
-        <div className="flex justify-center w-full items-center flex-auto">
-          <AdminForm formTitle="Editar Produto" action={updateProduct} fields={fieldsProductupdate} buttonLabel="Salvar" />
-        </div>
-        <div className="flex justify-center w-full items-center flex-auto">
-          <AdminForm formTitle="Adicionar Itens" action={createProductItem} fields={fieldsItem} buttonLabel="Adicionar" />
-        </div>
-      </div>
-      {/* TODO reload page e mostrar novos itens */}
+    <div>
+<ReturnComponent dados={dados}></ReturnComponent>
 
-      <div className="max-w-[70%] overflow-x-auto">
-        <EditableTable
-          title="Sub-produtos"
-          headers={headers}
-          data={productsItem}
-          action={actions}
-        />
-      </div>
     </div>
 
   );
