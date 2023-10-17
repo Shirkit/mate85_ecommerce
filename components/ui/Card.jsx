@@ -14,7 +14,7 @@ export default async function Card(props) {
       {props.rating && (
         <div className="flex items-center mt-2">
           <RenderStars rating={props.rating}></RenderStars>
-          <span className="ml-1">{props.rating.toFixed(1)}</span>
+          {/* <span className="ml-1">{props.rating.toFixed(0)}</span> */}
         </div>
       )}
       {

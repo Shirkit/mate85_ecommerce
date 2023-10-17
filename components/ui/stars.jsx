@@ -9,7 +9,7 @@ import { Star, StarHalf } from "lucide-react"
  */
 export default function RenderStars({ rating, hideNumber }) {
     const stars = []
-    var i = rating
+    var i = parseInt(rating.toFixed(0))
 
     while (i > 0) {
         if (i >= 1)
@@ -32,7 +32,7 @@ export default function RenderStars({ rating, hideNumber }) {
         <div className="flex flex-row">
             {stars}
             {(!hideNumber) &&
-                <span className="ml-1">{rating.toFixed(1)}/ 5.0</span>
+                <span className="ml-1">{rating.toFixed(0)}/5</span>
             }
         </div>
     )
