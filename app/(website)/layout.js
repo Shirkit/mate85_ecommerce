@@ -17,7 +17,9 @@ export default function RootLayout({ children }) {
 	return (
 		<AuthProvider>
 			<html lang="en">
-				<body className={inter.className}>
+				<body
+					className={`${inter.className} flex flex-col items-center justify-center`}
+				>
 					<CartProvider>
 						<Navbar />
 						<ToastContainer></ToastContainer>
