@@ -12,7 +12,7 @@ export default async function Home() {
 	]
 
 	// const products = await prisma.product.findMany();
-  const hidePrices = await getHidePricesDB()
+	const hidePrices = await getHidePricesDB()
 
 	return (
 		<main>
