@@ -97,6 +97,7 @@ export default async function CardConfirmacao(props) {
 
             <tr>
               <th>Produto</th>
+              <th>Quantidade</th>
               <th>Total</th>
             </tr>
           </thead>
@@ -104,7 +105,8 @@ export default async function CardConfirmacao(props) {
 
             {produtos.map(produto => (
               <tr className="border-2 border-solid border-grey-200 p-4 text-justify" key={produto.products_id}>
-                <td>{produto.product.name} x 1</td>
+                <td>{produto.product.productItem_product.name} <span className="text-xs italic">({produto.product.size})</span></td>
+                <td>x{produto.quantity}</td>
                 <td>R${produto.price}</td>
               </tr>
             ))}
