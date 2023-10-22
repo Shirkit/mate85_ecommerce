@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev-post-install": "npx prisma migrate apply",
-    "dev-update-schema": "npx prisma migrate reset && cross-env APP_ENV=schema next dev",
+    "dev-update-schema": "npx prisma migrate reset --force && cross-env APP_ENV=schema next dev",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
