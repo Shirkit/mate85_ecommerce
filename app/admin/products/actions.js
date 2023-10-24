@@ -3,9 +3,11 @@ import { prisma } from "@/utils/prisma"
 import { product_categories } from "@/utils/sampledata"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 
 
 async function createProduct(data) {
+    const router = useRouter();
     const newProduct = await prisma.product.create({
         data: {
             name: data.get("productName"),
@@ -76,6 +78,23 @@ async function updateProduct(data) {
     revalidatePath(`/admin/products/$1/productsItem/add`)
 }
 
+async function updateProductItem(data) {
+    await prisma.productItem.update({
+        where: {
+            sku: data.sku,
+        },
+        data: {
+            //sku: data.sku,
+            price: parseFloat(data.price),
+            size: data.size,
+            amount: parseInt(data.amount)
+        },
+
+    })
+
+    revalidatePath(`/admin/products/$1/productsItem/add`)
+}
+
 async function queryProductById(data) {
     return await prisma.product.findMany({
         where: {
@@ -128,4 +147,5 @@ async function queryAllProductsItem(data) {
     })
 }
 
-export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory }
+
+export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem}

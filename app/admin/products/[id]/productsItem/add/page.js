@@ -1,6 +1,6 @@
 "use server"
 import { prisma } from "@/utils/prisma"
-import { createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory } from "../../../actions"
+import { createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem} from "../../../actions"
 import { AdminForm } from "@/components/admin/adminForm"
 import { AdminTable } from "@/components/admin/adminTable"
 import Image from 'next/image'
@@ -9,6 +9,7 @@ import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
 
 import ReturnComponent from "@/components/ui/insertProduct"
+import { UpdateProduct } from "@/app/(website)/product/UpdateProduct"
 
 
 export default async function EditProduct({ params }) {
@@ -26,13 +27,7 @@ export default async function EditProduct({ params }) {
   })
   let categorie = ""
 
-  const actions = [
-    {
-      name: 'Edit',
-      color: 'blue',
-      dest: '/admin/products/edit/$1'
-    }
-  ];
+  
   const headers = ["SKU", "Preço", "Tamanho", "Estoque", "Ação"];
 
   const fieldsProductupdate = [{
@@ -92,11 +87,11 @@ export default async function EditProduct({ params }) {
     "type": "hidden",
   },
   ];  
-  const dados = {firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, actions, categorie}
+  const dados = {firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action:updateProductItem, categorie}
 
   return (
     <div>
-<ReturnComponent dados={dados}></ReturnComponent>
+    <ReturnComponent dados={dados}></ReturnComponent>
 
     </div>
 
