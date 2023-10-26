@@ -16,12 +16,12 @@ export default async function Home() {
 
 	return (
 		<main>
-			<div className="min-h-screen flex flex-col items-center justify-start py-8 ">
+			<div className="min-h-screen flex flex-col items-center justify-start py-8 px-8">
 				<div className="text-center font-bold text-xl mb-4">
 					NOVOS PRODUTOS
 				</div>
 
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
 					{products.map((product) => {
 						return (
 							<Card
