@@ -12,9 +12,8 @@ export default function EditableTable(props) {
     const handleRowChange = async (e) => {
         const row = e.target.getAttribute("row")
         console.log(data[row])
-        props.action(data[row]) //TODO converter para uma unica funcao
+        props.action(data[row]) //Rever a action passada nas props
     }
-
 
     return (
         <table class="w-full text-sm text-center text-zinc-600">
