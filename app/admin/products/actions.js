@@ -4,6 +4,7 @@ import { product_categories } from "@/utils/sampledata"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 
+
 async function createProduct(data) {
     const newProduct = await prisma.product.create({
         data: {
@@ -19,23 +20,46 @@ async function createProduct(data) {
 }
 
 async function createProductItem(data) {
-    await prisma.productItem.create({
+    try {
+   
+  
+      const { sku, size, amount, price, product_id } = data;
+  
+      // Criar o produto usando o Prisma
+      await prisma.productItem.create({
         data: {
-            sku: data.get("sku"),
-            size: data.get("size"),
-            amount: parseInt(data.get("amount")),
-            price: parseFloat(data.get("price")),
-            productItem_product: {
-                connect: {
-                    id: parseInt(data.get("product_id")),
-                }
+          sku: sku,
+          size: size,
+          amount: parseInt(amount),
+          price: parseFloat(price),
+          productItem_product: {
+            connect: {
+              id: parseInt(product_id),
             },
+          },
         },
-    })
+      });
+  
+      // Após criar o produto com sucesso, você pode chamar revalidatePath
+      revalidatePath(`/admin/products/$1/productsItem/add`);
+  
+      // Retornar um objeto de sucesso, se necessário
+      return { success: true, message: 'Produto criado com sucesso!' };
+    } catch (error) {
+        if (error.constructor.name === 'PrismaClientKnownRequestError') {
+            // Lidar com o erro específico do Prisma
+            if (error.code === 'P2002') {
+              return { success: false, message: 'Erro ao criar o produto: SKU duplicado.' };
+            }
+        }
 
-    revalidatePath(`/admin/products/$1/productsItem/add`)
-}
+      
 
+      return { success: false, message: 'Erro ao criar o produto.'};
+    }
+    }
+  
+  
 async function updateProduct(data) {
     await prisma.product.update({
         where: {

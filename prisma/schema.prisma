@@ -25,8 +25,7 @@ model User {
 model Order {
   id           Int         @id @default(autoincrement())
   users_id     String
-  total        Int
-  order_number Int
+  total        Float
   status       String
   address      Address[]
   user         User        @relation(fields: [users_id], references: [id])
