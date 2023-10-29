@@ -5,7 +5,7 @@ import ProductList from '@/components/order/productList';
 import RadioButton from '@/components/order/radioButton';
 import { CreditCardIcon } from "lucide-react";
 import { useCart } from '@/components/CartContext';
-import { GetAddressesFromUserId, createOrder } from './actions';
+import { GetAddressesFromUserId, createOrder, redirectToStatusPage } from './actions';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'react-toastify';
 import { redirect } from 'next/dist/server/api-utils';
@@ -58,8 +58,7 @@ const CheckoutPage = () => {
         if (res) {
             if (res.order) {
                 toast.success('Pedido criado com sucesso!')
-                // TODO redirecionar para a página
-                // redirect(`/statusPedido/${res.order.id}`)
+                redirectToStatusPage(res.order.id)
             } else if (res.error) {
                 toast.error('Erro ao criar o pedido. ' + res.error)
             } else {
