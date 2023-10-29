@@ -30,7 +30,6 @@ export async function register() {
         for (let i = 0; i < orders.length; i++) {
             orders[i].id = parseInt(orders[i].id)
             orders[i].total = parseFloat(orders[i].total)
-            orders[i].order_number = parseInt(orders[i].order_number)
 
         }
 
@@ -46,7 +45,7 @@ export async function register() {
 
         for (let i = 0; i < orders_address.length; i++) {
             orders_address[i].orders_id = parseInt(orders_address[i].orders_id)
-            orders_address[i].number = toString(orders_address[i].number)
+            orders_address[i].number = orders_address[i].number.toString()
             orders_address[i].users_id = null
         }
 

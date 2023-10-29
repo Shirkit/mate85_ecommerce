@@ -11,7 +11,6 @@ import Card from '@/components/admin/Card'
 import ReturnComponent from "@/components/ui/insertProduct"
 import { UpdateProduct } from "@/app/(website)/product/UpdateProduct"
 
-
 export default async function EditProduct({ params }) {
 
   const productsItem = await queryAllProductsItem(params.id);

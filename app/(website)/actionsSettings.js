@@ -33,3 +33,7 @@ export async function getHidePricesDB() {
 		},
 	})
 }
+
+export async function getAllOptions() {
+	return await prisma.option.findMany({})
+}

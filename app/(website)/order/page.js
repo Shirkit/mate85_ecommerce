@@ -5,8 +5,10 @@ import ProductList from '@/components/order/productList';
 import RadioButton from '@/components/order/radioButton';
 import { CreditCardIcon } from "lucide-react";
 import { useCart } from '@/components/CartContext';
-import { GetAddressesFromUserId } from './actions';
+import { GetAddressesFromUserId, createOrder } from './actions';
 import { Switch } from '@/components/ui/switch';
+import { toast } from 'react-toastify';
+import { redirect } from 'next/dist/server/api-utils';
 
 const CheckoutPage = () => {
     const paymentOptions = [
@@ -50,6 +52,23 @@ const CheckoutPage = () => {
         setSelectedOption(event.currentTarget.value)
     }
 
+    async function tryCreateOrder() {        
+        let res = await createOrder({billing_address: address, shipping_same_as_billing: !multipleAddresses, shipping_address: address2, gateway: {name: selectedOption}, cart: cartItems, total: cartTotal})
+        console.log("🚀 ~ file: page.js:57 ~ tryCreateOrder ~ res:", res)
+        if (res) {
+            if (res.order) {
+                toast.success('Pedido criado com sucesso!')
+                // TODO redirecionar para a página
+                // redirect(`/statusPedido/${res.order.id}`)
+            } else if (res.error) {
+                toast.error('Erro ao criar o pedido. ' + res.error)
+            } else {
+                toast.error('Erro desconhecido ao criar o pedido. ' + res)
+            }
+        } else
+            toast.error('Erro desconhecido ao criar o pedido.')
+    }
+
     useEffect(() => {
         startTransition(() => {
             // TODO pegar o usuário logado atual
@@ -75,26 +94,26 @@ const CheckoutPage = () => {
                     <div className="mb-4">
                         <div className="bg-white p-4 rounded shadow">
 
-                            <form className="space-y-4" id="order">
+                            <form className="space-y-4" id="order" action={tryCreateOrder}>
 
-                                <h2 className="text-lg font-semibold mb-2">Endereço de Cobrança</h2>
+                                <h2 className="text-lg font-semibold mb-2">Endereço de Cobrança{multipleAddresses ? "" : " e Entrega"}</h2>
 
                                 <div>
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="street" className="block text-sm font-medium text-gray-700">
-                                            Rua
+                                            Logradouro
                                         </label>
                                         <input
                                             type="text"
                                             id="street"
                                             name="street"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.street}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="number" className="block text-sm font-medium text-gray-700">
                                             Número
                                         </label>
@@ -102,13 +121,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="number"
                                             name="number"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.number}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="complement" className="block text-sm font-medium text-gray-700">
                                             Complemento
                                         </label>
@@ -116,13 +135,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="complement"
                                             name="complement"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.complement}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700">
                                             Bairro
                                         </label>
@@ -130,13 +149,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="neighborhood"
                                             name="neighborhood"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.neighborhood}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="city" className="block text-sm font-medium text-gray-700">
                                             Cidade
                                         </label>
@@ -144,13 +163,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="city"
                                             name="city"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.city}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="state" className="block text-sm font-medium text-gray-700">
                                             Estado
                                         </label>
@@ -158,13 +177,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="state"
                                             name="state"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.state}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="country" className="block text-sm font-medium text-gray-700">
                                             País
                                         </label>
@@ -172,13 +191,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="country"
                                             name="country"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.country}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
                                             CEP
                                         </label>
@@ -186,13 +205,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="zipCode"
                                             name="zipCode"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.zip_code}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
                                             Complemento 2
                                         </label>
@@ -200,7 +219,7 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="complement2"
                                             name="complement2"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.complement2}
                                             form="order"
                                         />
@@ -216,12 +235,11 @@ const CheckoutPage = () => {
                         <label htmlFor="multipleaddresses" className="block text-sm font-medium text-gray-700 mb-1">
                             Endereço de <strong>entrega diferente</strong> do endereço de cobrança?
                         </label>
-                        { /* // ! FIX TODO não está funcionando até o momento */}
                         <Switch
                             id="multipleaddresses"
                             value={multipleAddresses}
                             checked={multipleAddresses}
-                            onChange={e => setMultipleAddresses(e.target.value)}
+                            onCheckedChange={e => setMultipleAddresses(e)}
                         />
                     </div>
 
@@ -231,7 +249,7 @@ const CheckoutPage = () => {
                                 <h2 className="text-lg font-semibold mb-2">Endereço de Entrega</h2>
 
                                 <div>
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="street" className="block text-sm font-medium text-gray-700">
                                             Rua
                                         </label>
@@ -239,13 +257,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="street"
                                             name="street"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.street}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="number" className="block text-sm font-medium text-gray-700">
                                             Número
                                         </label>
@@ -253,13 +271,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="number"
                                             name="number"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.number}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="complement" className="block text-sm font-medium text-gray-700">
                                             Complemento
                                         </label>
@@ -267,13 +285,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="complement"
                                             name="complement"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.complement}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="neighborhood" className="block text-sm font-medium text-gray-700">
                                             Bairro
                                         </label>
@@ -281,13 +299,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="neighborhood"
                                             name="neighborhood"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.neighborhood}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="city" className="block text-sm font-medium text-gray-700">
                                             Cidade
                                         </label>
@@ -295,13 +313,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="city"
                                             name="city"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.city}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="state" className="block text-sm font-medium text-gray-700">
                                             Estado
                                         </label>
@@ -309,13 +327,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="state"
                                             name="state"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.state}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="country" className="block text-sm font-medium text-gray-700">
                                             País
                                         </label>
@@ -323,13 +341,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="country"
                                             name="country"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.country}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700">
                                             CEP
                                         </label>
@@ -337,13 +355,13 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="zipCode"
                                             name="zipCode"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.zip_code}
                                             form="order"
                                         />
                                     </div>
 
-                                    <div>
+                                    <div className="my-2 block">
                                         <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
                                             Complemento 2
                                         </label>
@@ -351,7 +369,7 @@ const CheckoutPage = () => {
                                             type="text"
                                             id="complement2"
                                             name="complement2"
-                                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.complement2}
                                             form="order"
                                         />
@@ -426,7 +444,7 @@ const CheckoutPage = () => {
                             </div>
                         </div>
 
-                        <button className="bg-zinc-300 w-full rounded-full my-4 py-2 px-4">Fazer Pedido</button>
+                        <button type="submit" form="order" className="bg-zinc-300 w-full rounded-full my-4 py-2 px-4">Fazer Pedido</button>
                     </div>
                 </div>
             </div>
