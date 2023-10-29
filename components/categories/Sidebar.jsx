@@ -39,6 +39,7 @@ export default function Sidebar() {
   const apllyFilter = () => {
     router.push( `/shop?categoryId=${categoryId}&categoryName=${categoryName}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
   }
+  
   useEffect(() => {
     if(!isPending){
       startTransition(async () => {

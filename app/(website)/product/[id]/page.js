@@ -38,6 +38,8 @@ export default async function Produto({ params, searchParams }) {
         }
     })
 
+    // console.log(page)
+    // console.log(produto)
     let maxPrice = -1, minPrice = Number.MAX_SAFE_INTEGER
     produto.product_item.forEach(item => {
         maxPrice = Math.max(maxPrice, item.price)

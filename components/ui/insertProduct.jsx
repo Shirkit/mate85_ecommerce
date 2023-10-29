@@ -10,6 +10,8 @@ import { createProductItem, updateProduct, queryProductById, queryAllProducts, q
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify';
+
+
 const ReturnComponent = ({ dados }) => {
     const handleFormSubmit = async (formValues) => {
       try {
@@ -31,7 +33,8 @@ const ReturnComponent = ({ dados }) => {
 
     
     
-    const { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, actions, categorie } = dados;
+    
+    const { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action, categorie } = dados;
   return (
     <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
       <div className="flex flex-nowrap">
@@ -60,7 +63,7 @@ const ReturnComponent = ({ dados }) => {
           title="Sub-produtos"
           headers={headers}
           data={productsItem}
-          action={actions}
+          action={action}
         />
       </div>
     </div>

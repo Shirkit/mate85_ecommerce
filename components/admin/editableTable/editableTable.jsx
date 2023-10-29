@@ -1,12 +1,19 @@
 "use client"
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import {  useState, } from 'react';
 import EditableCell from './editableCell';
 import { Edit2Icon } from 'lucide-react';
 
 export default function EditableTable(props) {
     const [data, setData] = useState(props.data)
     const [editedRows, setEditedRows] = useState([])
+    
+
+    const handleRowChange = async (e) => {
+        const row = e.target.getAttribute("row")
+        console.log(data[row])
+        props.action(data[row]) //Rever a action passada nas props
+    }
 
     return (
         <table class="w-full text-sm text-center text-zinc-600">
@@ -24,6 +31,7 @@ export default function EditableTable(props) {
                     <tr key={rowIndex} class="border-b bg-white border-neutral-300">
                         {Object.keys(row).map(key => {
                             const initialValue = [...props.data]
+                            
                             return (
                                 <td key={key} class="px-6 py-4">
                                     <EditableCell
@@ -39,10 +47,12 @@ export default function EditableTable(props) {
                         })}
                         <td class="px-6 py-4">
                             <Button
+                                row = {rowIndex}
                                 disabled={!(editedRows.includes(rowIndex))}
                                 variant="form"
+                                onClick = {handleRowChange}
                             >
-                                <Edit2Icon></Edit2Icon>{props.action.name}
+                                <Edit2Icon row = {rowIndex}></Edit2Icon>
                             </Button>
                         </td>
                     </tr>
