@@ -130,7 +130,7 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
     })
 
     console.log("🚀 ~ file: actions.js:129 ~ createOrder ~ items2:", items2)
-
+    
     return { order: order }
 
 }
@@ -143,4 +143,9 @@ export async function GetAddressesFromUserId(user) {
             }
         }
     })
+}
+
+export async function redirectToStatusPage(id){
+    redirect(`/statusPedido/${id}`)
+
 }
