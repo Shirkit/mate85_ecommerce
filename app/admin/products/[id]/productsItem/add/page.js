@@ -8,9 +8,6 @@ import RenderStars from '@/components/ui/stars';
 import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
 
-import ReturnComponent from "@/components/ui/insertProduct"
-
-
 export default async function EditProduct({ params }) {
 
   const productsItem = await queryAllProductsItem(params.id);

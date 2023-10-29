@@ -3,8 +3,9 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
-import { useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 import { updateSettings } from './actions'
+import { getAllOptions } from '@/app/(website)/actionsSettings'
 
 export default function Settings() {
 	const [name, setName] = useState('')
@@ -21,6 +22,21 @@ export default function Settings() {
 			{ key: 'hidePrices', value: hidePrices },
 		])
 	}
+
+	useEffect(() => {
+		startTransition(() => {
+			const options = getAllOptions().then((res) => {
+				res.forEach((el) => {
+					switch(el.key) {
+						case "name": setName(el.value); break
+						case "email": setEmail(el.value); break
+						case "phone": setPhone(el.value); break
+						case "hidePrices": setHidePrices(el.value); break
+					}
+				})
+			})
+		})
+	}, [])
 
 	return (
 		<form
@@ -73,6 +89,7 @@ export default function Settings() {
 					<Switch
 						id="airplane-mode"
 						value={hidePrices}
+						checked={hidePrices}
 						onChange={(e) => setHidePrices(e.target.value)}
 					/>
 				</div>
