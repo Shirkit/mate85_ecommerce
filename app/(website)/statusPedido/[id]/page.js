@@ -1,5 +1,6 @@
 
 import CardConfirmacao from '@/components/statusPedido/CardConfirmacao';
+import { prisma } from '@/utils/prisma';
 
 
 export default async function StatusPedido({ params }) {
@@ -9,7 +10,11 @@ export default async function StatusPedido({ params }) {
 		where: { id: parseInt(params.id) }, include: {
 			user: true, address: true, order_items: {
 				include: {
-					product: true,
+					product: {
+						include: {
+							productItem_product: true,
+						}
+					}
 				},
 			},
 		},

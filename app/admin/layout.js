@@ -20,7 +20,9 @@ export default function RootLayout({ children }) {
 				</header>
 				<div className="flex flex-row flex-grow bg-neutral-100">
 					<AdminNavbar></AdminNavbar>
-					{children}
+					<div className="p-4">
+						{children}
+					</div>
 				</div>
 			</body>
 		</html>
