@@ -47,7 +47,7 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
         found = false
         for (let k = 0; k < items.length; k++) {
             const productItem = items[k];
-            if (cartItem.item.sku == productItem.sku && cartItem.item.price == productItem.price) {
+            if (cartItem.item.sku == productItem.sku && cartItem.item.price == productItem.price) { 
                 found = true
                 if (cartItem.quantity > productItem.amount)
                     return { error: `Quantidade de ${cartItem.product.name} indisponível para venda. Temos ${productItem.amount} em estoque mas tentou-se comprar ${cartItem.quantity}` }
