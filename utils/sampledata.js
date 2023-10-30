@@ -1,3 +1,11 @@
+/*
+status válidos dos pedidos:
+
+completado
+pendente
+processando
+cancelado
+*/
 export var users_address = [
   {
     "users_id": "ff8eda38-a707-4013-91cb-c5e514dce984",

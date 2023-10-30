@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev-post-install": "npx prisma migrate apply",
+    "post-install": "npx prisma generate && npx prisma migrate deploy",
+    "install-sample-data": "npx prisma migrate reset --force && cross-env APP_ENV=schema next dev",
     "dev-update-schema": "npx prisma migrate reset --force && cross-env APP_ENV=schema next dev",
     "dev": "next dev",
     "build": "next build",
