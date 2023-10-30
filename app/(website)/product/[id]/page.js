@@ -27,9 +27,11 @@ export default async function Produto({ params, searchParams }) {
             reviews: {
                 take: take,
                 skip: (page - 1) * take,
-                orderBy: {
+                orderBy: [{
                     rating: 'desc'
-                },
+                }, {
+                    id: 'desc'
+                }],
                 include: {
                     user: {}
                 }
