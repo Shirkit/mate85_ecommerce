@@ -5,18 +5,11 @@ import { AdminForm } from "@/components/admin/adminForm";
 import EditableTable from "@/components/admin/editableTable/editableTable";
 
 export default async function AddEditCategories({ params }) {
-  console.log(params);
+  
   const productCategories = await queryAllProductCategories(params.id);
 
-  const headers = ["Id", "Categoria", "Ação"];
+  const headers = ["Id", "Categoria", "Editar"];
 
-  const actions = [
-    {
-      name: 'Edit',
-      color: 'blue',
-      dest: '/admin/products/categories/$1/edit'
-    }
-  ];
 
   const fields = [
     {
@@ -33,7 +26,7 @@ export default async function AddEditCategories({ params }) {
         title="Sub-produtos"
         headers={headers}
         data={productCategories}
-        action={actions}
+        action={updateProductCategory}
       />
     </div>
   );

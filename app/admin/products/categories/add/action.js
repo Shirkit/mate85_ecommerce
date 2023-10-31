@@ -14,7 +14,7 @@ async function CreateProductCategory(data) {
 }
 
 async function removeProductCategory(data) {
-  await prisma.categoria.delete({
+  await prisma.productCategory.delete({
     where: {
       id: +data.get("id"),
     },
@@ -24,14 +24,13 @@ async function removeProductCategory(data) {
 }
 
 async function updateProductCategory(data) {
-  "use server";
 
-  await prisma.categoria.update({
+  await prisma.productCategory.update({
     where: {
-      id: parseInt(data.get("id")),
+      id: parseInt(data.id),
     },
     data: {
-      nome: data.get("nome"),
+      name: data.name,
     },
   });
   revalidatePath("/productCategory/");
@@ -43,6 +42,9 @@ async function queryAllProductCategories() {
       id: true,
       name: true
     },
+    orderBy:{
+      id:"asc"
+    }
   })
 }
 
