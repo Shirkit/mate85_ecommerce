@@ -11,7 +11,6 @@ export default function EditableTable(props) {
 
     const handleRowChange = async (e) => {
         const row = e.target.getAttribute("row")
-        console.log(data[row])
         props.action(data[row]) //Rever a action passada nas props
     }
 
@@ -46,13 +45,14 @@ export default function EditableTable(props) {
                             )
                         })}
                         <td class="px-6 py-4">
+                            {/* //TODO as vezes da erro e diz que o dado alterado é undefined, parece que é quando clica em um local específico */}
                             <Button
                                 row = {rowIndex}
                                 disabled={!(editedRows.includes(rowIndex))}
                                 variant="form"
                                 onClick = {handleRowChange}
-                            >
-                                <Edit2Icon row = {rowIndex}></Edit2Icon>
+                            >   
+                                <Edit2Icon oncClick = {handleRowChange} row = {rowIndex}></Edit2Icon>
                             </Button>
                         </td>
                     </tr>
