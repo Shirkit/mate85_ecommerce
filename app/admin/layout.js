@@ -15,7 +15,9 @@ export default function RootLayout({ children }) {
 			<body className={inter.className + ' min-h-screen flex flex-col'}>
 				<div className="flex flex-row flex-grow bg-neutral-100">
 					<AdminNavbar></AdminNavbar>
-					{children}
+					<div className="p-4">
+						{children}
+					</div>
 				</div>
 			</body>
 		</html>

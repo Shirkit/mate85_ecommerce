@@ -8,13 +8,46 @@ import Filtros from '@/components/ui/filtros'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default async function Produto({ params, searchParams }) {
-	const page = searchParams.page ? parseInt(searchParams.page) : 1
-	const take = 6
-	let pages = await prisma.review.count({
-		where: {
-			products_id: parseInt(params.id),
-		},
-	})
+    const page = searchParams.page ? parseInt(searchParams.page) : 1
+    const take = 6
+    let pages = await prisma.review.count({
+        where: {
+            products_id: parseInt(params.id)
+        }
+    })
+
+    // ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
+    // TODO procurar entender porque isso acontece
+
+    pages = Math.ceil(pages / take)
+    const produto = await prisma.product.findFirst({
+        where: {
+            id: parseInt(params.id)
+        }, include: {
+            reviews: {
+                take: take,
+                skip: (page - 1) * take,
+                orderBy: {
+                    rating: 'desc'
+                },
+                include: {
+                    user: {}
+                }
+            },
+            product_item: {}
+        }
+    })
+
+    // console.log(page)
+    // console.log(produto)
+    let maxPrice = -1, minPrice = Number.MAX_SAFE_INTEGER
+    produto.product_item.forEach(item => {
+        maxPrice = Math.max(maxPrice, item.price)
+        minPrice = Math.min(minPrice, item.price)
+    });
+
+    return (
+        <article className="max-w-7xl mx-auto my-20">
 
 	// ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
 	// TODO procurar entender porque isso acontece

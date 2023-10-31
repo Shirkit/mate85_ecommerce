@@ -1,10 +1,9 @@
-'use client'
-import { theme } from '@/utils/tailwind'
-import { FilesIcon, PackageIcon, SettingsIcon, UsersIcon } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar'
+"use client"
+import { theme } from '@/utils/tailwind';
+import { FilesIcon, PackageIcon, SettingsIcon, UsersIcon, ShoppingBagIcon } from 'lucide-react';
+import Link from 'next/link';
+import React from 'react';
+import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
 
 export default function AdminNavbar() {
 	const [collapsed, setCollapsed] = React.useState(false)

@@ -6,7 +6,7 @@ export default function EditProductForm() {
   const [inputVal, setInputVal] = useState("");
 
   return (
-    <div className="bg-slate-100 p-8 mt-5 mb-3 text-gray-600 border-solid rounded-lg h-fit w-fit w-6/12" >
+    <div className="bg-slate-100 p-8 mt-5 mb-3 text-gray-600 border-solid rounded-lg h-fit w-fit" >
 
       <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b flex flex-nowrap"><EditIcon className="mx-2" /> {props.formTitle}</h1>
       <form action={props.action}>
