@@ -11,7 +11,7 @@ export default function Footer() {
 
 	async function getContact() {
 		const response = await getContactDB()
-		console.log("🚀 ~ file: footer.jsx:14 ~ getContact ~ response:", response)
+		console.log('🚀 ~ file: footer.jsx:14 ~ getContact ~ response:', response)
 		setName(response[0].name)
 		setEmail(response[1].email)
 	}
@@ -21,7 +21,7 @@ export default function Footer() {
 	}, [])
 
 	return (
-		<footer className="bg-zinc-100 py-20">
+		<footer className="bg-zinc-100 py-20 w-full px-8">
 			<div className="max-w-7xl mx-auto flex justify-between">
 				<div className="flex flex-col gap-8">
 					<div className="flex flex-col gap-6">
@@ -107,7 +107,10 @@ function FooterColumn({ title, links }) {
 			<h3 className="font-medium uppercase">{title}</h3>
 			<ul className="text-zinc-600 flex flex-col gap-4">
 				{links.map((link) => (
-					<li key={link.name}>
+					<li
+						key={link.name}
+						className="hover:opacity-60 transition-opacity"
+					>
 						<Link href={link.url}>{link.name}</Link>
 					</li>
 				))}
