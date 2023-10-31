@@ -24,26 +24,34 @@ export default function Navbar() {
 		getName()
 	}, [])
 	return (
-		<header className="mx-auto flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5">
-			<div className="flex items-center">
-				<Link href="/" className="w-max mr-2">
-					<Image src="/static/images/logo.png" alt="me" width="32" height="32" />
-				</Link>
-				<h1 className="font-primary font-black text-3xl">
-					{name ? name : 'SHOPIC'}
-				</h1>
-			</div>
+		<header className="flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5 px-8">
+			<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
+			<h1 className="font-primary font-black text-3xl">
+				{name ? name : 'SHOPIC'}
+			</h1>
 			<nav className="flex flex-row gap-6">
-				<Link href="/" className="w-max">
+				<Link
+					href="/"
+					className="w-max hover:opacity-60 transition-opacity"
+				>
 					Shop
 				</Link>
-				<Link href="/" className="w-max">
+				<Link
+					href="/"
+					className="w-max hover:opacity-60 transition-opacity"
+				>
 					Em Promoção
 				</Link>
-				<Link href="/" className="w-max">
+				<Link
+					href="/"
+					className="w-max hover:opacity-60 transition-opacity"
+				>
 					Novos produtos
 				</Link>
-				<Link href="/" className="w-max">
+				<Link
+					href="/"
+					className="w-max hover:opacity-60 transition-opacity"
+				>
 					Marcas
 				</Link>
 			</nav>
