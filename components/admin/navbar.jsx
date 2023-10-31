@@ -4,6 +4,7 @@ import { FilesIcon, PackageIcon, SettingsIcon, UsersIcon, ShoppingBagIcon } from
 import Link from 'next/link';
 import React from 'react';
 import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import Image from 'next/image';
 
 export default function AdminNavbar() {
 	const [collapsed, setCollapsed] = React.useState(false)
