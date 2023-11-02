@@ -1,14 +1,39 @@
+'use client'
+
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/utils/prisma";
 import { EditIcon } from "lucide-react";
+import React, { useEffect, useState } from 'react';
 
 export function AdminForm(props) {
+  const [isClientSide, setIsClientSide] = useState(false);
 
+  useEffect(() => {
+    setIsClientSide(true);
+  }, []); // Este efeito será executado apenas no lado do cliente
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const formValues = {};
+
+    formData.forEach((value, key) => {
+      formValues[key] = value;
+    });
+    if (props.onSubmit) {
+      props.onSubmit(formValues);
+    } else {
+      props.action(formData);
+    }
+  };
+ 
   return (
-    <div className="bg-white p-8 mt-5 mb-3 text-gray-600 rounded-lg shadow-lg rounded-lg h-fit w-fit w-6/12" >
+    <div className="bg-white p-8 mt-5 mb-3 text-gray-600 shadow-lg rounded-lg h-fit w-fit w-6/12" >
 
       <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b flex flex-nowrap"><EditIcon className="mx-2" /> {props.formTitle}</h1>
-      <form action={props.action}>
+
+      <form action={props.action} onSubmit={handleSubmit} >
+
+
         {props.fields.map((field) => {
 
           return (
@@ -46,5 +71,3 @@ export function AdminForm(props) {
     </div>
   )
 }
-
-
