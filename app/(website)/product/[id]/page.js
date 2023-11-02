@@ -48,39 +48,6 @@ export default async function Produto({ params, searchParams }) {
         minPrice = Math.min(minPrice, item.price)
     });
 
-    return (
-        <article className="max-w-7xl mx-auto my-20">
-
-	// ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
-	// TODO procurar entender porque isso acontece
-
-	pages = Math.ceil(pages / take)
-	const produto = await prisma.product.findFirst({
-		where: {
-			id: parseInt(params.id),
-		},
-		include: {
-			reviews: {
-				take: take,
-				skip: (page - 1) * take,
-				orderBy: {
-					rating: 'desc',
-				},
-				include: {
-					user: {},
-				},
-			},
-			product_item: {},
-		},
-	})
-
-	let maxPrice = -1,
-		minPrice = Number.MAX_SAFE_INTEGER
-	produto.product_item.forEach((item) => {
-		maxPrice = Math.max(maxPrice, item.price)
-		minPrice = Math.min(minPrice, item.price)
-	})
-
 	return (
 		<article className="max-w-7xl w-full py-16 px-8 flex flex-col gap-16">
 			<div className="flex flex-row gap-8">
