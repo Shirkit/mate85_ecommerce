@@ -265,6 +265,20 @@ const CheckoutPage = () => {
                                 <div>
                                     <div className="my-2 block">
                                         <label htmlFor="street" className="block text-sm font-medium text-gray-700">
+                                            Nome Completo
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="street"
+                                            name="name"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.name}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div className="my-2 block">
+                                        <label htmlFor="street" className="block text-sm font-medium text-gray-700">
                                             Logradouro
                                         </label>
                                         <input

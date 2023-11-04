@@ -61,7 +61,8 @@ export async function createOrder({ user, billing_address, shipping_same_as_bill
         number: billing_address.number,
         state: billing_address.state,
         zip_code: billing_address.zip_code,
-        type: "billing"
+        type: "billing",
+        name: billing_address.name
     })
 
     if (!shipping_same_as_billing) {
@@ -75,7 +76,8 @@ export async function createOrder({ user, billing_address, shipping_same_as_bill
             number: shipping_address.number,
             state: shipping_address.state,
             zip_code: shipping_address.zip_code,
-            type: "shipping"
+            type: "shipping",
+            name: shipping_address.name
         })
     }
 
