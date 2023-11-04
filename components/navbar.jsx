@@ -25,13 +25,15 @@ export default function Navbar() {
 	}, [])
 	return (
 		<header className="flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5 px-8">
-			<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
-			<h1 className="font-primary font-black text-3xl">
-				{name ? name : 'SHOPIC'}
-			</h1>
+			<Link href="/" className='flex items-center'>
+				<Image src="/static/images/logo.png" alt="me" width="64" height="78" className='max-w-min' />
+				<h1 className="font-primary font-black text-3xl">
+					{name ? name : 'SHOPIC'}
+				</h1>
+			</Link>
 			<nav className="flex flex-row gap-6">
 				<Link
-					href="/"
+					href="/shop"
 					className="w-max hover:opacity-60 transition-opacity"
 				>
 					Shop
@@ -64,7 +66,9 @@ export default function Navbar() {
 					</Link>
 				</div>
 				<div>
+				<Link href="/user">
 					<UserCircle2 className="text-xl cursor-pointer" />
+				</Link>
 				</div>
 			</div>
 		</header>
