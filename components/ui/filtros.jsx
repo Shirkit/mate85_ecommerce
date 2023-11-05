@@ -85,7 +85,7 @@ export default function Filtros({ produto }) {
 						+
 					</button>
 				</div>
-				<button onClick={handleClick} disabled={enable ? true : false} className="w-auto flex-grow py-4 px-8 rounded-full bg-black text-white"                >
+				<button onClick={handleClick} disabled={enable ? true : false} className="border-2 border-black bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300 w-auto flex-grow py-2 px-8">
                     {enable && (
                         <>
                             Tamanho não disponível
