@@ -1,56 +1,84 @@
 'use client'
 
-import { useState } from "react";
-import ClickableStars from "./clickableStars";
-import { processReview } from "@/app/(website)/product/reviews";
-import { toast } from "react-toastify";
+import { useState } from 'react'
+import ClickableStars from './clickableStars'
+import { processReview } from '@/app/(website)/product/reviews'
+import { toast } from 'react-toastify'
 
 export default function AddReview({ productId }) {
+	const FORM_NAME = 'addReview'
 
-    const FORM_NAME = "addReview"
+	async function onProcessReview(formData) {
+		const res = await processReview(formData)
+		if (res && res.message) toast.error(res.message)
+	}
 
-    async function onProcessReview(formData) {
-        const res = await processReview(formData)
-        if (res && res.message)
-            toast.error(res.message)
-    }
+	function FloatLabel({ name, type, label, initialValue = '', ...rest }) {
+		const [isActive, setIsActive] = useState(false)
+		const [value, setValue] = useState(initialValue)
 
-    function FloatLabel({ name, type, label, initialValue = "" }) {
-        const [isActive, setIsActive] = useState(false);
-        const [value, setValue] = useState(initialValue);
+		function handleTextChange(text) {
+			setValue(text)
 
-        function handleTextChange(text) {
-            setValue(text);
+			if (text !== '') {
+				setIsActive(true)
+			} else {
+				setIsActive(false)
+			}
+		}
 
-            if (text !== '') {
-                setIsActive(true);
-            } else {
-                setIsActive(false);
-            }
-        }
+		return (
+			<div id="float-label" {...rest}>
+				<label className="hidden invisible" htmlFor={name}>
+					{label}
+				</label>
+				<input
+					form={FORM_NAME}
+					type={type}
+					value={value}
+					id={name}
+					name={name}
+					placeholder={label}
+					onChange={(e) => handleTextChange(e.target.value)}
+					className="w-full p-4 outline-0 border border-solid border-zinc-300 rounded"
+				/>
+			</div>
+		)
+	}
 
-        return (
-            <div id="float-label" className={(isActive ? "is-active" : "") + " group flex flex-col relative"}>
-                <input form={FORM_NAME} type={type} value={value} id={name} name={name} onChange={(e) => handleTextChange(e.target.value)}
-                    className="w-full outline-0 pb-0 pt-4 pr-4 pl-2 border border-solid border-zinc-300 rounded" />
+	return (
+		<section className="flex flex-col gap-4">
+			<h2 className="font-bold text-2xl">Nos envie a sua avaliação!</h2>
+			<form
+				id={FORM_NAME}
+				className="flex flex-col w-full gap-4 border p-4 rounded-lg"
+				action={onProcessReview}
+			>
+				<div className="flex flex-col gap-2 col-span-1">
+					<label>Nota que deseja atribuir:</label>
+					<ClickableStars form={FORM_NAME} name="rating"></ClickableStars>
+				</div>
+				<FloatLabel
+					name="title"
+					type="text"
+					label="Título da avaliação"
+					className="col-span-3"
+				></FloatLabel>
+				<textarea
+					placeholder="Descreva sua experiência"
+					className="w-full p-2 border-zinc-300 rounded border border-solid"
+					id="text"
+					name="text"
+				></textarea>
 
-                <label className={"h-0 pointer-events-none px-3 text-zinc-500 -translate-y-8 origin-top-left transition-all ease-out group-focus-within:-translate-y-10 group-focus-within:scale-75 group-[.is-active]:-translate-y-10 group-[.is-active]:scale-75 "} htmlFor={name}>
-                    {label}
-                </label>
-            </div>
-        )
-    }
-
-    return (
-        <form id={FORM_NAME} className="flex flex-col min-w-[200px] max-w-md" action={onProcessReview}>
-            <ClickableStars form={FORM_NAME} name="rating"></ClickableStars>
-            <FloatLabel name="title" type="text" label="Título da avaliação"></FloatLabel>
-            <textarea placeholder="Descreva sua experiência" className="w-full p-2 border-zinc-300 rounded border border-solid" id="text" name="text"></textarea>
-            <input type="hidden" name="productId" value={productId} ></input>
-            <button type="submit">Avaliar</button>
-        </form>
-    )
-
-
-
+				<input type="hidden" name="productId" value={productId}></input>
+				<button
+					type="submit"
+					className="border-2 border-black p-2 bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300"
+				>
+					Avaliar
+				</button>
+			</form>
+		</section>
+	)
 }

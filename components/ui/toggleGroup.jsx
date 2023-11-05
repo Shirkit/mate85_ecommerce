@@ -107,7 +107,7 @@ function Button({ children, value, className, ...props }) {
             {...props}
             className={clsx(
                 className,
-                'bg-slate-200 p-1 first:rounded-l last:rounded-r hover:bg-slate-300 outline-none border-2 border-transparent focus:border-slate-400 transition-all',
+                'bg-slate-200 p-2 hover:bg-slate-300 outline-none border-2 border-transparent focus:border-slate-400 transition-all',
                 selectedValue === value && 'bg-slate-300',
             )}
             ref={(element) => {

@@ -1,30 +1,26 @@
-"use server";
-import { prisma } from "@/utils/prisma"
-import { removeProductCategory, updateProductCategory, queryAllProductCategories } from "./add/action";
-import { AdminForm } from "@/components/admin/adminForm";
-import EditableTable from "@/components/admin/editableTable/editableTable";
+'use server'
+import { prisma } from '@/utils/prisma'
+import {
+	removeProductCategory,
+	updateProductCategory,
+	queryAllProductCategories,
+} from './add/action'
+import { AdminForm } from '@/components/admin/adminForm'
+import EditableTable from '@/components/admin/editableTable/editableTable'
 
 export default async function AddEditCategories({ params }) {
-  console.log(params);
+  
   const productCategories = await queryAllProductCategories(params.id);
 
-  const headers = ["Id", "Categoria", "Ação"];
+  const headers = ["Id", "Categoria", "Editar"];
 
-  const actions = [
-    {
-      name: 'Edit',
-      color: 'blue',
-      dest: '/admin/products/categories/$1/edit'
-    }
-  ];
-
-  const fields = [
-    {
-      name: "categoryName",
-      label: "Categoria",
-      type: "text",
-    },
-  ];
+	const fields = [
+		{
+			name: 'categoryName',
+			label: 'Categoria',
+			type: 'text',
+		},
+	]
 
   return (
     <div className="max-w-[70%] overflow-x-auto flex flex-wrap justify-center mx-6">
@@ -33,7 +29,7 @@ export default async function AddEditCategories({ params }) {
         title="Sub-produtos"
         headers={headers}
         data={productCategories}
-        action={actions}
+        action={updateProductCategory}
       />
     </div>
   );
