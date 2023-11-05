@@ -9,6 +9,7 @@ export default function Filtros({ produto }) {
 
     const [sku, setSku] = useState()
     const [price, setPrice] = useState()
+    const [enable, setEnable] = useState()
 
     useEffect(() => {
         for (let i = 0; i < produto.product_item.length; i++) {
@@ -40,7 +41,7 @@ export default function Filtros({ produto }) {
             <p>Tamanho:</p>
             <ToggleGroup.Root value={sku} onChange={setSku}>
                 {produto.product_item.map((item, index) => {
-                    return <ToggleGroup.Button key={item.sku} value={item.sku}> {item.size} </ToggleGroup.Button>
+                    return <ToggleGroup.Button key={item.sku} value={item.sku} onClick={() => setEnable(item.amount < 1)}> {item.size} </ToggleGroup.Button>     
                 })}
             </ToggleGroup.Root>
             {price && (
@@ -53,8 +54,18 @@ export default function Filtros({ produto }) {
                     <input className="bg-zinc-300 px-4 py-4 text-center remove-arrow w-20" type="number" disabled value={qty}></input>
                     <button onClick={addQty} className="bg-zinc-300 px-4 py-4 rounded-r-full">+</button>
                 </div>
-                <button onClick={handleClick} className="w-auto flex-grow py-4 px-8 rounded-full bg-black text-white"                >
-                    Adicionar ao carrinho
+                <button onClick={handleClick} disabled={enable ? true : false} className="w-auto flex-grow py-4 px-8 rounded-full bg-black text-white"                >
+                    {enable && (
+                        <>
+                            Tamanho não disponível
+                        </>
+                    )}
+                    {!enable && (
+                        <>
+                           Adicionar ao carrinho
+                        </>
+                    )}
+                    
                 </button>
             </div>
         </>
