@@ -71,7 +71,8 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         if (session?.user?.id) {
-            setName(session?.user.name)
+            address.name = session?.user.name
+            address2.name = session?.user.name
             startTransition(() => {
                 // TODO pegar o usuário logado atual
                 GetAddressesFromUserId(session.user.id).then((res) => {
