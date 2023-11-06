@@ -1,8 +1,9 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useTransition } from 'react';
 import { updateUser } from './actions';
 import UserOrders from "@/app/(website)/user/userOrders"
 import { useSession, signIn, signOut } from 'next-auth/react'
+import { toast } from 'react-toastify';
 
 const ProfileEditComponent = ({ params }) => {
   const [formData, setFormData] = useState({});
@@ -13,6 +14,7 @@ const ProfileEditComponent = ({ params }) => {
       [name]: value
     }));
   };
+  const [isPending, startTransision] = useTransition()
 
   const { data: session, status } = useSession()
 
@@ -23,9 +25,15 @@ const ProfileEditComponent = ({ params }) => {
   }, [session])
 
   const handleOnSave = (e) => {
-    formData.id = params.id
-    updateUser(formData);
-    window.location.reload();
+    if (!isPending) {
+      startTransision(async () => {
+        const res = await updateUser(formData)
+        if (res)
+          toast.success("Perfil atualizado com sucesso")
+        else
+          toast.error("Erro ao atualizar o seu perfil")
+      })
+    }
   }
 
   if (status == "authenticated") {
@@ -44,6 +52,7 @@ const ProfileEditComponent = ({ params }) => {
               onChange={handleChange}
               className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
               required
+              disabled={isPending}
             />
           </div>
 
@@ -75,8 +84,8 @@ const ProfileEditComponent = ({ params }) => {
         </div> */}
 
           <div className='flex justify-between mt-8 gap-8'>
-            <button className="flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black" onClick={handleOnSave} type="submit">Salvar</button>
-            <button className='flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black' onClick={() => signOut()}>Fazer logout</button>
+            <button className="flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black" onClick={handleOnSave} type="submit" disabled={isPending}>Salvar</button>
+            <button className='flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black' onClick={() => signOut()} disabled={isPending}>Fazer logout</button>
           </div>
 
         </div>
