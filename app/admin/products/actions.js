@@ -10,6 +10,7 @@ async function createProduct(data) {
 			name: data.get('productName'),
 			description: data.get('description'),
 			product_categories_id: parseInt(data.get('category')),
+			rating: 0.0,
 		},
 	})
 
