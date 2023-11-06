@@ -1,5 +1,6 @@
 "use server"
 
+import { getServerSession } from "@/app/api/auth/[...nextauth]/route"
 import { prisma } from "@/utils/prisma"
 import { revalidatePath } from "next/cache"
 
@@ -38,12 +39,12 @@ async function getOrderItemByOrderId(orderId){
 async function updateUser(data){
   await prisma.user.update({
     where:{
-      id:data.id
+      id:(await getServerSession()).user.id
     },
     data:{
-      name:data.name,
-      email:data.email
+      name:data.name
     }
   })
+  return true
 }
 export {getUserById, getUserOrdersById, getOrderItemByOrderId,getUserAddressById,updateUser}
