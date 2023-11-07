@@ -1,12 +1,12 @@
 'use client'
 
 import { Button } from "@/components/ui/button";
-import { prisma } from "@/utils/prisma";
 import { EditIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
 
 export function AdminForm(props) {
   const [isClientSide, setIsClientSide] = useState(false);
+  const [fieldValues, setFieldValues] = useState(props.fields.map(field => field.value))
 
   useEffect(() => {
     setIsClientSide(true);
@@ -25,6 +25,17 @@ export function AdminForm(props) {
       props.action(formData);
     }
   };
+
+  const handleValuesChange = (e, fieldIndex) => {
+    setFieldValues(prevState => prevState.map((value, index) => {
+        if (index === fieldIndex) {
+          return e.target.value;
+        }
+        
+        return value
+      })
+    )
+  }
  
   return (
     <div className="bg-white p-8 mt-5 mb-3 text-gray-600 shadow-lg rounded-lg h-fit w-fit w-6/12" >
@@ -34,7 +45,7 @@ export function AdminForm(props) {
       <form action={props.action} onSubmit={handleSubmit} >
 
 
-        {props.fields.map((field) => {
+        {props.fields.map((field, index) => {
 
           return (
 
@@ -43,19 +54,32 @@ export function AdminForm(props) {
               <label className="block mb-2" htmlFor="name">{field.label}</label>
 
               {field.type == "select" ? (
-                <select name={field.name} value={field.value} className="bg-gray-800 text-white p-2 rounded-md w-full">
+                <select 
+                  name={field.name} 
+                  value={fieldValues[index]} 
+                  onChange={e => handleValuesChange(e, index)} 
+                  className="bg-gray-800 text-white p-2 rounded-md w-full"
+                >
                   {field.options.map((item) => (
                     // eslint-disable-next-line react/jsx-key
                     <option value={item.id}>{item.name}</option>
                   ))}
                 </select>
               ) : field.type === "textarea" ? (
-                <textarea className="bg-neutral-300 text-black p-2 rounded-md w-full" value={field.value} name={field.name} rows={4} cols={40} />
+                <textarea 
+                  className="bg-neutral-300 text-black p-2 rounded-md w-full" 
+                  value={fieldValues[index]}
+                  onChange={e => handleValuesChange(e, index)} 
+                  name={field.name} 
+                  rows={4} 
+                  cols={40} 
+                />
               ) : (
                 <input
                   type={field.type}
                   name={field.name}
-                  value={field.value}
+                  value={fieldValues[index]}
+                  onChange={e => handleValuesChange(e, index)}
                   placeholder={field.placeholder}
                   className="bg-neutral-300 text-black p-2 rounded-md w-full"
                 />
