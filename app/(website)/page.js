@@ -12,7 +12,6 @@ export default async function Home() {
 		<main className="px-8 w-full">
 			<div className="min-h-screen flex flex-col items-center justify-start py-16 gap-16">
 				<div className="text-center font-black text-5xl">
-					NOVOS PRODUTOS
 				</div>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-12 gap-x-8">
