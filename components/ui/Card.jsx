@@ -11,7 +11,7 @@ export default async function Card(props) {
         alt="Product Photo"
         className="w-full h-40 object-cover mb-2"
       />
-      { (
+      {(
         <div className="flex items-center mt-2">
           <RenderStars rating={props.rating}></RenderStars>
         </div>
