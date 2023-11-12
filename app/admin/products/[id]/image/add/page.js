@@ -1,7 +1,7 @@
 'use client'
 import { prisma } from '@/utils/prisma'
 import { useState } from 'react';
-import { queryProductById} from "../../../actions"
+import { queryProductById, sharpImage} from "../../../actions"
 import { ref, uploadBytes } from '@firebase/storage';
 import { storage } from '@/firebase';
 import { FaCheck, FaTimes } from 'react-icons/fa';
@@ -15,14 +15,16 @@ export default function UploadImagePage() {
     setError(null); // Limpe quaisquer erros anteriores.
   };
   
-  const uploadImage = async (formData) => {
+  const uploadImage = async (formDat2a) => {
     try {
       if (selectedFile) {
         console.log(storage);
-        const file = formData.get('file');
+        const file = formDat2a.get('file');
         const fileName = file.name;
+        const resizedBuffer = sharpImage(file);
+        const resizedFile = new File([resizedBuffer], fileName, { type: file.type });
         const storageRef = ref(storage, `1/${fileName}`);
-        await uploadBytes(storageRef, file);
+        await uploadBytes(storageRef, resizedFile);
         console.log('Imagem enviada com sucesso.');
       } else {
         setError('Nenhum arquivo selecionado.');

@@ -3,6 +3,7 @@ import { prisma } from '@/utils/prisma'
 import { product_categories } from '@/utils/sampledata'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { sharp } from 'sharp'
 
 async function createProduct(data) {
 	const newProduct = await prisma.product.create({
@@ -141,5 +142,22 @@ async function queryAllProductsItem(data) {
 	})
 }
 
-export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem}
+async function sharpImage(data) {
+	try {
+		const resizedBuffer = await sharp(data)
+		.resize({ 
+			width: 800, 
+			height: 600,
+			fit: 'cover',
+			position: 'center'
+		})
+		.toBuffer()
+		.jpeg({ mozjpeg: true });
+		return resizedBuffer;
+	} catch (error) {
+		console.error('Erro ao processar a imagem:', error);
+	}
+}
+
+export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem, sharpImage}
 
