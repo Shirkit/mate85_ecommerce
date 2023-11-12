@@ -39,7 +39,7 @@ export default function Navbar() {
 					</Link>
 				</nav>
 			</div>
-			<div className="flex items-center w-max-1/3 gap-10">
+			<div className="flex items-center flex-1 gap-10">
 				<SearchProduct placeholder="Busque por produto" />
 				<div className="flex items-center gap-4">
 					<div className="relative">
