@@ -11,10 +11,6 @@ export default async function Home() {
 
 	return (
 		<main className="px-8 w-full flex py-16">
-			{/* <div className='fixed'>
-				<Sidebar />
-			</div> */}
-
 			<Sidebar />
 
 			<div className="min-h-screen flex flex-col items-center justify-start gap-16">
