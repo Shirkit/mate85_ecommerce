@@ -10,6 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'react-toastify';
 import { useSession, signIn } from 'next-auth/react';
 
+
 const CheckoutPage = () => {
     const { data: session, status } = useSession()
 
@@ -19,7 +20,7 @@ const CheckoutPage = () => {
         { label: 'Boleto Bancário', icon: <CreditCardIcon />, },
     ]
 
-    const { cartItems, cartTotal } = useCart()
+    const { cartItems, cartTotal, removeFromCart } = useCart()
     const [address, setAddress] = useState({
         type: "",
         name: "",
@@ -59,6 +60,10 @@ const CheckoutPage = () => {
         if (res) {
             if (res.order) {
                 toast.success('Pedido criado com sucesso!')
+                cartItems.forEach(elemento => {
+                    removeFromCart(elemento.item.sku);
+                  });
+
                 redirectToStatusPage(res.order.id)
             } else if (res.error) {
                 toast.error('Erro ao criar o pedido. ' + res.error)

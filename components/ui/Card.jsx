@@ -11,10 +11,9 @@ export default async function Card(props) {
         alt="Product Photo"
         className="w-full h-40 object-cover mb-2"
       />
-      {props.rating && (
+      {(
         <div className="flex items-center mt-2">
           <RenderStars rating={props.rating}></RenderStars>
-          {/* <span className="ml-1">{props.rating.toFixed(0)}</span> */}
         </div>
       )}
       {
@@ -22,7 +21,6 @@ export default async function Card(props) {
           <p className="text-gray-700 text-lg">R${props.price.toFixed(2)}</p>
         )
       }
-
     </div>
   );
 }
