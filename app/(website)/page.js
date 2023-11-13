@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Card from '@/components/ui/Card'
+import  Sidebar  from "@/components/categories/Sidebar";
 import { prisma } from '@/utils/prisma'
 import Link from 'next/link'
 import { getHidePricesDB } from './actionsSettings'
@@ -9,8 +10,10 @@ export default async function Home() {
 	const hidePrices = await getHidePricesDB()
 
 	return (
-		<main className="px-8 w-full">
-			<div className="min-h-screen flex flex-col items-center justify-start py-16 gap-16">
+		<main className="px-8 w-full flex py-16">
+			<Sidebar />
+
+			<div className="min-h-screen flex flex-col items-center justify-start gap-16">
 				<div className="text-center font-black text-5xl">
 					NOVOS PRODUTOS
 				</div>
