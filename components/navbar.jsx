@@ -26,10 +26,13 @@ export default function Navbar() {
 	return (
 		<header className="flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5 px-8">
 			<div className="flex items-center gap-5">
-				<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
-				<h1 className="font-primary font-black text-3xl">
-					{name ? name : 'SHOPIC'}
-				</h1>
+				<Link href="/" className="flex items-center gap-5">
+					<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
+					<h1 className="font-primary font-black text-3xl">
+						{name ? name : 'SHOPIC'}
+					</h1>
+				</Link>
+				
 				<nav className="flex flex-row pl-6">
 					<Link
 						href="/"
