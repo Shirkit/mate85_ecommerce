@@ -4,6 +4,7 @@ import { useState } from 'react'
 import ClickableStars from './clickableStars'
 import { processReview } from '@/app/(website)/product/reviews'
 import { toast } from 'react-toastify'
+import { useSession } from 'next-auth/react'
 
 export default function AddReview({ productId }) {
 	const FORM_NAME = 'addReview'
@@ -12,6 +13,8 @@ export default function AddReview({ productId }) {
 		const res = await processReview(formData)
 		if (res && res.message) toast.error(res.message)
 	}
+
+	const { session, status } = useSession();
 
 	function FloatLabel({ name, type, label, initialValue = '', ...rest }) {
 		const [isActive, setIsActive] = useState(false)
@@ -46,6 +49,9 @@ export default function AddReview({ productId }) {
 		)
 	}
 
+	if (status == "unauthenticated")
+		return null
+
 	return (
 		<section className="flex flex-col gap-4">
 			<h2 className="font-bold text-2xl">Nos envie a sua avaliação!</h2>
@@ -75,6 +81,7 @@ export default function AddReview({ productId }) {
 				<button
 					type="submit"
 					className="border-2 border-black p-2 bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300"
+					disabled={status == "unauthenticated"}
 				>
 					Avaliar
 				</button>

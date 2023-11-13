@@ -8,10 +8,12 @@ import { useCart } from '@/components/CartContext';
 import { GetAddressesFromUserId, createOrder, redirectToStatusPage } from './actions';
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'react-toastify';
-import { redirect } from 'next/dist/server/api-utils';
+import { useSession, signIn } from 'next-auth/react';
 
 
 const CheckoutPage = () => {
+    const { data: session, status } = useSession()
+
     const paymentOptions = [
         { label: 'Pix', icon: <CreditCardIcon />, description: 'Pague com Pix a qualquer momento!' },
         { label: 'Cartão de Crédito', icon: <CreditCardIcon />, },
@@ -21,6 +23,7 @@ const CheckoutPage = () => {
     const { cartItems, cartTotal, removeFromCart } = useCart()
     const [address, setAddress] = useState({
         type: "",
+        name: "",
         street: "",
         number: "",
         complement: "",
@@ -29,12 +32,12 @@ const CheckoutPage = () => {
         state: "",
         country: "",
         zip_code: "",
-        complement2: ""
     })
 
     const [address2, setAddress2] = useState({
         type: "",
         street: "",
+        name: "",
         number: "",
         complement: "",
         neighborhood: "",
@@ -42,7 +45,6 @@ const CheckoutPage = () => {
         state: "",
         country: "",
         zip_code: "",
-        complement2: ""
     })
 
     const [multipleAddresses, setMultipleAddresses] = useState(false)
@@ -53,9 +55,8 @@ const CheckoutPage = () => {
         setSelectedOption(event.currentTarget.value)
     }
 
-    async function tryCreateOrder() {        
-        let res = await createOrder({billing_address: address, shipping_same_as_billing: !multipleAddresses, shipping_address: address2, gateway: {name: selectedOption}, cart: cartItems, total: cartTotal})
-        console.log("🚀 ~ file: page.js:57 ~ tryCreateOrder ~ res:", res)
+    async function tryCreateOrder() {
+        let res = await createOrder({ user: session.user.id, billing_address: address, shipping_same_as_billing: !multipleAddresses, shipping_address: address2, gateway: { name: selectedOption }, cart: cartItems, total: cartTotal })
         if (res) {
             if (res.order) {
                 toast.success('Pedido criado com sucesso!')
@@ -74,25 +75,40 @@ const CheckoutPage = () => {
     }
 
     useEffect(() => {
-        startTransition(() => {
-            // TODO pegar o usuário logado atual
-            GetAddressesFromUserId("ff8eda38-a707-4013-91cb-c5e514dce984").then((res) => {
-                res.forEach(el => {
-                    if (el && el.type === 'billing')
-                        setAddress(el)
-                    else if (el && el.type === 'shipping')
-                        setAddress2(el)
-                });
+        if (session?.user?.id) {
+            address.name = session?.user.name
+            address2.name = session?.user.name
+            startTransition(() => {
+                // TODO pegar o usuário logado atual
+                GetAddressesFromUserId(session.user.id).then((res) => {
+                    res.forEach(el => {
+                        if (el?.type === 'billing')
+                            setAddress(el)
+                        else if (el?.type === 'shipping')
+                            setAddress2(el)
+                    });
+                })
             })
-        })
-    }, [])
+        }
+    }, [session])
+
+    if (status === "unauthenticated") {
+        return (
+            <div className='flex my-10'>
+                <div className="max-w-xl mx-auto bg-white rounded-lg p-8 border flex flex-col items-center gap-4">
+                    <p>Você precisa criar uma conta para finalizar seu pedido</p>
+                    <button onClick={() => signIn()} className='flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black'>Criar conta e fazer login</button>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <>
             <div className="text-center font-bold text-2xl mb-4 mt-4">
                 <h2>Revise seu Pedido</h2>
             </div>
-            <div className="max-w-screen-xl mx-auto flex p-4">
+            <div className="max-w-screen-xl mx-auto flex p-4 w-full">
                 <div className="w-3/4">
                     {/* Endereço */}
                     <div className="mb-4">
@@ -103,6 +119,20 @@ const CheckoutPage = () => {
                                 <h2 className="text-lg font-semibold mb-2">Endereço de Cobrança{multipleAddresses ? "" : " e Entrega"}</h2>
 
                                 <div>
+                                    <div className="my-2 block">
+                                        <label htmlFor="street" className="block text-sm font-medium text-gray-700">
+                                            Nome Completo
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="street"
+                                            name="name"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.name}
+                                            form="order"
+                                        />
+                                    </div>
+
                                     <div className="my-2 block">
                                         <label htmlFor="street" className="block text-sm font-medium text-gray-700">
                                             Logradouro
@@ -214,20 +244,6 @@ const CheckoutPage = () => {
                                             form="order"
                                         />
                                     </div>
-
-                                    <div className="my-2 block">
-                                        <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
-                                            Complemento 2
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="complement2"
-                                            name="complement2"
-                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                            defaultValue={address.complement2}
-                                            form="order"
-                                        />
-                                    </div>
                                 </div>
 
 
@@ -255,7 +271,21 @@ const CheckoutPage = () => {
                                 <div>
                                     <div className="my-2 block">
                                         <label htmlFor="street" className="block text-sm font-medium text-gray-700">
-                                            Rua
+                                            Nome Completo
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="street"
+                                            name="name"
+                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
+                                            defaultValue={address.name}
+                                            form="order"
+                                        />
+                                    </div>
+
+                                    <div className="my-2 block">
+                                        <label htmlFor="street" className="block text-sm font-medium text-gray-700">
+                                            Logradouro
                                         </label>
                                         <input
                                             type="text"
@@ -361,20 +391,6 @@ const CheckoutPage = () => {
                                             name="zipCode"
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.zip_code}
-                                            form="order"
-                                        />
-                                    </div>
-
-                                    <div className="my-2 block">
-                                        <label htmlFor="complement2" className="block text-sm font-medium text-gray-700">
-                                            Complemento 2
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="complement2"
-                                            name="complement2"
-                                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
-                                            defaultValue={address2.complement2}
                                             form="order"
                                         />
                                     </div>

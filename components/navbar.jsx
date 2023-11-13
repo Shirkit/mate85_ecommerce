@@ -16,7 +16,8 @@ export default function Navbar() {
 		if (!isPending)
 			startTransition(async () => {
 				const response = await getNameDB()
-				setName(response.value)
+				if (response)
+					setName(response.value)
 			})
 	}
 
