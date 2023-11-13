@@ -75,7 +75,7 @@ function OrdersTable({ orders, total }) {
                     <Flex className='space-x-2 mt-4' justifyContent='evenly'>
                         <SearchSelect className='max-w-full sm:max-w-xs' onValueChange={setSelectedCustomer} placeholder='Buscar usuário...' icon={SearchIcon} value={selectedCustomer}>
                             {orders.reduce((acc, curr) => {
-                                if (!acc.includes(curr.user.name)) {
+                                if (curr.user.name && !acc.includes(curr.user.name)) {
                                     acc.push(curr.user.name)
                                 }
                                 return acc;

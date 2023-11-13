@@ -56,7 +56,7 @@ model Address {
   state        String?
   country      String?
   zip_code     String?
-  complement2  String?
+  name         String?
   order        Order?  @relation(fields: [orders_id], references: [id])
   user         User?   @relation(fields: [users_id], references: [id])
 }

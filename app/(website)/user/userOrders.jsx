@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { getUserOrdersById, getOrderItemByOrderId} from './actions';
 
-const OrdersPage = ({userId}) => {
+const OrdersPage = ({userId, className}) => {
   const [orders,setOrders] = useState([]);
   const [isPending,startTransition] = useTransition();
 
@@ -22,8 +22,8 @@ const OrdersPage = ({userId}) => {
 
 
   return (
-    <div className="max-w-3xl mx-auto mt-8">
-      <h1 className="text-2xl font-bold mb-4">Seus Pedidos</h1>
+    <div className={className}>
+      <h1 className="text-2xl mb-4">Seus Pedidos</h1>
       <div className="bg-white rounded shadow p-4">
         <table className="w-full">
           <thead>
