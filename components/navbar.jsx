@@ -50,7 +50,7 @@ export default function Navbar() {
 						</Link>
 					</div>
 					<div>
-						<UserCircle2 className="text-xl cursor-pointer" />
+						<Link href = "/user"><UserCircle2 className="text-xl cursor-pointer" /></Link>
 					</div>
 				</div>
 			</div>

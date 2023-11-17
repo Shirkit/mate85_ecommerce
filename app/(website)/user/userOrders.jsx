@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState, useTransition } from 'react';
 import { getUserOrdersById, getOrderItemByOrderId} from './actions';
+import Link from "next/link"
 
 const OrdersPage = ({userId, className}) => {
   const [orders,setOrders] = useState([]);
@@ -22,30 +23,40 @@ const OrdersPage = ({userId, className}) => {
 
 
   return (
-    <div className={className}>
-      <h1 className="text-2xl mb-4">Seus Pedidos</h1>
-      <div className="bg-white rounded shadow p-4">
-        <table className="w-full">
-          <thead>
-            <tr className='flex gap-x-5'>
-              <th className="text-left">Order ID</th>
-              <th className="text-left">Total</th>
-              <th className="text-left">Status</th>
+    <div className={`${className} container mx-auto mt-10`}>
+      <h1 className="text-2xl font-bold mb-5">Seus Pedidos</h1>
+        <table className="table-auto w-full">
+          <thead className='bg-gray-200'>
+            <tr>
+              <th className="px-4 py-2 text-center">ID</th>
+              <th className="px-4 py-2 text-center">Data</th>
+              <th className="px-4 py-2 text-center">Total</th>
+              <th className="px-4 py-2 text-center">Status</th>
+              <th className="px-4 py-2 text-center">Ação</th>
             </tr>
           </thead>
           <tbody>
             {orders.map(order => (
-              <tr key={order.id} className='flex gap-x-8'>
-                <td>{order.id}</td>
-                {/* <td>{order.orderItems}</td> */}
-                <td>{order.total}</td>
-                <td>{order.status}</td>
+              <tr key={order.id} className='border-b'>
+                <td className="px-4 py-2 text-center">{order.id}</td>
+                <td className="px-4 py-2 text-center">{new Date(order.createdAt).toLocaleDateString()}</td>
+                <td className="px-4 py-2 text-center">{order.total}</td> 
+                <td className="px-4 py-2 text-center">{order.status}</td>
+                <td className="px-4 py-2 text-center">
+                <Link key={order.id} href ={"/statusPedido/" + order.id}>
+                  <button 
+                    className="bg-black hover:bg-gray-950 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Ver Pedido
+                  </button>
+                </Link>
+               
+              </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-    </div>
   );
 };
 
