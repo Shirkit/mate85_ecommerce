@@ -5,6 +5,8 @@ import Link from 'next/link'
 const inter = Inter({ subsets: ['latin'] })
 import { getServerSession } from '../api/auth/[...nextauth]/route'
 import { redirect } from 'next/navigation'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 
 export const metadata = {
@@ -14,11 +16,12 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
 	const session = await getServerSession()
-	if (!session)
+	if (!session || !session.user.role || session.user.role != "admin")
 		redirect("/user")
 	return (
 		<html lang="en">
 			<body className={inter.className + ' min-h-screen flex flex-col'}>
+				<ToastContainer></ToastContainer>
 				<div className="flex flex-row flex-grow bg-neutral-100">
 					<AdminNavbar></AdminNavbar>
 					<div className="p-4">

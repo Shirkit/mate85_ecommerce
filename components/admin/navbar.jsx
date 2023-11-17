@@ -65,14 +65,7 @@ export default function AdminNavbar() {
 			>
 				<SubMenu icon={<UsersIcon></UsersIcon>} label="Usuários">
 					<MenuItem
-						component={<Link href="/admin/users/add"></Link>}
-						className="bg-zinc-300"
-					>
-						{' '}
-						Adicionar novo usuário{' '}
-					</MenuItem>
-					<MenuItem
-						component={<Link href="/admin/users/manage"></Link>}
+						component={<Link href="/admin/users"></Link>}
 						className="bg-zinc-300"
 					>
 						{' '}

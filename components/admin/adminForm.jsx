@@ -3,11 +3,22 @@
 import { Button } from "@/components/ui/button";
 import { EditIcon } from "lucide-react";
 import React, { useEffect, useState } from 'react';
+import { toast } from "react-toastify";
 
 export function AdminForm(props) {
   const [isClientSide, setIsClientSide] = useState(false);
   const [fieldValues, setFieldValues] = useState(props.fields.map(field => field.value))
 
+  if (props.notify === true || props.notify === 'true') {
+    toast.success("Operação realizada.")
+    props.notify = null
+  } else if (props.notify === false || props.notify === 'false') {
+    toast.error("Erro na operação.")
+    props.notify = null
+  }
+  useEffect(() => {
+    console.log("🚀 ~ file: adminForm.jsx:23 ~ AdminForm ~ props.notify:", props.notify)
+  }, [props.notify])
   useEffect(() => {
     setIsClientSide(true);
   }, []); // Este efeito será executado apenas no lado do cliente
@@ -82,6 +93,7 @@ export function AdminForm(props) {
                   onChange={e => handleValuesChange(e, index)}
                   placeholder={field.placeholder}
                   className="bg-neutral-300 text-black p-2 rounded-md w-full"
+                  disabled={field.disabled}
                 />
                 //TODO arrumar value hidden para atualização e mostrar value no editform
               )}
