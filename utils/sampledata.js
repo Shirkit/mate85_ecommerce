@@ -433,102 +433,122 @@ export var users = [
   {
     "id": "ff8eda38-a707-4013-91cb-c5e514dce984",
     "name": "Arleyne Paeckmeyer",
-    "email": "apaeckmeyer0@usnews.com"
+    "email": "apaeckmeyer0@usnews.com",
+    "role": "user"
   },
   {
     "id": "b5922435-cb1b-47cb-84ee-d5ebcd4e1550",
     "name": "Lester McAree",
-    "email": "lmcaree1@imageshack.us"
+    "email": "lmcaree1@imageshack.us",
+    "role": "user"
   },
   {
     "id": "86f250da-fdc4-48a6-b730-ec046ad96834",
     "name": "Rice Hurlin",
-    "email": "rhurlin2@ucoz.com"
+    "email": "rhurlin2@ucoz.com",
+    "role": "user"
   },
   {
     "id": "7393b156-a9b9-4473-8aed-b164f49b2442",
     "name": "Perry Kadar",
-    "email": "pkadar3@tripod.com"
+    "email": "pkadar3@tripod.com",
+    "role": "user"
   },
   {
     "id": "df0cabd4-3272-42e2-8912-6d8dda85843c",
     "name": "Burt Claybourne",
-    "email": "bclaybourne4@infoseek.co.jp"
+    "email": "bclaybourne4@infoseek.co.jp",
+    "role": "user"
   },
   {
     "id": "7d6d382b-dad0-4ea0-832b-f4e040765f4b",
     "name": "Porty Wadman",
-    "email": "pwadman5@xrea.com"
+    "email": "pwadman5@xrea.com",
+    "role": "user"
   },
   {
     "id": "80db931c-fb28-48c6-a906-ad1ffcfba7bc",
     "name": "Othilia Schapero",
-    "email": "oschapero6@xing.com"
+    "email": "oschapero6@xing.com",
+    "role": "user"
   },
   {
     "id": "367d18c0-d3b3-4905-acc6-25b598cec4e1",
     "name": "Carry Goodee",
-    "email": "cgoodee7@icq.com"
+    "email": "cgoodee7@icq.com",
+    "role": "user"
   },
   {
     "id": "32eae12c-4ff5-4fa7-8070-8ca8275b6da5",
     "name": "Randolf Lapley",
-    "email": "rlapley8@narod.ru"
+    "email": "rlapley8@narod.ru",
+    "role": "user"
   },
   {
     "id": "93841869-720a-4cea-88b6-c816426d5bec",
     "name": "Kiersten McGann",
-    "email": "kmcgann9@example.com"
+    "email": "kmcgann9@example.com",
+    "role": "user"
   },
   {
     "id": "6c699def-cfc1-4839-b852-7b6159838602",
     "name": "Marylee Woodfield",
-    "email": "mwoodfielda@psu.edu"
+    "email": "mwoodfielda@psu.edu",
+    "role": "user"
   },
   {
     "id": "3503e4ed-d0cc-4e9d-b648-be49cc29a44d",
     "name": "Tammy Strettle",
-    "email": "tstrettleb@nymag.com"
+    "email": "tstrettleb@nymag.com",
+    "role": "user"
   },
   {
     "id": "4d0d29f7-f74c-4ced-84e1-2624258924ab",
     "name": "Garvy Danielsson",
-    "email": "gdanielssonc@icio.us"
+    "email": "gdanielssonc@icio.us",
+    "role": "user"
   },
   {
     "id": "3fe292c9-2fda-4446-8746-88289e246457",
     "name": "Edwina Esterbrook",
-    "email": "eesterbrookd@diigo.com"
+    "email": "eesterbrookd@diigo.com",
+    "role": "user"
   },
   {
     "id": "0b6a4ae2-3039-4131-813f-de221f285150",
     "name": "Yancey Cranham",
-    "email": "ycranhame@booking.com"
+    "email": "ycranhame@booking.com",
+    "role": "user"
   },
   {
     "id": "87f43417-f8f2-4448-91a3-0b7378fee9df",
     "name": "Charmian Errigo",
-    "email": "cerrigof@fc2.com"
+    "email": "cerrigof@fc2.com",
+    "role": "user"
   },
   {
     "id": "ae24ac75-fb80-4037-a1ab-08b1464a33ca",
     "name": "Petronella Warham",
-    "email": "pwarhamg@aol.com"
+    "email": "pwarhamg@aol.com",
+    "role": "user"
   },
   {
     "id": "97471825-2306-4342-a76c-03cc547f7903",
     "name": "Sancho Southcomb",
-    "email": "ssouthcombh@newyorker.com"
+    "email": "ssouthcombh@newyorker.com",
+    "role": "user"
   },
   {
     "id": "94f6c7df-80a4-4f36-a41e-b4d7748eba1e",
     "name": "Anna-diane Sheal",
-    "email": "asheali@chron.com"
+    "email": "asheali@chron.com",
+    "role": "user"
   },
   {
     "id": "13d94e91-9b4b-4270-bc31-12203e10acc7",
     "name": "Artie Godsell",
-    "email": "agodsellj@yelp.com"
+    "email": "agodsellj@yelp.com",
+    "role": "user"
   }
 ]
 

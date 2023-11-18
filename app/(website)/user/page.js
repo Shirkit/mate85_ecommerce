@@ -4,9 +4,11 @@ import { updateUser } from './actions';
 import UserOrders from "@/app/(website)/user/userOrders"
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { toast } from 'react-toastify';
+import { getUserAddressById } from './actions';
 
 const ProfileEditComponent = ({ params }) => {
   const [formData, setFormData] = useState({});
+  const [address,setAddress] = useState({});
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevFormData => ({
@@ -14,20 +16,47 @@ const ProfileEditComponent = ({ params }) => {
       [name]: value
     }));
   };
+
+  const handleAddressChange = (e) => {
+    const { name, value } = e.target;
+    
+    setAddress(prevAddress => ({
+      ...prevAddress,
+      [name]: value
+    }));
+    
+  }
+
   const [isPending, startTransision] = useTransition()
 
   const { data: session, status } = useSession()
 
+  const loadData = async () => {
+    const address = await getUserAddressById();
+    
+    if(address) setAddress(address)
+
+  }
+
+  
   useEffect(() => {
     if (session) {
+  
       setFormData(session.user)
+
     }
   }, [session])
+
+  useEffect(() => {
+    loadData();
+    
+  }, []);
 
   const handleOnSave = (e) => {
     if (!isPending) {
       startTransision(async () => {
-        const res = await updateUser(formData)
+      
+        const res = await updateUser(formData,address)
         if (res)
           toast.success("Perfil atualizado com sucesso")
         else
@@ -36,7 +65,9 @@ const ProfileEditComponent = ({ params }) => {
     }
   }
 
+
   if (status == "authenticated") {
+
     return (
       <div className='flex my-10 gap-4 max-w-7xl w-full'>
         <div className="max-w-md mx-auto bg-white rounded-lg p-8 border">
@@ -70,28 +101,92 @@ const ProfileEditComponent = ({ params }) => {
             />
           </div>
 
-          {/* <div className="mb-4">
-          <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Senha:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
-            required
-          />
-        </div> */}
+         
+          <div className="mb-4">
+            <label htmlFor="street" className="block text-gray-700 text-sm font-bold mb-2">Rua</label>
+            <input
+              type="text"
+              name="street"
+              value={address.street}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
 
+          <div className="mb-4">
+            <label htmlFor="complement" className="block text-gray-700 text-sm font-bold mb-2">Complemento</label>
+            <input
+              type="text"
+              name="complement"
+              value={address.complement}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="complement" className="block text-gray-700 text-sm font-bold mb-2">Número</label>
+            <input
+              type="text"
+              name="number"
+              value={address.number}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="zip_code" className="block text-gray-700 text-sm font-bold mb-2">CEP</label>
+            <input
+              type="text" 
+              name="zip_code"
+              value={address.zip_code}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+          
+          <div className="mb-4">
+            <label htmlFor="state" className="block text-gray-700 text-sm font-bold mb-2">Estado</label>
+            <input
+              type="text"
+              name="state"
+              value={address.state}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="zipCode" className="block text-gray-700 text-sm font-bold mb-2">País</label>
+            <input
+              type="text"
+              name="country"
+              value={address.country}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="zipCode" className="block text-gray-700 text-sm font-bold mb-2">Cidade</label>
+            <input
+              type="text"
+              name="city"
+              value={address.city}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
           <div className='flex justify-between mt-8 gap-8'>
             <button className="flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black" onClick={handleOnSave} type="submit" disabled={isPending}>Salvar</button>
             <button className='flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 hover:bg-transparent hover:text-black' onClick={() => signOut()} disabled={isPending}>Fazer logout</button>
           </div>
 
         </div>
-        {/* //TODO ver o que vamos mostrar de um pedido */}
+       
         <div className="mx-auto bg-white rounded-lg p-8 border w-full">
-          <UserOrders userId={session.user.id} className="" />
+          <UserOrders userId={session.user.id} className={""}/>
         </div>
       </div>
 

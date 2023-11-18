@@ -93,9 +93,25 @@ export const authOptions = {
             // Send properties to the client, like an access_token and user id from a provider.
             session.user.id = user.id
             session.user.name = user.name
-            
+            session.user.role = user.role
+
             return session
           }
+    },
+    events: {
+        createUser(msg) {
+            prisma.user.count().then((c) => {
+                if (c <= 1)
+                    prisma.user.update({
+                        where: {
+                            id: msg.user.id
+                        },
+                        data: {
+                            role: "admin"
+                        }
+                    })
+            })
+        }
     }
 }
 
