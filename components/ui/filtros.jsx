@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { ToggleGroup } from './toggleGroup'
 import { useCart } from '@/components/CartContext'
 import { toast } from 'react-toastify'
@@ -10,6 +11,7 @@ export default function Filtros({ produto }) {
 	const [price, setPrice] = useState()
     const [enable, setEnable] = useState()
 	const [stock, setStock] = useState()
+	const router = useRouter()
 
 	useEffect(() => {
 		for (let i = 0; i < produto.product_item.length; i++) {
@@ -25,6 +27,14 @@ export default function Filtros({ produto }) {
 	function handleClick() {
 		if (!sku) toast.error('Selecione um tamanho primeiro')
 		else addToCart(sku, produto, qty)
+	}
+
+	function handleClick2() {
+		if (!sku) toast.error('Selecione um tamanho primeiro')
+		else  {
+			addToCart(sku, produto, qty)
+			router.push('/cart')
+		}
 	}
 
 	const [qty, setQty] = useState(1)
@@ -100,6 +110,19 @@ export default function Filtros({ produto }) {
                     {!enable && (
                         <>
                            Adicionar ao carrinho
+                        </>
+                    )}
+                    
+                </button>
+				<button onClick={handleClick2} disabled={enable ? true : false} className="border-2 border-black bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300 w-auto py-2 px-8 disabled:text-black disabled:border-zinc-300 disabled:bg-zinc-300">
+                    {enable && (
+                        <>
+                            Indisponível
+                        </>
+                    )}
+                    {!enable && (
+                        <>
+                           Comprar
                         </>
                     )}
                     
