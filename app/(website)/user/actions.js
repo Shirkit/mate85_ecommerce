@@ -68,7 +68,8 @@ async function updateUser(data, address) {
                     state: address.state,
                     country: address.country,
                     zip_code: address.zip_code,
-                    number: address.number
+                    number: address.number,
+                    neighborhood: address.neighborhood
                 }
             })
         )
@@ -84,6 +85,7 @@ async function updateUser(data, address) {
                     country: address.country,
                     zip_code: address.zip_code,
                     number: address.number,
+                    neighborhood: address.neighborhood,
                     user: {
                       connect: {
                         id: (await getServerSession()).user.id
