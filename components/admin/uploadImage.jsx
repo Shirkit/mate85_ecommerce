@@ -1,27 +1,42 @@
 'use client'
-import { useState } from 'react';
-import { queryProductById, sharpImage} from "../../../actions"
+import { useState, useEffect, useTransition } from 'react';
+import { queryProductById, sharpImage} from "@/app/admin/products/actions"
 import { ref, uploadBytes } from '@firebase/storage';
 import { storage } from '@/firebase';
 
-export default function UploadImagePage() {
+const UploadImagePage = ({ firstProductId }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState(null);
+  const [draggedFileName, setDraggedFileName] = useState('');
   
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
     setError(null); 
   };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+
+    const droppedFiles = e.dataTransfer.files;
+
+    if (droppedFiles.length > 0) {
+      const firstDroppedFile = droppedFiles[0];
+      setDraggedFileName(firstDroppedFile.name);
+    }
+  };
   
   const uploadImage = async (formDat2a) => {
     try {
       if (selectedFile) {
-        console.log(storage);
         const file = formDat2a.get('file');
         const fileName = file.name;
         const resizedBuffer = sharpImage(file);
         const resizedFile = new File([resizedBuffer], fileName, { type: file.type });
-        const storageRef = ref(storage, `1/${fileName}`);
+        const storageRef = ref(storage, `${firstProductId}/${fileName}`);
         await uploadBytes(storageRef, resizedFile);
         console.log('Imagem enviada com sucesso.');
       } else {
@@ -50,7 +65,9 @@ export default function UploadImagePage() {
                       <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                   </svg>
                   <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                  <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                  <span className="font-semibold wrap">
+                    {draggedFileName ? `File: ${draggedFileName}` : 'Click to upload or drag and drop'}
+                  </span>
               </div>
               <div class="px-5 grid justify-items-center">
                 <input  type="file" onChange={handleFileChange} class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple />
@@ -63,3 +80,5 @@ export default function UploadImagePage() {
       </div> 
   );
 }
+
+export default UploadImagePage;

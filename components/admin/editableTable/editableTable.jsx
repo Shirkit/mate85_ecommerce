@@ -1,13 +1,16 @@
 "use client"
 import { Button } from '@/components/ui/button';
-import {  useState, } from 'react';
+import {  useEffect, useState, } from 'react';
 import EditableCell from './editableCell';
 import { Edit2Icon } from 'lucide-react';
 
 export default function EditableTable(props) {
     const [data, setData] = useState(props.data)
     const [editedRows, setEditedRows] = useState([])
-    
+
+    useEffect(() => {
+        setData(props.data)
+    }, [props.data])
 
     const handleRowChange = async (e) => {
         const row = e.target.getAttribute("row")

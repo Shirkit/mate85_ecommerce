@@ -2,7 +2,7 @@ import React from 'react';
 import RenderStars, { renderStars } from '../ui/stars';
 import { BookmarkIcon } from 'lucide-react';
 
-export default async function Card(props) {
+export default function Card(props) {
 
   return (
     <div class="max-w-lg w-full lg:max-w-full lg:flex shadow-lg">

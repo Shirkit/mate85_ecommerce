@@ -1,98 +1,102 @@
-"use server"
-import { prisma } from "@/utils/prisma"
-import { createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem} from "../../../actions"
-import { AdminForm } from "@/components/admin/adminForm"
-import { AdminTable } from "@/components/admin/adminTable"
-import Image from 'next/image'
-import RenderStars from '@/components/ui/stars';
-import EditableTable from "@/components/admin/editableTable/editableTable";
-import Card from '@/components/admin/Card'
+"use client"
+import React, { useEffect, useState, useTransition } from 'react';
+import { queryProductById, queryAllProductsItem, queryAllCategories, updateProductItem } from "../../../actions"
+import ReturnComponent from '@/components/ui/insertProduct';
+import UploadImagePage from '@/components/admin/uploadImage';
 
-import ReturnComponent from "@/components/ui/insertProduct"
-import { UpdateProduct } from "@/app/(website)/product/UpdateProduct"
+const EditProduct = ({ params }) => {
+  const [productsItem, setProductsItem] = useState([]);
+  const [firstProduct, setFirstProduct] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [categorie, setCategorie] = useState([]);
+  const [isPending,startTransition] = useTransition();
 
-export default async function EditProduct({ params }) {
+  useEffect(() => {
+    if(!isPending){
+      startTransition(async () => {
+          const productsItem = await queryAllProductsItem(params.id);
+          setProductsItem(productsItem);
+          
+          const product = await queryProductById(params.id);
+          const firstProduct = product[0];
+          setFirstProduct(firstProduct);
 
-  const productsItem = await queryAllProductsItem(params.id);
+          let categorie = ""
+          const categorie_vector = await queryAllCategories();
+          categorie_vector.forEach(el => {
+            fieldsProductupdate[3].options.push({ "id": el.id, "name": el.name })
+            if (firstProduct.product_categories_id == el.id)
+              setCategorie(el.name);
+          });
+          setCategories(categorie_vector);
 
-  const product = await queryProductById(params.id);
-  const firstProduct = product[0];
+      })
+    }
+  },[])
 
-  const categorie_vector = await prisma.productCategory.findMany({
-    select: {
-      id: true,
-      name: true,
-    },
-  })
-  let categorie = ""
-
-  
   const headers = ["SKU", "Preço", "Tamanho", "Estoque", "Ação"];
 
-  const fieldsProductupdate = [{
-    "name": "id",
-    "value": firstProduct.id,
-    "type": "hidden",
-  },
-  {
-    "name": "productName",
-    "label": "Nome do Produto",
-    "value": firstProduct.name, // TODO trocar de placeholder para value
-  },
-  {
-    "name": "description",
-    "label": "Descrição",
-    "type": "textarea",
-    "value": firstProduct.description, // TODO trocar de placeholder para value
-  },
-  {
-    "name": "category",
-    "label": "Categoria",
-    "type": "select",
-    "value": firstProduct.product_categories_id,
-    "options": []
-  },
+  const fieldsProductupdate = [
+    {
+      "name": "id",
+      "value": firstProduct.id,
+      "type": "hidden",
+    },
+    {
+      "name": "productName",
+      "label": "Nome do Produto",
+      "value": firstProduct.name,
+    },
+    {
+      "name": "description",
+      "label": "Descrição",
+      "type": "textarea",
+      "value": firstProduct.description,
+    },
+    {
+      "name": "category",
+      "label": "Categoria",
+      "type": "select",
+      "value": firstProduct.product_categories_id,
+      "options": categories, 
+    },
   ];
 
-  categorie_vector.forEach(el => {
-    fieldsProductupdate[3].options.push({ "id": el.id, "name": el.name })
-    if (firstProduct.product_categories_id == el.id)
-      categorie = el.name
-  });
+  const fieldsItem = [
+    {
+      "name": "sku",
+      "label": "SKU",
+      "type": "text",
+    },
+    {
+      "name": "size",
+      "label": "Tamanho",
+      "type": "text",
+    },
+    {
+      "name": "amount",
+      "label": "Quantidade",
+      "type": "number",
+    },
+    {
+      "name": "price",
+      "label": "Preço",
+      "type": "number",
+    },
+    {
+      "name": "product_id",
+      "value": params.id,
+      "type": "hidden",
+    },
+  ];
 
-  const fieldsItem = [{
-    "name": "sku",
-    "label": "SKU",
-    "type": "text"
-  },
-  {
-    "name": "size",
-    "label": "Tamanho",
-    "type": "text"
-  },
-  {
-    "name": "amount",
-    "label": "Quantidade",
-    "type": "number"
-  },
-  {
-    "name": "price",
-    "label": "Preço",
-    "type": "number",
-  },
-  {
-    "name": "product_id",
-    "value": params.id,
-    "type": "hidden",
-  },
-  ];  
-  const dados = {firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action:updateProductItem, categorie}
+  const dados = { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action: updateProductItem, categorie};
 
   return (
     <div>
-    <ReturnComponent dados={dados}></ReturnComponent>
-
+      <ReturnComponent dados={dados}></ReturnComponent>
     </div>
-
   );
-}
+};
+  
+export default EditProduct;

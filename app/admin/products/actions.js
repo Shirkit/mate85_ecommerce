@@ -128,6 +128,15 @@ async function queryAllProducts() {
 	})
 }
 
+async function queryAllCategories() {
+	return await prisma.productCategory.findMany({
+		select: {
+			id: true,
+			name: true,
+		},
+	})
+}
+
 async function queryAllProductsItem(data) {
 	return await prisma.productItem.findMany({
 		where: {
@@ -159,5 +168,15 @@ async function sharpImage(data) {
 	}
 }
 
-export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem, sharpImage}
+export { 
+	createProduct,
+	createProductItem, 
+	updateProduct, queryProductById, 
+	queryAllProducts, 
+	queryAllProductsItem, 
+	queryProductCategory, 
+	updateProductItem, 
+	sharpImage, 
+	queryAllCategories
+}
 
