@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useTransition } from "react";
 import { queryProductById, sharpImage } from "@/app/admin/products/actions";
-import { ref, uploadBytes } from "@firebase/storage";
+import { ref, uploadBytes, listAll} from "@firebase/storage";
 import { storage } from "@/firebase";
 import { useDropzone } from "react-dropzone";
 import { UploadCloudIcon, Trash2Icon} from "lucide-react";
@@ -9,6 +9,8 @@ import { UploadCloudIcon, Trash2Icon} from "lucide-react";
 const UploadImagePage = ({ firstProductId }) => {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
+  const [imageURLs, setImageURLs] = useState([]);
+  const [isPending,startTransition] = useTransition();
 
   const { getRootProps, getInputProps } = useDropzone({
     multiple: true,
@@ -25,7 +27,6 @@ const UploadImagePage = ({ firstProductId }) => {
       setFiles(newFiles);
     },
   });
-
 
   function removeFile(index) {
     setFiles(files.filter((e, idx)=> idx !== index))
@@ -52,19 +53,36 @@ const UploadImagePage = ({ firstProductId }) => {
     </div>
   ));
 
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
-  }, []);
+  // const getAllImageURLs = async () => {
+  //   const folderRef = ref(storage, `${firstProductId}`);
+  //   console.log(folderRef);
+  //   const images = await listAll(folderRef);
+    
+  //   const imageURLs = await Promise.all(
+  //     images.items.map(async (imageRef) => {
+  //       return getDownloadURL(imageRef);
+  //     })
+  //     );
+      
+  //   return imageURLs;
+  // };
 
+  useEffect(() => {
+    // if(!isPending){
+    //   startTransition(async () => {
+    //     const imageURLs = await getAllImageURLs();
+    //     setImageURLs(imageURLs);
+    //   })
+    // }
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  },[])
+  
   const uploadImages = async () => {
-    console.log(files.length);
     try {
       if (files.length > 0) {
         await Promise.all(
           files.map(async (file) => {
             const fileName = file.name;
-            console.log(fileName);
             const resizedBuffer = await sharpImage(file);
             const resizedFile = new File([resizedBuffer], fileName, {
               type: 'jpeg',
@@ -77,34 +95,33 @@ const UploadImagePage = ({ firstProductId }) => {
 
         console.log("Imagens enviadas com sucesso.");
       } else {
-        setError("bla bla bla.");
+        setError("Erro dentro do envio.");
       }
     } catch (error) {
       setError("Erro ao enviar imagens: " + error.message);
     }
   };
 
-  
 
   return (
-    <div class="p-8 m-5 flex items-center justify-center w-full">
+    <div className="p-8 m-5 flex items-center justify-center w-full">
       <label
-        for="dropzone-file"
-        class="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+        htmlFor="dropzone-file"
+        className="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
       >
       <section className="text-gray-500 flex flex-col items-center justify-center p-5 pb-6 w-full">
         <div {...getRootProps({ className: "dropzone" })}>
           <input {...getInputProps()} />
           <p className="mb-4 text-gray-500 dark:text-gray-400 flex justify-center">
-            <UploadCloudIcon class="w-8 h-8 mb-4 mx-2 text-gray-500 dark:text-gray-400" />
+            <UploadCloudIcon className="w-8 h-8 mb-4 mx-2 text-gray-500 dark:text-gray-400" />
             Click to upload or drag and drop
           </p>
         </div>
         <aside className="space-y-2 overflow-y-auto max-h-[200px]">{thumbs}</aside>
       </section>
-      <div class="px-5 grid justify-items-center">
+      <div className="px-5 grid justify-items-center">
       <button
-        class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        className="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
         type="button"
         onClick={uploadImages}
       >

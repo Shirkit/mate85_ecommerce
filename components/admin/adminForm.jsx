@@ -34,19 +34,19 @@ export function AdminForm(props) {
       <form action={props.action} onSubmit={handleSubmit} >
 
 
-        {props.fields.map((field) => {
+        {props.fields.map((field,index) => {
 
           return (
 
             // eslint-disable-next-line react/jsx-key
-            <div className="m-4">
+            <div key={index} className="m-4">
               <label className="block mb-2" htmlFor="name">{field.label}</label>
 
               {field.type == "select" ? (
                 <select name={field.name} value={field.value} className="bg-gray-800 text-white p-2 rounded-md w-full">
                   {field.options.map((item) => (
                     // eslint-disable-next-line react/jsx-key
-                    <option value={item.id}>{item.name}</option>
+                    <option key={item.id} value={item.id}>{item.name}</option>
                   ))}
                 </select>
               ) : field.type === "textarea" ? (

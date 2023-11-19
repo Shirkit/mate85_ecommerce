@@ -14,6 +14,7 @@ export default function RenderStars({ rating, hideNumber }) {
 		if (i >= 1)
 			stars.push(
 				<Star
+					key={`full-star-${i}`}
 					fill={theme.colors.yellow[300]}
 					stroke={theme.colors.yellow[400]}
 				></Star>
@@ -21,6 +22,7 @@ export default function RenderStars({ rating, hideNumber }) {
 		else
 			stars.push(
 				<StarHalf
+					key={`half-star-${i}`}
 					fill={theme.colors.yellow[300]}
 					stroke={theme.colors.yellow[400]}
 				></StarHalf>
@@ -29,7 +31,7 @@ export default function RenderStars({ rating, hideNumber }) {
 	}
 
 	while (stars.length < 5)
-		stars.push(<Star stroke={theme.colors.yellow[400]}></Star>)
+		stars.push(<Star key={`empty-star-${stars.length}`} stroke={theme.colors.yellow[400]}></Star>)
 
     return (
         <div className="flex flex-row">

@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify';
 import UploadImagePage from '@/components/admin/uploadImage';
+import Carousel from './carousel';
 
 const ReturnComponent = ({ dados }) => {
     const handleFormSubmit = async (formValues) => {
@@ -30,7 +31,7 @@ const ReturnComponent = ({ dados }) => {
       }
     };
   
-  const { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action, categorie } = dados;
+  const { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action, categorie , imageURLs} = dados;
   
   return (
     <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
@@ -56,7 +57,22 @@ const ReturnComponent = ({ dados }) => {
             categorie={categorie}
           />
         </div>
-
+        <div>
+          {imageURLs.length > 0 ? (
+            <div className="flex space-x-4">
+              {imageURLs.map((url, index) => (
+                <img
+                  key={index}
+                  src={url}
+                  alt={`Imagem ${index + 1}`}
+                  className="w-20 h-20 object-cover rounded-md"
+                />
+              ))}
+            </div>
+          ) : (
+            <p>Nenhuma imagem encontrada.</p>
+          )}
+        </div>
       </div>
     </div>
 

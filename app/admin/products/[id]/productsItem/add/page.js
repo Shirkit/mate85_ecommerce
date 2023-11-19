@@ -2,7 +2,8 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { queryProductById, queryAllProductsItem, queryAllCategories, updateProductItem } from "../../../actions"
 import ReturnComponent from '@/components/ui/insertProduct';
-import UploadImagePage from '@/components/admin/uploadImage';
+import { ref, getDownloadURL, listAll} from "@firebase/storage";
+import { storage } from "@/firebase";
 
 const EditProduct = ({ params }) => {
   const [productsItem, setProductsItem] = useState([]);
@@ -10,16 +11,33 @@ const EditProduct = ({ params }) => {
   const [categories, setCategories] = useState([]);
   const [categorie, setCategorie] = useState([]);
   const [isPending,startTransition] = useTransition();
+  const [imageURLs, setImageURLs] = useState([]);
+
+  const getAllImageURLs = async () => {
+    const folderRef = ref(storage, `${params.id}`);
+    const images = await listAll(folderRef);
+    
+    const imageURLs = await Promise.all(
+      images.items.map(async (imageRef) => {
+        return getDownloadURL(imageRef);
+      })
+    );
+      
+    return imageURLs;
+  };
 
   useEffect(() => {
     if(!isPending){
       startTransition(async () => {
           const productsItem = await queryAllProductsItem(params.id);
           setProductsItem(productsItem);
-          
+
           const product = await queryProductById(params.id);
           const firstProduct = product[0];
           setFirstProduct(firstProduct);
+          
+          const imageURLs = await getAllImageURLs();
+          setImageURLs(imageURLs);
 
           let categorie = ""
           const categorie_vector = await queryAllCategories();
@@ -90,7 +108,7 @@ const EditProduct = ({ params }) => {
     },
   ];
 
-  const dados = { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action: updateProductItem, categorie};
+  const dados = { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, imageURLs, action: updateProductItem, categorie};
 
   return (
     <div>

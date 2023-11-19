@@ -18,11 +18,11 @@ export default function EditableTable(props) {
     }
 
     return (
-        <table class="w-full text-sm text-center text-zinc-600">
-            <thead class="text-xs uppercase bg-neutral-200 text-zinc-900">
+        <table className="w-full text-sm text-center text-zinc-600">
+            <thead className="text-xs uppercase bg-neutral-200 text-zinc-900">
                 <tr>
                     {props.headers.map((header) => (
-                        <th key={header} scope="col" class="px-6 py-3 w-fit">
+                        <th key={header} scope="col" className="px-6 py-3 w-fit">
                             {header}
                         </th>
                     ))}
@@ -30,12 +30,12 @@ export default function EditableTable(props) {
             </thead>
             <tbody>
                 {data.map((row, rowIndex) => (
-                    <tr key={rowIndex} class="border-b bg-white border-neutral-300">
+                    <tr key={rowIndex} className="border-b bg-white border-neutral-300">
                         {Object.keys(row).map(key => {
                             const initialValue = [...props.data]
                             
                             return (
-                                <td key={key} class="px-6 py-4">
+                                <td key={key} className="px-6 py-4">
                                     <EditableCell
                                         initialValue={initialValue[rowIndex][key]}
                                         setEditedRows={setEditedRows}
@@ -47,7 +47,7 @@ export default function EditableTable(props) {
                                 </td>
                             )
                         })}
-                        <td class="px-6 py-4">
+                        <td className="px-6 py-4">
                             {/* //TODO as vezes da erro e diz que o dado alterado é undefined, parece que é quando clica em um local específico */}
                             <Button
                                 row = {rowIndex}
@@ -55,7 +55,7 @@ export default function EditableTable(props) {
                                 variant="form"
                                 onClick = {handleRowChange}
                             >   
-                                <Edit2Icon oncClick = {handleRowChange} row = {rowIndex}></Edit2Icon>
+                                <Edit2Icon onClick = {handleRowChange} row = {rowIndex}></Edit2Icon>
                             </Button>
                         </td>
                     </tr>

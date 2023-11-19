@@ -152,6 +152,7 @@ async function queryAllProductsItem(data) {
 }
 
 async function sharpImage(data) {
+	console.log(data);
 	try {
 		const resizedBuffer = await sharp(data)
 		.resize({ 
