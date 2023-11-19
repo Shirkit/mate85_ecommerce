@@ -13,9 +13,9 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }) {
-	// const session = await getServerSession()
-	// if (!session)
-	// 	redirect("/user")
+	const session = await getServerSession()
+	if (!session)
+		redirect("/user")
 	return (
 		<html lang="en">
 			<body className={inter.className + ' min-h-screen flex flex-col'}>
