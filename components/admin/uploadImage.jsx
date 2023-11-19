@@ -1,84 +1,120 @@
-'use client'
-import { useState, useEffect, useTransition } from 'react';
-import { queryProductById, sharpImage} from "@/app/admin/products/actions"
-import { ref, uploadBytes } from '@firebase/storage';
-import { storage } from '@/firebase';
+"use client";
+import { useState, useEffect, useTransition } from "react";
+import { queryProductById, sharpImage } from "@/app/admin/products/actions";
+import { ref, uploadBytes } from "@firebase/storage";
+import { storage } from "@/firebase";
+import { useDropzone } from "react-dropzone";
+import { UploadCloudIcon, Trash2Icon} from "lucide-react";
 
 const UploadImagePage = ({ firstProductId }) => {
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
-  const [draggedFileName, setDraggedFileName] = useState('');
-  
-  const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
-    setError(null); 
-  };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const { getRootProps, getInputProps } = useDropzone({
+    multiple: true,
+    accept: {
+      "image/*": [],
+    },
+    onDrop: (acceptedFiles) => {
+      files.forEach((file) => URL.revokeObjectURL(file.preview));
+      const newFiles = [...files, ...acceptedFiles].map((file) =>
+        Object.assign(file, {
+          preview: URL.createObjectURL(file),
+        })
+      );
+      setFiles(newFiles);
+    },
+  });
 
-  const handleDrop = (e) => {
-    e.preventDefault();
 
-    const droppedFiles = e.dataTransfer.files;
+  function removeFile(index) {
+    setFiles(files.filter((e, idx)=> idx !== index))
+  }
 
-    if (droppedFiles.length > 0) {
-      const firstDroppedFile = droppedFiles[0];
-      setDraggedFileName(firstDroppedFile.name);
-    }
-  };
-  
-  const uploadImage = async (formDat2a) => {
+  const thumbs = files.map((file, idx) => (
+    <div
+      className="flex w-full justify-between items-center"
+      key={idx}
+    >
+      <div className="flex border border-slate-400 border-r-2 ">
+        <img
+          src={file.preview}
+          className="w-[100px] h-[100px]"
+          alt="imagem aqui"
+          // Revoke data uri after image is loaded
+          onLoad={() => {
+            URL.revokeObjectURL(file.preview);
+          }}
+        />
+      </div>
+      <p className="px-5">{file.name}</p>
+      <button className="px-5" onClick={() => removeFile(idx)}><Trash2Icon className="text-red-300"/></button>
+    </div>
+  ));
+
+  useEffect(() => {
+    // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
+    return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
+  }, []);
+
+  const uploadImages = async () => {
+    console.log(files.length);
     try {
-      if (selectedFile) {
-        const file = formDat2a.get('file');
-        const fileName = file.name;
-        const resizedBuffer = sharpImage(file);
-        const resizedFile = new File([resizedBuffer], fileName, { type: file.type });
-        const storageRef = ref(storage, `${firstProductId}/${fileName}`);
-        await uploadBytes(storageRef, resizedFile);
-        console.log('Imagem enviada com sucesso.');
+      if (files.length > 0) {
+        await Promise.all(
+          files.map(async (file) => {
+            const fileName = file.name;
+            console.log(fileName);
+            const resizedBuffer = await sharpImage(file);
+            const resizedFile = new File([resizedBuffer], fileName, {
+              type: 'jpeg',
+            });
+
+            const storageRef = ref(storage, `${firstProductId}/${fileName}`);
+            await uploadBytes(storageRef, resizedFile);
+          })
+        );
+
+        console.log("Imagens enviadas com sucesso.");
       } else {
-        setError('Nenhum arquivo selecionado.');
+        setError("bla bla bla.");
       }
     } catch (error) {
-      setError('Erro ao enviar imagem: ' + error.message);
+      setError("Erro ao enviar imagens: " + error.message);
     }
   };
 
-  const handleUpload = async () => {
-    if (selectedFile) {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      await uploadImage(formData);
-    } else {
-      setError('Nenhum arquivo selecionado.');
-    }
-  };
+  
 
   return (
-      <div class="p-8 m-5 flex items-center justify-center w-full">
-          <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-              <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                  <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                  </svg>
-                  <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                  <span className="font-semibold wrap">
-                    {draggedFileName ? `File: ${draggedFileName}` : 'Click to upload or drag and drop'}
-                  </span>
-              </div>
-              <div class="px-5 grid justify-items-center">
-                <input  type="file" onChange={handleFileChange} class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="multiple_files" type="file" multiple />
-                <button class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" type="button" onClick={handleUpload}>
-                  Enviar Imagem
-                </button>
-              </div>
-          </label>
-          {error && <div style={{ color: 'red' }}>{error}</div>}
-      </div> 
+    <div class="p-8 m-5 flex items-center justify-center w-full">
+      <label
+        for="dropzone-file"
+        class="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+      >
+      <section className="text-gray-500 flex flex-col items-center justify-center p-5 pb-6 w-full">
+        <div {...getRootProps({ className: "dropzone" })}>
+          <input {...getInputProps()} />
+          <p className="mb-4 text-gray-500 dark:text-gray-400 flex justify-center">
+            <UploadCloudIcon class="w-8 h-8 mb-4 mx-2 text-gray-500 dark:text-gray-400" />
+            Click to upload or drag and drop
+          </p>
+        </div>
+        <aside className="space-y-2 overflow-y-auto max-h-[200px]">{thumbs}</aside>
+      </section>
+      <div class="px-5 grid justify-items-center">
+      <button
+        class="mt-5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+        type="button"
+        onClick={uploadImages}
+      >
+        Enviar Imagem
+      </button>
+      </div>
+    </label>
+    {error && <div style={{ color: "red" }}>{error}</div>}
+  </div>
   );
-}
+};
 
 export default UploadImagePage;

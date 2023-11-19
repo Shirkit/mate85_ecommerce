@@ -38,6 +38,7 @@
     "prebuild-install": "^7.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-icons": "^4.10.1",
     "react-pro-sidebar": "^1.1.0-alpha.1",
     "react-slider": "^2.0.6",
