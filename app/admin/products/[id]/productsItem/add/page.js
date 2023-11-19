@@ -9,7 +9,6 @@ import EditableTable from "@/components/admin/editableTable/editableTable";
 import Card from '@/components/admin/Card'
 
 import ReturnComponent from "@/components/ui/insertProduct"
-import { UpdateProduct } from "@/app/(website)/product/UpdateProduct"
 
 export default async function EditProduct({ params }) {
 
