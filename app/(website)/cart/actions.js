@@ -11,25 +11,13 @@ async function getProductsFromIds(data) {
             id: { in: data }
         },
         include: {
-            product_item: {
-                orderBy : {
-                    _relevance: {
-                        fields: ['size'],
-                        search: ('P', 'M', 'G'),
-                        sort: 'asc'
-                    }
-                    // size: 'asc',
-                },
-            },
+            product_item: {}
         },
         orderBy: [
             {
                 name: 'asc',
             },
         ],
-
-        //   product_item 
-        //   size 
     })
 }
 
