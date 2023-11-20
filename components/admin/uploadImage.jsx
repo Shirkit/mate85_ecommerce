@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useTransition } from "react";
 import { queryProductById, sharpImage } from "@/app/admin/products/actions";
-import { ref, uploadBytes, listAll} from "@firebase/storage";
+import { ref, uploadBytes } from "@firebase/storage";
 import { storage } from "@/firebase";
 import { useDropzone } from "react-dropzone";
 import { UploadCloudIcon, Trash2Icon} from "lucide-react";
@@ -53,27 +53,7 @@ const UploadImagePage = ({ firstProductId }) => {
     </div>
   ));
 
-  // const getAllImageURLs = async () => {
-  //   const folderRef = ref(storage, `${firstProductId}`);
-  //   console.log(folderRef);
-  //   const images = await listAll(folderRef);
-    
-  //   const imageURLs = await Promise.all(
-  //     images.items.map(async (imageRef) => {
-  //       return getDownloadURL(imageRef);
-  //     })
-  //     );
-      
-  //   return imageURLs;
-  // };
-
   useEffect(() => {
-    // if(!isPending){
-    //   startTransition(async () => {
-    //     const imageURLs = await getAllImageURLs();
-    //     setImageURLs(imageURLs);
-    //   })
-    // }
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   },[])
   
@@ -83,8 +63,10 @@ const UploadImagePage = ({ firstProductId }) => {
         await Promise.all(
           files.map(async (file) => {
             const fileName = file.name;
-            const resizedBuffer = await sharpImage(file);
-            const resizedFile = new File([resizedBuffer], fileName, {
+            // const filePath = file.path; 
+            // const dataToSend = { path: filePath, preview: file.preview, name: fileName};
+            // const resizedBuffer = await sharpImage(dataToSend);
+            const resizedFile = new File([file], fileName, {
               type: 'jpeg',
             });
 

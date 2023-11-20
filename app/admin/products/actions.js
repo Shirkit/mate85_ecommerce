@@ -3,7 +3,9 @@ import { prisma } from '@/utils/prisma'
 import { product_categories } from '@/utils/sampledata'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { sharp } from 'sharp'
+import sharp from 'sharp'
+import fs from 'fs/promises'
+import path from 'path'
 
 async function createProduct(data) {
 	const newProduct = await prisma.product.create({
@@ -151,23 +153,24 @@ async function queryAllProductsItem(data) {
 	})
 }
 
-async function sharpImage(data) {
-	console.log(data);
+async function sharpImage(file) {
 	try {
-		const resizedBuffer = await sharp(data)
-		.resize({ 
-			width: 800, 
-			height: 600,
-			fit: 'cover',
-			position: 'center'
-		})
-		.toBuffer()
-		.jpeg({ mozjpeg: true });
-		return resizedBuffer;
+		const tempFolderPath = './public/upload'; 
+		const tempFilePath = path.join(tempFolderPath, file.name);
+		await fs.writeFile(tempFilePath, file);
+
+		const resizedBuffer = await sharp(tempFilePath)
+			.resize({ width: 800, height: 600, fit: 'cover', position: 'center' })
+			.toBuffer();
+	
+		await fs.unlink(tempFilePath);
+  
+	  return resizedBuffer;
 	} catch (error) {
-		console.error('Erro ao processar a imagem:', error);
+	  console.error('Erro ao processar o arquivo temporário:', error);
+	  throw error;
 	}
-}
+  }
 
 export { 
 	createProduct,

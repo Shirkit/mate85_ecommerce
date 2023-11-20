@@ -2,16 +2,15 @@
 import React from 'react';
 import { AdminForm } from "@/components/admin/adminForm"
 import { AdminTable } from "@/components/admin/adminTable"
+import CardProductItem from '../admin/cardProductItem';
 import Image from 'next/image'
 import RenderStars from '@/components/ui/stars';
 import EditableTable from "@/components/admin/editableTable/editableTable";
-import Card from '@/components/admin/Card'
 import { createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory } from "@/app/admin/products/actions"
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { toast } from 'react-toastify';
 import UploadImagePage from '@/components/admin/uploadImage';
-import Carousel from './carousel';
 
 const ReturnComponent = ({ dados }) => {
     const handleFormSubmit = async (formValues) => {
@@ -45,33 +44,19 @@ const ReturnComponent = ({ dados }) => {
       </div>
 
       {/* Card */}
-      <div className="flex flex-col w-full md:w-1/2">
+      <div className="flex flex-col w-full md:w-2/3">
 
         <div className="flex justify-center items-center mb-4">
-          <Card
+          <CardProductItem
             key={firstProduct.id}
             name={firstProduct.name}
+            images={imageURLs}
             description={firstProduct.description}
-            image={`https://picsum.photos/${firstProduct.id}/200`}
             rating={firstProduct.rating}
             categorie={categorie}
           />
         </div>
         <div>
-          {imageURLs.length > 0 ? (
-            <div className="flex space-x-4">
-              {imageURLs.map((url, index) => (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`Imagem ${index + 1}`}
-                  className="w-20 h-20 object-cover rounded-md"
-                />
-              ))}
-            </div>
-          ) : (
-            <p>Nenhuma imagem encontrada.</p>
-          )}
         </div>
       </div>
     </div>

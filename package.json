@@ -27,6 +27,7 @@
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "firebase": "^10.5.2",
+    "formidable": "^3.5.1",
     "is-hotkey": "^0.2.0",
     "libvips": "^0.0.2",
     "lucide-react": "^0.268.0",
