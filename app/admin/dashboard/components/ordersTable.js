@@ -6,6 +6,7 @@ import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from "@headlessui/react";
 import ProductList from '@/components/order/productList';
 import { updateStatus } from '../actions';
+import { statusTranslator } from '@/utils/orderStatusTranslator';
 
 const deltaTypes = {
     waiting: { icon: ClockIcon, color: 'gray' },
@@ -112,7 +113,7 @@ function OrdersTable({ orders, total }) {
                                     <TableCell className="text-right">{numberformatter(order.total, 2)}</TableCell>
                                     <TableCell className="text-right">
                                         <Badge icon={deltaTypes[order.status].icon} color={deltaTypes[order.status].color}>
-                                            {order.status}
+                                            {statusTranslator(order.status)}
                                         </Badge>
                                     </TableCell>
                                     <TableCell>
@@ -163,7 +164,7 @@ function OrdersTable({ orders, total }) {
                                             <Select onValueChange={setSelectedStatus} placeholder='Selecione o status...'>
                                                 {Object.keys(deltaTypes).map((key, index) => (
                                                     <SelectItem key={index} value={key}>
-                                                        {key}
+                                                        {statusTranslator(key)}
                                                     </SelectItem>
                                                 ))}
                                             </Select>
