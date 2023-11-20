@@ -131,8 +131,8 @@ export default function Settings() {
 						onChange={(e) => setHidePrices(e.target.value)}
 					/>
 				</div>
-			</div>
 			<Button type="submit">Salvar</Button>
 		</form>
+	</div>
 	)
 }

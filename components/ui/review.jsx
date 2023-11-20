@@ -30,7 +30,7 @@ export default async function ReviewCard({
 				<CheckCircle2 fill="green" stroke="white"></CheckCircle2>
 			</span>
 			<p className="max-h-20 overflow-hidden transition-[max-height] duration-300  opacity-60">
-				"{text}"
+			&quot;{text}&quot;
 			</p>
 			{/*<p className="text-zinc-600 font-medium">
 				Publicado em 14 Agosto de 2023
