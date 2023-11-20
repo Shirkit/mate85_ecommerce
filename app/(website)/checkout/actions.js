@@ -103,7 +103,7 @@ export async function createOrder({ user, billing_address, shipping_same_as_bill
     transactions.push(updateMulti("ProductItem", ["amount"], updates, "sku"))
 
     const buyerid = (await getServerSession()).user.id
-    if (buyer && !buyer.name) {
+    if (buyerid) {
         transactions.push(prisma.user.update({
             where: {
                 id: buyerid
@@ -112,6 +112,8 @@ export async function createOrder({ user, billing_address, shipping_same_as_bill
                 name: billing_address.name
             }
         }))
+    } else {
+        return { error: "Você precisa estar logado para fazer um pedido." }
     }
 
     const [order] = await prisma.$transaction(transactions)

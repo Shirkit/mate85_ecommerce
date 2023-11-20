@@ -21,11 +21,15 @@ async function getUserOrdersById(userId) {
 }
 
 async function getUserAddressById() {
-    return await prisma.address.findFirst({
-        where: {
-            users_id: (await getServerSession()).user.id
-        }
-    })
+    const id = (await getServerSession())?.user?.id
+    if (id)
+        return await prisma.address.findFirst({
+            where: {
+                users_id: id
+            }
+        })
+    else
+        return null
 }
 async function getOrderItemByOrderId(orderId) {
     return await prisma.orderItem.findMany({
