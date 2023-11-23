@@ -1,21 +1,23 @@
 import React from 'react';
 import RenderStars from '../ui/stars';
-import { BookmarkIcon } from 'lucide-react';
-import Carousel from '../ui/carousel';
+import { BookmarkIcon, Trash2Icon } from 'lucide-react';
+import Carousel from './carousel';
+import { Button } from '@tremor/react';
 
 export default function CardProductItem(props) {
   return (
     <div className="max-w-lg w-full lg:max-w-full lg:flex shadow-lg">
-      <Carousel images={props.images}>
+      <Carousel images={props.images} handleDeleteImage={props.handleDelete}>
         {props.images.length > 0 ? (
           <div className="flex space-x-4">
             {props.images.map((url, index) => (
-              <img
-                key={index}
-                src={url}
-                alt={`Imagem ${index + 1}`}
-                className="w-full h-20 object-cover rounded-md"
-              />
+              <div key={index} className="relative">
+                <img
+                  src={url}
+                  alt={`Imagem ${index + 1}`}
+                  className="w-full h-20 object-cover rounded-md"
+                />
+              </div>
             ))}
           </div>
         ) : (

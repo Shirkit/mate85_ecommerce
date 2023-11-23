@@ -84,7 +84,6 @@ const UploadImagePage = ({ firstProductId }) => {
     }
   };
 
-
   return (
     <div className="p-8 m-5 flex items-center justify-center w-full">
       <label

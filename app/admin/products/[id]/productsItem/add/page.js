@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { queryProductById, queryAllProductsItem, queryAllCategories, updateProductItem } from "../../../actions"
 import ReturnComponent from '@/components/ui/insertProduct';
-import { ref, getDownloadURL, listAll} from "@firebase/storage";
+import { ref, getDownloadURL, listAll, deleteObject} from "@firebase/storage";
 import { storage } from "@/firebase";
 
 const EditProduct = ({ params }) => {
@@ -12,7 +12,7 @@ const EditProduct = ({ params }) => {
   const [categorie, setCategorie] = useState([]);
   const [isPending,startTransition] = useTransition();
   const [imageURLs, setImageURLs] = useState([]);
-
+  
   const getAllImageURLs = async () => {
     const folderRef = ref(storage, `${params.id}`);
     const images = await listAll(folderRef);
@@ -21,16 +21,33 @@ const EditProduct = ({ params }) => {
       images.items.map(async (imageRef) => {
         return getDownloadURL(imageRef);
       })
-    );
+      );
       
     return imageURLs;
   };
-
+  
+  const handleDeleteImage = async (index) => {
+    const updatedImages = [...imageURLs];
+    const imageToDelete = updatedImages[index];
+    
+    try {
+      const storageRef = ref(storage, imageToDelete);
+  
+      deleteObject(storageRef);
+      
+      updatedImages.splice(index, 1);
+      setImageURLs(updatedImages);
+    } catch (error) {
+      console.error('Erro ao excluir a imagem:', error.message);
+    }
+  };
+  
+  
   useEffect(() => {
     if(!isPending){
       startTransition(async () => {
-          const productsItem = await queryAllProductsItem(params.id);
-          setProductsItem(productsItem);
+        const productsItem = await queryAllProductsItem(params.id);
+        setProductsItem(productsItem);
 
           const product = await queryProductById(params.id);
           const firstProduct = product[0];
@@ -108,11 +125,11 @@ const EditProduct = ({ params }) => {
     },
   ];
 
-  const dados = { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, imageURLs, action: updateProductItem, categorie};
+  const dados = { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, imageURLs, handleDeleteImage, action: updateProductItem, categorie};
 
   return (
     <div>
-      <ReturnComponent dados={dados}></ReturnComponent>
+      <ReturnComponent dados={dados} ></ReturnComponent>
     </div>
   );
 };

@@ -30,7 +30,7 @@ const ReturnComponent = ({ dados }) => {
       }
     };
   
-  const { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action, categorie , imageURLs} = dados;
+  const { firstProduct, fieldsProductupdate, fieldsItem, headers, productsItem, action, categorie , imageURLs, handleDeleteImage} = dados;
   
   return (
     <div className="py-3 px-2 self-center grow flex flex-col items-center gap-4 text-white">
@@ -54,6 +54,7 @@ const ReturnComponent = ({ dados }) => {
             description={firstProduct.description}
             rating={firstProduct.rating}
             categorie={categorie}
+            handleDelete={handleDeleteImage}
           />
         </div>
         <div>
