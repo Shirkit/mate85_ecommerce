@@ -433,7 +433,7 @@ export var users = [
   {
     "id": "ff8eda38-a707-4013-91cb-c5e514dce984",
     "name": "Arleyne Paeckmeyer",
-    "email": "apaeckmeyer0@usnews.com",
+    "email": "queilahabreu@gmail.com",
     "role": "user"
   },
   {
