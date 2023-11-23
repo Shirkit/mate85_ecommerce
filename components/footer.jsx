@@ -12,8 +12,13 @@ export default function Footer() {
 	async function getContact() {
 		const response = await getContactDB()
 		console.log('🚀 ~ file: footer.jsx:14 ~ getContact ~ response:', response)
-		setName(response[0].name)
-		setEmail(response[1].email)
+
+		if(response.length > 0){
+			
+			setName(response[0].name)
+			setEmail(response[1].email)
+		}
+		
 	}
 
 	useEffect(() => {

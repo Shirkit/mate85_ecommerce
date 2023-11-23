@@ -9,12 +9,10 @@ datasource db {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
-  bio           String?   @db.Text
-  age           Int?
+  name          String? @default("")
   email         String?   @unique
   emailVerified DateTime?
-  image         String?
+  role          String? @default("user")
   addresses     Address[]
   orders        Order[]
   reviews       Review[]
@@ -24,6 +22,7 @@ model User {
 
 model Order {
   id           Int         @id @default(autoincrement())
+  createdAt  DateTime   @default(now())
   users_id     String
   total        Float
   status       String
@@ -55,7 +54,7 @@ model Address {
   state        String?
   country      String?
   zip_code     String?
-  complement2  String?
+  name         String?
   order        Order?  @relation(fields: [orders_id], references: [id])
   user         User?   @relation(fields: [users_id], references: [id])
 }

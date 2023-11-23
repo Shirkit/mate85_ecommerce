@@ -8,11 +8,16 @@ import fs from 'fs/promises'
 import path from 'path'
 
 async function createProduct(data) {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
 	const newProduct = await prisma.product.create({
 		data: {
 			name: data.get('productName'),
 			description: data.get('description'),
 			product_categories_id: parseInt(data.get('category')),
+			rating: 0.0,
 		},
 	})
 
@@ -22,6 +27,10 @@ async function createProduct(data) {
 }
 
 async function createProductItem(data) {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
     try {
    
   
@@ -61,6 +70,10 @@ async function createProductItem(data) {
   
   
 async function updateProduct(data) {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
 	await prisma.product.update({
 		where: {
 			id: parseInt(data.get('id')),
@@ -76,6 +89,10 @@ async function updateProduct(data) {
 }
 
 async function updateProductItem(data) {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
     await prisma.productItem.update({
         where: {
             sku: data.sku,
@@ -93,6 +110,10 @@ async function updateProductItem(data) {
 }
 
 async function queryProductById(data) {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
 	return await prisma.product.findMany({
 		where: {
 			id: parseInt(data),
@@ -108,6 +129,10 @@ async function queryProductById(data) {
 }
 
 async function queryProductCategory(data) {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
 	return await prisma.productCategory.findMany({
 		where: {
 			id: data ? parseInt(data) : null,
@@ -120,6 +145,10 @@ async function queryProductCategory(data) {
 }
 
 async function queryAllProducts() {
+	const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
 	return await prisma.product.findMany({
 		select: {
 			id: true,

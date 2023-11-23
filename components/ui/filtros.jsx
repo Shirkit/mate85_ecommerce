@@ -8,6 +8,7 @@ import { toast } from 'react-toastify'
 export default function Filtros({ produto }) {
 	const [sku, setSku] = useState()
 	const [price, setPrice] = useState()
+    const [enable, setEnable] = useState()
 
 	useEffect(() => {
 		for (let i = 0; i < produto.product_item.length; i++) {
@@ -48,6 +49,7 @@ export default function Filtros({ produto }) {
 							<ToggleGroup.Button
 								key={item.sku}
 								value={item.sku}
+                                onClick={() => setEnable(item.amount < 1)}
 								className="px-6 rounded-full"
 							>
 								{item.size}
@@ -83,12 +85,19 @@ export default function Filtros({ produto }) {
 						+
 					</button>
 				</div>
-				<button
-					onClick={handleClick}
-					className="border-2 border-black bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300 w-auto flex-grow py-2 px-8"
-				>
-					Adicionar ao carrinho
-				</button>
+				<button onClick={handleClick} disabled={enable ? true : false} className="border-2 border-black bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300 w-auto flex-grow py-2 px-8">
+                    {enable && (
+                        <>
+                            Tamanho não disponível
+                        </>
+                    )}
+                    {!enable && (
+                        <>
+                           Adicionar ao carrinho
+                        </>
+                    )}
+                    
+                </button>
 			</div>
 		</>
 	)

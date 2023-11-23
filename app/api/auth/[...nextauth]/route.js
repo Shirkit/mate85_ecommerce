@@ -1,6 +1,7 @@
 import NextAuth from 'next-auth/next'
 import Email from 'next-auth/providers/email'
 import { prisma } from '@/utils/prisma'
+import { getServerSession as serverSession } from "next-auth/next"
 
 function PrismaAdapter(p) {
     return {
@@ -80,9 +81,44 @@ export const authOptions = {
         }),
     ],
     adapter: PrismaAdapter(prisma),
-    secret: process.env.NEXTAUTH_SECRET
+    secret: process.env.NEXTAUTH_SECRET,
+    theme: {
+        colorScheme:"light",
+        buttonText: "#ffffff",
+        brandColor: "#000000",
+        logo: '/static/images/logo.png'
+    },
+    callbacks: {
+        async session({ session, token, user }) {
+            // Send properties to the client, like an access_token and user id from a provider.
+            session.user.id = user.id
+            session.user.name = user.name
+            session.user.role = user.role
+
+            return session
+          }
+    },
+    events: {
+        createUser(msg) {
+            prisma.user.count().then((c) => {
+                if (c <= 1)
+                    prisma.user.update({
+                        where: {
+                            id: msg.user.id
+                        },
+                        data: {
+                            role: "admin"
+                        }
+                    })
+            })
+        }
+    }
 }
 
 
-const handler = await NextAuth(authOptions);
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+export function getServerSession() {
+    return serverSession(authOptions)
+}

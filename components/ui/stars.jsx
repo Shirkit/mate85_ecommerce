@@ -29,9 +29,9 @@ export default function RenderStars({ rating, hideNumber }) {
 			)
 		i--
 	}
-
-	while (stars.length < 5)
-		stars.push(<Star key={`empty-star-${stars.length}`} stroke={theme.colors.yellow[400]}></Star>)
+	while (stars.length < 5){
+		stars.push(<Star stroke={theme.colors.yellow[400]}></Star>)
+	}
 
     return (
         <div className="flex flex-row">
