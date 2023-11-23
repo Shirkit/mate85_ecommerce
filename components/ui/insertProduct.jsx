@@ -39,7 +39,7 @@ const ReturnComponent = ({ dados }) => {
     <div className="flex flex-col md:flex-row gap-4 w-full">
 
       {/* Upload Image */}
-      <div className="flex-shrink-0">
+      <div className="flex flex-col w-full md:w-1/3">
         <UploadImagePage firstProductId={dados.firstProduct.id}/>
       </div>
 
