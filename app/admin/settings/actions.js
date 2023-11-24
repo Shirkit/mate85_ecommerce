@@ -2,6 +2,7 @@
 
 import { prisma } from '@/utils/prisma'
 import { redirect } from 'next/navigation'
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 export async function updateSettings(data) {
 	const session = await getServerSession()

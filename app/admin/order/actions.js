@@ -1,6 +1,7 @@
 'use server'
 
 import { prisma } from '@/utils/prisma'
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 async function queryAllOrders() {
     const session = await getServerSession()
