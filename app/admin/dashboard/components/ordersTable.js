@@ -30,6 +30,7 @@ function OrdersTable({ orders, total }) {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('')
     const [isOpen, setIsOpen] = useState(false)
+    const [quantity, setQuantity] = useState(0)
 
     const closeModal = () => setIsOpen(false);
 
@@ -51,6 +52,14 @@ function OrdersTable({ orders, total }) {
     useEffect(() => {
         setFilteredOrders(filterByCustomer(selectedCustomer, orders));
     }, [selectedCustomer, orders]);
+
+    useEffect(() => {
+        let qty = 0
+        selectedOrder?.order_items?.forEach(item => {
+            qty += item.quantity
+        });
+        setQuantity(qty)
+    }, [selectedOrder])
 
     return (
         <main className='p-12'>
@@ -152,14 +161,14 @@ function OrdersTable({ orders, total }) {
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95"
                                 >
-                                    <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                    <Dialog.Panel className="w-full max-w-xl transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                         <Dialog.Title
                                             as="h3"
                                             className="text-lg font-medium leading-6 text-gray-900"
                                         >
                                             Lista de Produtos e Mudança de Status
                                         </Dialog.Title>
-                                        <form action={() => { updateStatus(selectedOrder.id, selectedStatus) }}>
+                                        <form action={() => { updateStatus(selectedOrder.id, selectedStatus) }} className='flex gap-6 mt-6'>
                                             <Select onValueChange={setSelectedStatus} placeholder='Selecione o status...'>
                                                 {Object.keys(deltaTypes).map((key, index) => (
                                                     <SelectItem key={index} value={key}>
@@ -180,11 +189,25 @@ function OrdersTable({ orders, total }) {
                                                 name={item.product.productItem_product.name}
                                                 size={item.product.size}
                                                 price={item.price}
-                                                quantity={1}
+                                                quantity={item.quantity}
                                                 imageSrc={`https://picsum.photos/id/${item.product.product_id}/200`}
                                             />
                                         ))
                                         }
+
+                                        <div className='flex gap-4 pt-4 justify-between'>
+                                            <div>
+                                                <p className='font-bold'>Data e Hora:</p>
+                                                <p> - {selectedOrder.createdAt?.toLocaleDateString()}</p>
+                                                <p> - {selectedOrder.createdAt?.toLocaleTimeString()}</p>
+                                            </div>
+
+                                            <div>
+                                                <p className='font-bold'>Total do Pedido:</p>
+                                                <p> - R${selectedOrder.total}</p>
+                                                <p> - {quantity} unidades</p>
+                                            </div>
+                                        </div>
 
                                         {/* <div className="mt-2">
                                             <p className="text-sm text-gray-500">

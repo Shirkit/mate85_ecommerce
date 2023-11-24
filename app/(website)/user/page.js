@@ -103,22 +103,11 @@ const ProfileEditComponent = ({ params }) => {
 
          
           <div className="mb-4">
-            <label htmlFor="street" className="block text-gray-700 text-sm font-bold mb-2">Rua</label>
+            <label htmlFor="street" className="block text-gray-700 text-sm font-bold mb-2">Logradouro</label>
             <input
               type="text"
               name="street"
               value={address.street}
-              onChange={handleAddressChange}
-              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="complement" className="block text-gray-700 text-sm font-bold mb-2">Complemento</label>
-            <input
-              type="text"
-              name="complement"
-              value={address.complement}
               onChange={handleAddressChange}
               className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
             />
@@ -136,11 +125,33 @@ const ProfileEditComponent = ({ params }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="zip_code" className="block text-gray-700 text-sm font-bold mb-2">CEP</label>
+            <label htmlFor="complement" className="block text-gray-700 text-sm font-bold mb-2">Complemento</label>
             <input
-              type="text" 
-              name="zip_code"
-              value={address.zip_code}
+              type="text"
+              name="complement"
+              value={address.complement}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="neighborhood" className="block text-gray-700 text-sm font-bold mb-2">Bairro</label>
+            <input
+              type="text"
+              name="neighborhood"
+              value={address.neighborhood}
+              onChange={handleAddressChange}
+              className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
+            />
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="zipCode" className="block text-gray-700 text-sm font-bold mb-2">Cidade</label>
+            <input
+              type="text"
+              name="city"
+              value={address.city}
               onChange={handleAddressChange}
               className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
             />
@@ -169,11 +180,11 @@ const ProfileEditComponent = ({ params }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="zipCode" className="block text-gray-700 text-sm font-bold mb-2">Cidade</label>
+            <label htmlFor="zip_code" className="block text-gray-700 text-sm font-bold mb-2">CEP</label>
             <input
-              type="text"
-              name="city"
-              value={address.city}
+              type="text" 
+              name="zip_code"
+              value={address.zip_code}
               onChange={handleAddressChange}
               className="border rounded py-2 px-3 w-full focus:outline-none focus:border-blue-400"
             />
