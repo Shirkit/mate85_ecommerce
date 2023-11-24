@@ -82,10 +82,16 @@ const CheckoutPage = () => {
                 // TODO pegar o usuário logado atual
                 GetAddressesFromUserId(session.user.id).then((res) => {
                     res.forEach(el => {
+                        if (el)
+                            el.name = session?.user.name
                         if (el?.type === 'billing')
                             setAddress(el)
                         else if (el?.type === 'shipping')
                             setAddress2(el)
+                        else if (el?.type === 'billing_shipping') {
+                            setAddress(el)
+                            setAddress2(el)
+                        }
                     });
                 })
             })

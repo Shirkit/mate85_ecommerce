@@ -4,7 +4,7 @@ const ProductList = ({ name, size = '', price, imageSrc, quantity }) => {
     return (
         <div className="flex flex-col">
             <div
-                className="flex items-center justify-between p-4 border-b"
+                className="flex items-center justify-between p-4 border-b gap-4"
             >
                 <Image
                     src={imageSrc}

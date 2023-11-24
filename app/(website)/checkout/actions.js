@@ -1,5 +1,6 @@
 "use server";
 
+import { getServerSession } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/utils/prisma"
 import { redirect } from 'next/navigation'
 
@@ -101,20 +102,18 @@ export async function createOrder({ user, billing_address, shipping_same_as_bill
     }))
     transactions.push(updateMulti("ProductItem", ["amount"], updates, "sku"))
 
-    const buyer = await prisma.user.findFirst({
-        where: {
-            id: user
-        }
-    })
-    if (buyer && !buyer.name) {
+    const buyerid = (await getServerSession()).user.id
+    if (buyerid) {
         transactions.push(prisma.user.update({
             where: {
-                id: buyer.id
+                id: buyerid
             },
             data: {
                 name: billing_address.name
             }
         }))
+    } else {
+        return { error: "Você precisa estar logado para fazer um pedido." }
     }
 
     const [order] = await prisma.$transaction(transactions)
