@@ -14,7 +14,7 @@ export default async function CardConfirmacao(props) {
 
     <div className='bg-white  flex flex-col items-center  shadow-lg h-4/5 w-full'>
 
-      {pedido.status === "completado" ? (
+      {pedido.status === "completed" || pedido.status === "shipped" || pedido.status === "delivered" ? (
         <React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Confirmado</h2>
@@ -32,7 +32,7 @@ export default async function CardConfirmacao(props) {
 
             </div>
           </div>
-        </React.Fragment>) : pedido.status === "pendente" || pedido.status === "processando" ? (<React.Fragment>
+        </React.Fragment>) : pedido.status === "payment-pending" || pedido.status === "processing" || pedido.status === "waiting" ? (<React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Confirmado</h2>
           </div>
@@ -52,7 +52,7 @@ export default async function CardConfirmacao(props) {
 
             </div>
           </div>
-        </React.Fragment>) : pedido.status === "cancelado" ? (<React.Fragment>
+        </React.Fragment>) : pedido.status === "canceled" ? (<React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Cancelado</h2>
           </div>
