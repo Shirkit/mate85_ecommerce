@@ -1,6 +1,7 @@
 'use server'
 
 const { prisma } = require("@/utils/prisma")
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 async function queryProductByID(productID) {
     const session = await getServerSession()

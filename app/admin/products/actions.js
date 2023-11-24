@@ -3,6 +3,7 @@ import { prisma } from '@/utils/prisma'
 import { product_categories } from '@/utils/sampledata'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 async function createProduct(data) {
 	const session = await getServerSession()
