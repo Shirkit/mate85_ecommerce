@@ -1,6 +1,7 @@
 "use client"
 
 import Categories from "@/app/admin/products/categories/page";
+import MultiRangeSlider from "../ui/mutiRangeSlider/multiRangeSlider";
 import { revalidatePath } from "next/cache";
 import React, { useEffect, useState,useTransition } from "react";
 import {AiFillFilter} from "react-icons/ai";
@@ -21,13 +22,13 @@ export default function Sidebar() {
   const [categories,setCategories] = useState([]);
   const router = useRouter()
 
-  const handleMinPriceChange = (e) => {
-    setMinPrice(e.target.value);
-    
-  }
-  
-  const handleMaxPriceChange = (e) => {
-    setMaxPrice(e.target.value);
+  const handlePriceFilterChange = (newMinPrice, newMaxPrice) => {
+    if (newMinPrice !== minPrice) {
+      setMinPrice(newMinPrice)
+    } 
+    else if (newMaxPrice !== maxPrice) {
+      setMaxPrice(newMaxPrice)
+    }
   }
   
   const handleCategoryChange = (e) => {
@@ -59,48 +60,21 @@ export default function Sidebar() {
       <div className="p-5 mb-4 border-b">
         <label className="font-bold block mb-1">Preço</label>
         
-        <div className="flex justify-between mb-2">
-          <input
-            type="number"
-            min="0"
-            max="100"
-            value={minPrice}
-            onChange={handleMinPriceChange}
-            className="w-1/2 p-2 border rounded"
-          />
-          <span className="mx-2">-</span>
-          <input
-            type="number"
-            min="0"
-            max="100"
-            value={maxPrice}
-            onChange={handleMaxPriceChange}
-            className="w-1/2 p-2 border rounded"
-          />
-        </div>
+        <MultiRangeSlider
+          min={0}
+          max={100}
+          onChange={({ min, max }) => handlePriceFilterChange(min, max)}
+        />
+        
         <label className="font-bold block mb-1">Categoria</label>
 
-        <select onChange={handleCategoryChange}>
+        <select className="p-2 rounded-md w-full" onChange={handleCategoryChange}>
           {categories.map((cat) => {
             
-            return (<option value={cat.id}>{cat.name}</option>)
+            return (<option key={cat.id} value={cat.id}>{cat.name}</option>)
           })}
         </select>
 
-      </div>
-
-      <div className="p-5 mb-4">
-        <label className="font-bold block mb-1">Tamanho</label>
-
-        <div className="my-5 flex justify-start gap-x-2.5">
-          {shirtSizes.map((shirtSize, index) => {
-            return (
-              <div key={index} className="w-12 h-8 bg-gray-300 rounded-full flex justify-center items-center text-black text-3xs">
-                {shirtSize}
-              </div>
-            );
-          })}
-        </div>
       </div>
 
       <div className="flex justify-center">

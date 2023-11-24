@@ -12,7 +12,17 @@ export default async function Dashboard() {
                     name: true,
                     email: true,
                 }
-            }
+            },
+            order_items: {
+                include: {
+                    product: {
+                        include: {
+                            productItem_product: true,
+                        }
+                    }
+                }
+            },
+            createdAt: true
         }
     });
 

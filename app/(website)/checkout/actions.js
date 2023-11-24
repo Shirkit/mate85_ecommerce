@@ -1,26 +1,10 @@
 "use server";
 
+import { getServerSession } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/utils/prisma"
-import { revalidatePath } from "next/cache"
 import { redirect } from 'next/navigation'
 
-function updateMulti(tableName, fields, values, id) {
-    const setSql = fields
-        .map((field) => `"${field}" = "t"."${field}"`)
-        .join(", ");
-    const fieldsSql = fields.map((f) => `"${f}"`).join(", ");
-
-    let paramIndex = 0;
-    const valuesSql = values
-        .map((row) => `(${row.map(() => `\$${++paramIndex}`)})`)
-        .join(",");
-
-    const sql = `UPDATE "${tableName}" SET ${setSql} FROM (VALUES ${valuesSql}) AS t("${id}", ${fieldsSql}) WHERE "${tableName}"."${id}" = "t"."${id}"`;
-
-    return prisma.$executeRawUnsafe(sql, ...values.flat());
-}
-
-export async function createOrder({ billing_address, shipping_same_as_billing, shipping_address, gateway, cart, total }) {
+export async function createOrder({ user, billing_address, shipping_same_as_billing, shipping_address, gateway, cart, total }) {
     const ids = [], orderItems = []
 
     cart.forEach(cartItem => {
@@ -35,8 +19,6 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
         }
     })
 
-    console.log("🚀 ~ file: actions.js:37 ~ createOrder ~ items:", items)
-
     const updates = []
 
     // TODO se uma próxima compra chegar enquanto essa executa, ou seja enquanto essa execução espera o prisma retornar o valor, vai terminar vendendo itens que não tem em estoque o suficiente
@@ -47,7 +29,7 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
         found = false
         for (let k = 0; k < items.length; k++) {
             const productItem = items[k];
-            if (cartItem.item.sku == productItem.sku && cartItem.item.price == productItem.price) { 
+            if (cartItem.item.sku == productItem.sku && cartItem.item.price == productItem.price) {
                 found = true
                 if (cartItem.quantity > productItem.amount)
                     return { error: `Quantidade de ${cartItem.product.name} indisponível para venda. Temos ${productItem.amount} em estoque mas tentou-se comprar ${cartItem.quantity}` }
@@ -56,9 +38,9 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
                     price: productItem.price,
                     sku: productItem.sku,
                     quantity: cartItem.quantity
-                })  
+                })
                 updates.push([productItem.sku, productItem.amount - cartItem.quantity])
-                
+
             }
 
         }
@@ -80,7 +62,8 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
         number: billing_address.number,
         state: billing_address.state,
         zip_code: billing_address.zip_code,
-        type: "billing"
+        type: "billing",
+        name: billing_address.name
     })
 
     if (!shipping_same_as_billing) {
@@ -94,32 +77,46 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
             number: shipping_address.number,
             state: shipping_address.state,
             zip_code: shipping_address.zip_code,
-            type: "shipping"
+            type: "shipping",
+            name: shipping_address.name
         })
     }
 
-    console.log('Transação')
-
-    const [order] = await prisma.$transaction([
-        prisma.Order.create({
-            data: {
-                total: total,
-                status: "payment-pending",
-                address: {
-                    createMany: {
-                        data: addresses,
-                    }
-                },
-                user: {
-                    connect: { id: billing_address.users_id }
-                },
-                order_items: {
-                    createMany: { data: orderItems }
+    const transactions = []
+    transactions.push(prisma.Order.create({
+        data: {
+            total: total,
+            status: "payment-pending",
+            address: {
+                createMany: {
+                    data: addresses,
                 }
+            },
+            user: {
+                connect: { id: user }
+            },
+            order_items: {
+                createMany: { data: orderItems }
             }
-        }),
-        updateMulti("ProductItem", ["amount"], updates, "sku")
-    ])
+        }
+    }))
+    transactions.push(updateMulti("ProductItem", ["amount"], updates, "sku"))
+
+    const buyerid = (await getServerSession()).user.id
+    if (buyerid) {
+        transactions.push(prisma.user.update({
+            where: {
+                id: buyerid
+            },
+            data: {
+                name: billing_address.name
+            }
+        }))
+    } else {
+        return { error: "Você precisa estar logado para fazer um pedido." }
+    }
+
+    const [order] = await prisma.$transaction(transactions)
 
     const items2 = await prisma.productItem.findMany({
         where: {
@@ -129,8 +126,6 @@ export async function createOrder({ billing_address, shipping_same_as_billing, s
         }
     })
 
-    console.log("🚀 ~ file: actions.js:129 ~ createOrder ~ items2:", items2)
-    
     return { order: order }
 
 }
@@ -145,7 +140,23 @@ export async function GetAddressesFromUserId(user) {
     })
 }
 
-export async function redirectToStatusPage(id){
+export async function redirectToStatusPage(id) {
     redirect(`/statusPedido/${id}`)
 
+}
+
+function updateMulti(tableName, fields, values, id) {
+    const setSql = fields
+        .map((field) => `"${field}" = "t"."${field}"`)
+        .join(", ");
+    const fieldsSql = fields.map((f) => `"${f}"`).join(", ");
+
+    let paramIndex = 0;
+    const valuesSql = values
+        .map((row) => `(${row.map(() => `\$${++paramIndex}`)})`)
+        .join(",");
+
+    const sql = `UPDATE "${tableName}" SET ${setSql} FROM (VALUES ${valuesSql}) AS t("${id}", ${fieldsSql}) WHERE "${tableName}"."${id}" = "t"."${id}"`;
+
+    return prisma.$executeRawUnsafe(sql, ...values.flat());
 }

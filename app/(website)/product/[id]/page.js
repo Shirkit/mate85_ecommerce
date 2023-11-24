@@ -16,9 +16,6 @@ export default async function Produto({ params, searchParams }) {
         }
     })
 
-    // ! Isso não está funcionando por algum motivo, quando passa pra segunda página, ele está repetindo alguns dos campos da primeira página
-    // TODO procurar entender porque isso acontece
-
     pages = Math.ceil(pages / take)
     const produto = await prisma.product.findFirst({
         where: {
@@ -40,8 +37,6 @@ export default async function Produto({ params, searchParams }) {
         }
     })
 
-    // console.log(page)
-    // console.log(produto)
     let maxPrice = -1, minPrice = Number.MAX_SAFE_INTEGER
     produto.product_item.forEach(item => {
         maxPrice = Math.max(maxPrice, item.price)
@@ -92,12 +87,12 @@ export default async function Produto({ params, searchParams }) {
 				</section>
 			</div>
 
-			<div className="flex flex-col gap-8">
+			<div id='reviews' className="flex flex-col gap-8">
 				<h2 className="font-bold text-2xl">
 					Todas as Avaliações{' '}
-					<span className="font-normal text-xl opacity-50">
+					{/*<span className="font-normal text-xl opacity-50">
 						({produto.reviews.length})
-					</span>
+						</span>*/}
 				</h2>
 				<div className="grid grid-cols-2 gap-8 grid-flow-row">
 					{produto.reviews.map((review, index) => {
@@ -116,15 +111,15 @@ export default async function Produto({ params, searchParams }) {
 					<ActualBtn
 						type="left"
 						disabled={page <= 1}
-						link={'/product/' + params.id + '/?page=' + (page - 1)}
+						link={'/product/' + params.id + '/?page=' + (page - 1) + '#reviews'}
 					></ActualBtn>
 					<ActualBtn
 						type="right"
 						disabled={page >= pages}
-						link={'/product/' + params.id + '/?page=' + (page + 1)}
+						link={'/product/' + params.id + '/?page=' + (page + 1) + '#reviews'}
 					></ActualBtn>
+					<AddReview productId={parseInt(params.id)}></AddReview>
 				</div>
-				<AddReview productId={parseInt(params.id)}></AddReview>
 			</div>
 		</article>
 	)
@@ -133,7 +128,7 @@ export default async function Produto({ params, searchParams }) {
 		return (
 			<Link
 				href={link}
-				className={`flex border rounded-lg w-max px-4 py-2 bg-black text-white border-2 border-black duration-300 ${
+				className={`flex border rounded-lg w-max px-4 py-2 bg-black text-white border-black duration-300 ${
 					type === 'left' ? 'mr-auto' : 'ml-auto'
 				} ${
 					disabled

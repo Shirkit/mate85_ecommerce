@@ -3,8 +3,13 @@
 import { prisma } from "@/utils/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 async function CreateProductCategory(data) {
+  const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
   const newProductCategory = await prisma.productCategory.create({
     data: { name: data.get("categoryName") },
   });
@@ -14,6 +19,10 @@ async function CreateProductCategory(data) {
 }
 
 async function removeProductCategory(data) {
+  const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
   await prisma.productCategory.delete({
     where: {
       id: +data.get("id"),
@@ -24,6 +33,10 @@ async function removeProductCategory(data) {
 }
 
 async function updateProductCategory(data) {
+  const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
 
   await prisma.productCategory.update({
     where: {
@@ -37,6 +50,10 @@ async function updateProductCategory(data) {
 }
 
 async function queryAllProductCategories() {
+  const session = await getServerSession()
+    if (!session || !session.user.role || session.user.role != "admin") {
+        return false
+    }
   return await prisma.productCategory.findMany({
     select: {
       id: true,

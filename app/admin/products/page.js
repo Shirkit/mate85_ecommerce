@@ -15,6 +15,7 @@ for (let i = 0; i < products.length; i++) {
 	products[i].category = products[i].product_category.name
 	delete products[i].product_categories_id
 	delete products[i].product_category
+	products[i].rating = products[i].rating.toFixed(0)
 
 }
 
