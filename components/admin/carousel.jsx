@@ -53,7 +53,7 @@ const EmblaCarousel = (props) => {
 
 	return (
 		<div className="embla flex flex-row-reverse gap-6">
-			<div className="embla__viewport h-[480px]" ref={emblaMainRef}>
+			<div className="embla__viewport " ref={emblaMainRef}>
 				<div className="embla__container">
 					{slides.map((index) => (
 						<div className="embla__slide" key={index}>
@@ -69,7 +69,7 @@ const EmblaCarousel = (props) => {
 
 			<div className="embla-thumbs !mt-0">
 				<div
-					className="embla-thumbs__viewport h-[480px] overflow-y-auto"
+					className="embla-thumbs__viewport overflow-y-auto"
 					ref={emblaThumbsRef}
 				>
 					<div className="embla-thumbs__container !flex !flex-col w-36 gap-6">

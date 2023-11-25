@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import {  useEffect, useState, } from 'react';
 import EditableCell from './editableCell';
 import { Edit2Icon } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 export default function EditableTable(props) {
     const [data, setData] = useState(props.data)
@@ -14,7 +15,12 @@ export default function EditableTable(props) {
 
     const handleRowChange = async (e) => {
         const row = e.target.getAttribute("row")
-        props.action(data[row]) //Rever a action passada nas props
+        const res = await props.action(data[row]) //Rever a action passada nas props
+        console.log("🚀 ~ file: editableTable.jsx:19 ~ handleRowChange ~ res:", res)
+        if (res === true)
+            toast.success("Operação realizada com sucesso")
+        else
+            toast.error("Erro na operação")
     }
 
     return (

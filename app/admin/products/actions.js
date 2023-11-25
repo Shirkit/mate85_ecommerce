@@ -73,20 +73,19 @@ async function createProductItem(data) {
 async function updateProduct(data) {
 	const session = await getServerSession()
     if (!session || !session.user.role || session.user.role != "admin") {
-        return false
+		return false
     }
 	await prisma.product.update({
 		where: {
-			id: parseInt(data.get('id')),
+			id: parseInt(data.id),
 		},
 		data: {
-			name: data.get('productName'),
-			description: data.get('description'),
-			product_categories_id: parseFloat(data.get('category')),
+			name: data.productName,
+			description: data.description,
+			product_categories_id: parseFloat(data.category),
 		},
 	})
-
-	revalidatePath(`/admin/products/$1/productsItem/add`)
+	return true
 }
 
 async function updateProductItem(data) {
@@ -108,6 +107,8 @@ async function updateProductItem(data) {
     })
 
     revalidatePath(`/admin/products/$1/productsItem/add`)
+
+	return true
 }
 
 async function queryProductById(data) {

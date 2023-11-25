@@ -6,7 +6,6 @@ import React, { useEffect, useState } from 'react';
 import { toast } from "react-toastify";
 
 export function AdminForm(props) {
-  const [isClientSide, setIsClientSide] = useState(false);
   const [fieldValues, setFieldValues] = useState(props.fields.map(field => field.value))
 
   if (props.notify === true || props.notify === 'true') {
@@ -16,12 +15,11 @@ export function AdminForm(props) {
     toast.error("Erro na operação.")
     props.notify = null
   }
+
   useEffect(() => {
-    console.log("🚀 ~ file: adminForm.jsx:23 ~ AdminForm ~ props.notify:", props.notify)
-  }, [props.notify])
-  useEffect(() => {
-    setIsClientSide(true);
-  }, []); // Este efeito será executado apenas no lado do cliente
+    setFieldValues(props.fields.map(field => field.value))
+  }, [props.fields])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
@@ -49,7 +47,7 @@ export function AdminForm(props) {
   }
  
   return (
-    <div className="bg-white p-8 mt-5 mb-3 text-gray-600 shadow-lg rounded-lg h-fit w-fit w-6/12" >
+    <div className="bg-white flex-1 p-8 mt-5 mb-3 text-gray-600 shadow-lg rounded-lg h-full w-fit w-6/12" >
 
       <h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b flex flex-nowrap"><EditIcon className="mx-2" /> {props.formTitle}</h1>
 

@@ -102,19 +102,18 @@ const UploadImagePage = ({ firstProductId, maxImages = 3 }) => {
   };
 
   return (
-    <div className="flex-shrink-0">
-      <div className="p-8 m-5 flex items-center justify-center flex-wrap">
+      <div className="flex h-full items-center justify-center flex-col p-1">
         <label className="text-xl font-bold border-b-zinc-600 border-b text-sky-900 mb-3 flex"><ImageIcon className="mr-1"/> Atualizar Imagens</label>
         <label
           htmlFor="dropzone-file"
-          className="flex flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+          className="flex flex-1 flex-col items-center justify-center w-full border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
         >
         <section className="text-gray-500 flex flex-col items-center justify-center p-5 pb-6 w-full">
           <div {...getRootProps({ className: "dropzone" })}>
             <input {...getInputProps()} />
             <p className="mb-4 text-gray-500 dark:text-gray-400 flex justify-center">
               <UploadCloudIcon className="w-8 h-8 mb-4 mx-2 text-gray-500 dark:text-gray-400" />
-              Click ou arraste as imagens
+              Clique aqui ou arraste e solte até 3 imagens<br/>Envie imagens de 500x500 pixels apenas
             </p>
           </div>
           <aside className="space-y-2 overflow-y-auto max-h-[200px]">{thumbs}</aside>
@@ -125,13 +124,12 @@ const UploadImagePage = ({ firstProductId, maxImages = 3 }) => {
           type="button"
           onClick={uploadImages}
         >
-          Enviar Imagem
+          Substituir as Imagens
         </button>
         </div>
       </label>
       {error && <div style={{ color: "red" }}>{error}</div>}
     </div>
-  </div>
   );
 };
 
