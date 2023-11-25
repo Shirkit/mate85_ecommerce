@@ -11,34 +11,13 @@ import Card from '@/components/ui/Card';
 export default async function Shop({searchParams}) {
   
 
-  // let categoryId = undefined
-  // {searchParams.category ? 
-  //   (categoryId = await prisma.productCategory.findFirst({
-  //     where:{
-  //       name : searchParams.category? searchParams.category : undefined
-  //     }
-  //   }))
-  //   : // se nao especificamos uma categoria vamos mostrar todos os produtos
-  //   (categoryId = await prisma.productCategory.findMany({
-  //     where:{
-  //       name : searchParams.category? searchParams.category : undefined
-  //     }
-  //   }))
-  // }
-
-  const categoryId = searchParams?.categoryId ? parseInt(searchParams?.categoryId) : undefined
+  let categoryId = searchParams?.categoryId ? parseInt(searchParams?.categoryId) : undefined
   const priceSearch = {}
   priceSearch.gte = searchParams?.minPrice ? parseFloat(searchParams?.minPrice) : undefined
   priceSearch.lte = searchParams?.maxPrice ? parseFloat(searchParams?.maxPrice) : undefined
   
-  // const products = categoryId? await prisma.product.findMany({
-  //   where:{
-  //     product_categories_id: categoryId? categoryId.id : undefined,
-  //     price:priceSearch
-  //   }
-  // }) : []
 
-  const products = categoryId? await prisma.product.findMany({
+  const products = await prisma.product.findMany({
     where:{
       product_categories_id: categoryId? categoryId : undefined,
       product_item:{
@@ -47,8 +26,9 @@ export default async function Shop({searchParams}) {
         }
       }
     }
-  }) : []
+  })
 
+  
   return(
     <div className="mt-16 flex justify-center min-h-screen">
       
@@ -58,10 +38,8 @@ export default async function Shop({searchParams}) {
         <div className="mx-4">
         {(categoryId) && (searchParams.categoryName) ?
             (<h1 className="text-2xl font-bold mb-4">{searchParams.categoryName.charAt(0).toUpperCase() + searchParams.categoryName.slice(1)}</h1>
-            ) : (!categoryId) && (searchParams) ? 
-
-            (<h1 className="text-2xl font-bold mb-4">Não há produtos disponíveis nessa categoria</h1>
-            ) : 
+            )
+            :
             (
               <h1 className="text-2xl font-bold mb-4">Todos os Produtos</h1>
             )
