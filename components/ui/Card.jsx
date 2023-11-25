@@ -22,5 +22,5 @@ export default async function Card(props) {
         )
       }
     </div>
-  );
+  )
 }

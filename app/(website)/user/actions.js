@@ -21,11 +21,15 @@ async function getUserOrdersById(userId) {
 }
 
 async function getUserAddressById() {
-    return await prisma.address.findFirst({
-        where: {
-            users_id: (await getServerSession()).user.id
-        }
-    })
+    const id = (await getServerSession())?.user?.id
+    if (id)
+        return await prisma.address.findFirst({
+            where: {
+                users_id: id
+            }
+        })
+    else
+        return null
 }
 async function getOrderItemByOrderId(orderId) {
     return await prisma.orderItem.findMany({
@@ -68,7 +72,8 @@ async function updateUser(data, address) {
                     state: address.state,
                     country: address.country,
                     zip_code: address.zip_code,
-                    number: address.number
+                    number: address.number,
+                    neighborhood: address.neighborhood
                 }
             })
         )
@@ -84,6 +89,7 @@ async function updateUser(data, address) {
                     country: address.country,
                     zip_code: address.zip_code,
                     number: address.number,
+                    neighborhood: address.neighborhood,
                     user: {
                       connect: {
                         id: (await getServerSession()).user.id

@@ -87,12 +87,12 @@ export default async function Produto({ params, searchParams }) {
 				</section>
 			</div>
 
-			<div className="flex flex-col gap-8">
+			<div id='reviews' className="flex flex-col gap-8">
 				<h2 className="font-bold text-2xl">
 					Todas as Avaliações{' '}
-					<span className="font-normal text-xl opacity-50">
+					{/*<span className="font-normal text-xl opacity-50">
 						({produto.reviews.length})
-					</span>
+						</span>*/}
 				</h2>
 				<div className="grid grid-cols-2 gap-8 grid-flow-row">
 					{produto.reviews.map((review, index) => {
@@ -111,12 +111,12 @@ export default async function Produto({ params, searchParams }) {
 					<ActualBtn
 						type="left"
 						disabled={page <= 1}
-						link={'/product/' + params.id + '/?page=' + (page - 1)}
+						link={'/product/' + params.id + '/?page=' + (page - 1) + '#reviews'}
 					></ActualBtn>
 					<ActualBtn
 						type="right"
 						disabled={page >= pages}
-						link={'/product/' + params.id + '/?page=' + (page + 1)}
+						link={'/product/' + params.id + '/?page=' + (page + 1) + '#reviews'}
 					></ActualBtn>
 					<AddReview productId={parseInt(params.id)}></AddReview>
 				</div>
