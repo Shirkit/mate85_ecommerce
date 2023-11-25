@@ -3,6 +3,9 @@ import { prisma } from '@/utils/prisma'
 import { product_categories } from '@/utils/sampledata'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import sharp from 'sharp'
+import fs from 'fs/promises'
+import path from 'path'
 import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 async function createProduct(data) {
@@ -70,20 +73,19 @@ async function createProductItem(data) {
 async function updateProduct(data) {
 	const session = await getServerSession()
     if (!session || !session.user.role || session.user.role != "admin") {
-        return false
+		return false
     }
 	await prisma.product.update({
 		where: {
-			id: parseInt(data.get('id')),
+			id: parseInt(data.id),
 		},
 		data: {
-			name: data.get('productName'),
-			description: data.get('description'),
-			product_categories_id: parseFloat(data.get('category')),
+			name: data.productName,
+			description: data.description,
+			product_categories_id: parseFloat(data.category),
 		},
 	})
-
-	revalidatePath(`/admin/products/$1/productsItem/add`)
+	return true
 }
 
 async function updateProductItem(data) {
@@ -105,6 +107,8 @@ async function updateProductItem(data) {
     })
 
     revalidatePath(`/admin/products/$1/productsItem/add`)
+
+	return true
 }
 
 async function queryProductById(data) {
@@ -157,6 +161,15 @@ async function queryAllProducts() {
 	})
 }
 
+async function queryAllCategories() {
+	return await prisma.productCategory.findMany({
+		select: {
+			id: true,
+			name: true,
+		},
+	})
+}
+
 async function queryAllProductsItem(data) {
 	return await prisma.productItem.findMany({
 		where: {
@@ -171,5 +184,34 @@ async function queryAllProductsItem(data) {
 	})
 }
 
-export { createProduct, createProductItem, updateProduct, queryProductById, queryAllProducts, queryAllProductsItem, queryProductCategory, updateProductItem}
+async function sharpImage(file) {
+	try {
+		const tempFolderPath = './public/upload'; 
+		const tempFilePath = path.join(tempFolderPath, file.name);
+		await fs.writeFile(tempFilePath, file);
+
+		const resizedBuffer = await sharp(tempFilePath)
+			.resize({ width: 800, height: 600, fit: 'cover', position: 'center' })
+			.toBuffer();
+	
+		await fs.unlink(tempFilePath);
+  
+	  return resizedBuffer;
+	} catch (error) {
+	  console.error('Erro ao processar o arquivo temporário:', error);
+	  throw error;
+	}
+  }
+
+export { 
+	createProduct,
+	createProductItem, 
+	updateProduct, queryProductById, 
+	queryAllProducts, 
+	queryAllProductsItem, 
+	queryProductCategory, 
+	updateProductItem, 
+	sharpImage, 
+	queryAllCategories
+}
 
