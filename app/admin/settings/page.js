@@ -13,6 +13,12 @@ export default function Settings() {
 	const [phone, setPhone] = useState('')
 	const [hidePrices, setHidePrices] = useState(false)
 
+	const handleChange = (e) => {
+		console.log('handleChange called');
+		const newValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+		setHidePrices(newValue);
+	  };
+
 	async function handleSubmit(e) {
 		e.preventDefault()
 		await updateSettings([
@@ -83,56 +89,22 @@ export default function Settings() {
 							required
 						/>
 					</div>
-					<div className="flex flex-col gap-4 items-start justify-end">
-						<label htmlFor="airplane-mode">
-							Esconder os preços dos produtos
-						</label>
-						<Switch
-							id="airplane-mode"
-							value={hidePrices}
-							onChange={(e) => setHidePrices(e.target.value)}
-						/>
-					</div>
-				</div>
-
-				<div className="w-80">
-					<label htmlFor="email">E-mail para contato</label>
-					<Input
-						placeholder="Digite o e-mail para contato"
-						id="email"
-						value={email}
-						type="email"
-						pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
-						required
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-				</div>
-				<div className="w-80">
-					<label htmlFor="phone">Telefone para contato</label>
-					<Input
-						placeholder="Digite o telefone para contato"
-						id="phone"
-						value={phone}
-						type="tel"
-						pattern="[0-9]{11}"
-						onChange={(e) => setPhone(e.target.value)}
-						title="Informe um número de telefone com 11 dígitos numéricos."
-						required
-					/>
-				</div>
-				<div className="flex flex-col gap-4 items-start justify-end">
-					<label htmlFor="airplane-mode">
-						Esconder os preços dos produtos
-					</label>
-					<Switch
-						id="airplane-mode"
-						value={hidePrices}
-						checked={hidePrices}
-						onChange={(e) => setHidePrices(e.target.value)}
-					/>
 				</div>
 			<Button type="submit">Salvar</Button>
 		</form>
-	</div>
-	)
-}
+	</div>	
+)} 
+
+
+{/* <div className="flex flex-col gap-4 items-start justify-end">
+	<label htmlFor="airplane-mode">
+		Esconder os preços dos produtos
+	</label>
+	<Switch
+		type="checkbox"
+		id="airplane-mode"
+		checked={hidePrices}
+		value={hidePrices}
+		onChange={handleChange}
+	/>
+</div> */}
