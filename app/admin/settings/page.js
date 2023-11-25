@@ -13,6 +13,12 @@ export default function Settings() {
 	const [phone, setPhone] = useState('')
 	const [hidePrices, setHidePrices] = useState(false)
 
+	const handleChange = (e) => {
+		console.log('handleChange called');
+		const newValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+		setHidePrices(newValue);
+	  };
+
 	async function handleSubmit(e) {
 		e.preventDefault()
 		await updateSettings([
@@ -83,18 +89,22 @@ export default function Settings() {
 							required
 						/>
 					</div>
-					<div className="flex flex-col gap-4 items-start justify-end">
-						<label htmlFor="airplane-mode">
-							Esconder os preços dos produtos
-						</label>
-						<Switch
-							id="airplane-mode"
-							value={hidePrices}
-							onChange={(e) => setHidePrices(e.target.value)}
-						/>
-					</div>
 				</div>
 			<Button type="submit">Salvar</Button>
 		</form>
 	</div>	
 )} 
+
+
+{/* <div className="flex flex-col gap-4 items-start justify-end">
+	<label htmlFor="airplane-mode">
+		Esconder os preços dos produtos
+	</label>
+	<Switch
+		type="checkbox"
+		id="airplane-mode"
+		checked={hidePrices}
+		value={hidePrices}
+		onChange={handleChange}
+	/>
+</div> */}

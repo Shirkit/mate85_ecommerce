@@ -434,7 +434,7 @@ export var users = [
     "id": "ff8eda38-a707-4013-91cb-c5e514dce984",
     "name": "Arleyne Paeckmeyer",
     "email": "queilahabreu@gmail.com",
-    "role": "user"
+    "role": "admin"
   },
   {
     "id": "b5922435-cb1b-47cb-84ee-d5ebcd4e1550",
