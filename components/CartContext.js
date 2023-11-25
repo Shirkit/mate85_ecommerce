@@ -123,6 +123,22 @@ export const CartProvider = ({ children }) => {
     }
   }
 
+  function orderBySize(a,b){
+    // Comparar pelo campo 'name'
+    if (a.product.name < b.product.name) {
+      return -1;
+    } else if (a.product.name > b.product.name) {
+        return 1;
+    } else {
+        // Se os nomes são iguais, comparar pelos tamanhos 'P', 'M', 'G'
+        const tamanhoOrder = { 'PP': 1,'P': 2, 'M': 3, 'G': 4, 'GG': 5 };
+        const tamanhoA = tamanhoOrder[a.item.size];
+        const tamanhoB = tamanhoOrder[b.item.size];
+
+        return tamanhoA - tamanhoB;
+    }
+  }
+
   const loadCart = () => {
     if (localStorage) {
       let loaded = localStorage.getItem('cartItems')
@@ -146,6 +162,7 @@ export const CartProvider = ({ children }) => {
                   }
                 }
               })
+              toAdd.sort(orderBySize)
               addAllToCart(toAdd)
             }).finally(() => {
               setLoaded(true)

@@ -3,6 +3,7 @@
 import { prisma } from "@/utils/prisma"
 import { redirect } from "next/navigation"
 import { revalidatePath } from "next/cache"
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 export default async function updateUser(params) {
     const session = await getServerSession()

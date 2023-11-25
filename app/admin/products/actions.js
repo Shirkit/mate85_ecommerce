@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import sharp from 'sharp'
 import fs from 'fs/promises'
 import path from 'path'
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 async function createProduct(data) {
 	const session = await getServerSession()

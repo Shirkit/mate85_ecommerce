@@ -12,7 +12,12 @@ async function getProductsFromIds(data) {
         },
         include: {
             product_item: {}
-        }
+        },
+        orderBy: [
+            {
+                name: 'asc',
+            },
+        ],
     })
 }
 
