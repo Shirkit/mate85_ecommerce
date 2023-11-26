@@ -81,7 +81,7 @@ export default function Filtros({ produto }) {
 			)}
 			<hr className="my-4"></hr>
 			<div className="flex flex-row text-black gap-4">
-				<div className="text-xl flex-grow-0">
+				<div className="text-xl flex items-center">
 					<button
 						onClick={decQty}
 						className="bg-zinc-300 px-4 py-2 rounded-l-full"
