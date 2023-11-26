@@ -19,6 +19,7 @@ Este projeto rosa usando [Next.js](https://nextjs.org/) e foi criado usando o [`
 
 [Versáo temporária](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/product)
 
+
 =======
 ## Tecnologias
 
