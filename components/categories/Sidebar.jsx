@@ -7,15 +7,19 @@ import React, { useEffect, useState,useTransition } from "react";
 import {AiFillFilter} from "react-icons/ai";
 import {useRouter} from "next/navigation";
 import { getCategories } from "@/app/(website)/shop/actions";
-
+import { useSearchParams } from 'next/navigation'
 
 
 const shirtSizes = ["P","M","G","GG"];
 
 export default function Sidebar() {
 
-  const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(100);
+  const searchParams = useSearchParams()
+	const dmin = parseInt(searchParams.get('minPrice'))
+	const dmax = parseInt(searchParams.get('maxPrice'))
+
+  const [minPrice, setMinPrice] = useState(isNaN(dmin) ? 0 : dmin);
+  const [maxPrice, setMaxPrice] = useState(isNaN(dmax) ? 100 : dmax);
   const [categoryId,setCategoryId] = useState("");
   const [categoryName,setCategoryName] = useState("");
   const [isPending,startTransition] = useTransition();
@@ -70,6 +74,8 @@ export default function Sidebar() {
         <MultiRangeSlider
           min={0}
           max={100}
+          vmin={minPrice}
+          vmax={maxPrice}
           onChange={({ min, max }) => handlePriceFilterChange(min, max)}
         />
         

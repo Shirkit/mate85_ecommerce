@@ -30,10 +30,10 @@ export default async function Shop({searchParams}) {
 
   
   return(
-    <div className="mt-16 flex justify-center min-h-screen">
+    <div className="px-8 w-full flex py-16">
       
       <Sidebar />
-      <div className="flex flex-col items-start px-12 w-3/5"> 
+      <div className="min-h-screen flex flex-col items-center justify-start gap-16"> 
         
         <div className="mx-4">
         {(categoryId) && (searchParams.categoryName) ?
@@ -49,7 +49,7 @@ export default async function Shop({searchParams}) {
         </div>
      
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-12 gap-x-8">
         {products.length > 0 ? (
           products.map((product) => (
             <Link href={"/product/" + product.id} key={product.id}>
