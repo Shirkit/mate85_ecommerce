@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useTransition } from 'react'
 import Card from '@/components/ui/Card'
 import  Sidebar  from "@/components/categories/Sidebar";
-import { queryAllProducts  } from "../../app/admin/products/actions"
+import { queryAllProducts  } from "./product/actions"
 import Link from 'next/link'
 import { getHidePricesDB } from './actionsSettings'
 import { ref, getDownloadURL, list } from "@firebase/storage";
