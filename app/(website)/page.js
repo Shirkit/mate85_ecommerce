@@ -6,8 +6,33 @@ import Link from 'next/link'
 import { getHidePricesDB } from './actionsSettings'
 
 export default async function Home() {
-	const products = await prisma.product.findMany()
+	const products = await prisma.product.findMany({
+		include: {
+			product_item: {
+				select: {
+					price: true,
+					amount: true
+				}
+			}
+		}
+	})
 	const hidePrices = await getHidePricesDB()
+	if (hidePrices.value !== "true")
+		products.forEach(product => {
+			let max = 0, min = 999999999999
+			product.product_item?.forEach(item => {
+				if (item.amount > 0) {
+					max = Math.max(max, item.price)
+					min = Math.min(min, item.price)
+				}
+			});
+			if (max == min)
+				product.price = "R$" + max.toFixed(2)
+			else if (max != 0)
+				product.price = "R$" + min.toFixed(2) + " - R$" + max.toFixed(2)
+			else
+				product.price = "Indisponível"
+		})
 
 	return (
 		<main className="px-8 w-full flex py-16">
@@ -22,7 +47,7 @@ export default async function Home() {
 									key={product.id}
 									name={product.name}
 									image={`https://picsum.photos/id/${product.id}/200`}
-									price={hidePrices ? null : product.price}
+									price={hidePrices.value === "true" ? null : product.price}
 									rating={product.rating}
 								/>
 							</Link>
