@@ -1,35 +1,69 @@
-import Image from 'next/image'
+"use client"
+import React, { useEffect, useState, useTransition } from 'react'
 import Card from '@/components/ui/Card'
 import  Sidebar  from "@/components/categories/Sidebar";
-import { prisma } from '@/utils/prisma'
+import { queryAllProducts  } from "../../app/admin/products/actions"
 import Link from 'next/link'
 import { getHidePricesDB } from './actionsSettings'
+import { ref, getDownloadURL, list } from "@firebase/storage";
+import { storage } from "@/firebase";
 
-export default async function Home() {
-	const products = await prisma.product.findMany()
-	const hidePrices = await getHidePricesDB()
+export default function Home() {
+	const [firstImageUrl, setFirstImageUrl] = useState([]);
+	const [isPending,startTransition] = useTransition();
+	const [products, setProducts] = useState([]);
+	const [hidePrices, setHidePrices] = useState([]);
+
+	const getFirstImageFromFolder = async (productId) => {
+		try {
+			const folderPath = String(productId);
+			const folderRef = ref(storage, folderPath);
+			const items = await list(folderRef);
+
+			if (items.items.length > 0) {
+			const firstItemRef = items.items[0];
+			const downloadURL = await getDownloadURL(firstItemRef);
+			return downloadURL;
+			}
+		} catch (error) {
+			console.error('Error getting the first image:', error);
+		}
+	};
+
+	useEffect(() => {
+		if(!isPending){
+		  startTransition(async () => {
+
+			const products = await queryAllProducts();
+			setProducts(products);
+			const hidePrices = await getHidePricesDB()
+			setHidePrices(hidePrices);
+		
+			const imageUrls = await Promise.all(products.map((product) => getFirstImageFromFolder(product.id)));
+        	setFirstImageUrl(imageUrls);
+		})
+	  }
+	},[])
 
 	return (
 		<main className="px-8 w-full flex py-16">
-			<Sidebar />
-
-			<div className="min-h-screen flex flex-col items-center justify-start gap-16">
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-12 gap-x-8">
-					{products.map((product) => {
-						return (
-							<Link key={product.id} href={'/product/' + product.id}>
-								<Card
-									key={product.id}
-									name={product.name}
-									image={`https://picsum.photos/id/${product.id}/200`}
-									price={hidePrices ? null : product.price}
-									rating={product.rating}
-								/>
-							</Link>
-						)
-					})}
-				</div>
+		  <Sidebar />
+	
+		  <div className="min-h-screen flex flex-col items-center justify-start gap-16">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-y-12 gap-x-8">
+			  {products.map((product, index) => (
+				<Link key={product.id} href={`/product/${product.id}`}>
+				  <Card
+					key={product.id}
+					name={product.name}
+					image={firstImageUrl[index] || `https://picsum.photos/id/${product.id}/200`}
+					price={hidePrices ? null : product.price}
+					rating={product.rating}
+				  />
+				</Link>
+			  ))}
 			</div>
+		  </div>
 		</main>
-	)
-}
+	  );
+	}

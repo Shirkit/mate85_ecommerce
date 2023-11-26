@@ -1,7 +1,8 @@
 import React from 'react'
+import Image from 'next/image'
 import RenderStars, { renderStars } from './stars'
 
-export default async function Card(props) {
+export default function Card(props) {
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 m-4 flex flex-col items-center">
