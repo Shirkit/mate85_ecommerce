@@ -49,22 +49,12 @@ export default async function Produto({ params, searchParams }) {
 				<div className="w-1/2">
 					<Carousel
 						images={[
-							`https://picsum.photos/id/${produto.id}/200`,
-							`https://picsum.photos/id/${Math.round(
-								Math.random() * 1084
-							)}/200`,
-							`https://picsum.photos/id/${Math.round(
-								Math.random() * 1084
-							)}/200`,
-							`https://picsum.photos/id/${Math.round(
-								Math.random() * 1084
-							)}/200`,
-							`https://picsum.photos/id/${Math.round(
-								Math.random() * 1084
-							)}/200`,
-							`https://picsum.photos/id/${Math.round(
-								Math.random() * 1084
-							)}/200`,
+							`/static/images/default-image2.png`,
+							`/static/images/default-image2.png`,
+							`/static/images/default-image3.png`,
+							`/static/images/default-image1.png`,
+							`/static/images/default-image2.png`,
+							`/static/images/default-image3.png`,
 						]}
 					></Carousel>
 				</div>

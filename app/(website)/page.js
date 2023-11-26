@@ -22,7 +22,7 @@ export default function Home() {
 		];
 		const randomIndex = Math.floor(Math.random() * defaultImages.length);
 		return defaultImages[randomIndex];
-	  };
+	};
 
 	const getFirstImageFromFolder = async (productId) => {
 		try {
