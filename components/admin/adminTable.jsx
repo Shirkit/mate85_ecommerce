@@ -2,6 +2,7 @@
 import Link from 'next/link'
 import { SearchProduct } from '@/components/SearchProduct'
 import { useEffect, useState } from 'react'
+import { Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow } from '@tremor/react'
 
 // Adicionar server actions aqui para editar e deletar
 export function AdminTable(props) {
@@ -39,28 +40,28 @@ export function AdminTable(props) {
 				<h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">
 					{props.title}
 				</h1>
-				<table className="min-w-full border-collapse border border-zinc-300 rounded-lg overflow-hidden">
-					<thead>
-						<tr className="bg-gray-100 text-black">
+				<Table className="min-w-full border-collapse border border-zinc-300 rounded-lg overflow-hidden">
+					<TableHead>
+						<TableRow className="bg-gray-100 text-black">
 							{props.headers.map((header) => {
 								return (
-									<th key={header} className="border p-4">
+									<TableHeaderCell key={header} className="border p-4">
 										{header}
-									</th>
+									</TableHeaderCell>
 								)
 							})}
-						</tr>
-					</thead>
+						</TableRow>
+					</TableHead>
 
-					<tbody>
+					<TableBody>
 						{propsData.map((row, rowIndex) => (
-							<tr key={rowIndex}>
+							<TableRow key={rowIndex}>
 								{Object.keys(row).map((key) => (
-									<td key={key} className="border p-4">
+									<TableCell key={key} className="border p-4">
 										{row[key]}
-									</td>
+									</TableCell>
 								))}
-								<td className="border p-4">
+								<TableCell className="border p-4">
 									{props.actions.map((action, index) => (
 										<Link
 											key={action.name + '-' + index}
@@ -74,16 +75,16 @@ export function AdminTable(props) {
 													action.color +
 													'-700 text-zin-900 font-bold py-2 px-4 mr-2'
 												}
-											>
+											>s
 												{action.name}
 											</button>
 										</Link>
 									))}
-								</td>
-							</tr>
+								</TableCell>
+							</TableRow>
 						))}
-					</tbody>
-				</table>
+					</TableBody>
+				</Table>
 			</div>
 		</div>
 	)
