@@ -67,7 +67,7 @@ const EmblaCarousel = (props) => {
 
 			<div className="embla-thumbs !mt-0">
 				<div
-					className="embla-thumbs__viewport h-[480px] overflow-y-auto"
+					className="embla-thumbs__viewport h-[480px] overflow-y-auto ml-3"
 					ref={emblaThumbsRef}
 				>
 					<div className="embla-thumbs__container !flex !flex-col w-36 gap-6">

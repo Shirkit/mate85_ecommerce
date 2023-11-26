@@ -10,7 +10,7 @@ export default function Filtros({ produto }) {
 	const [sku, setSku] = useState()
 	const [price, setPrice] = useState()
     const [enable, setEnable] = useState()
-	const [stock, setStock] = useState()
+	const [stock, setStock] = useState(1)
 	const router = useRouter()
 
 	useEffect(() => {
@@ -81,7 +81,7 @@ export default function Filtros({ produto }) {
 			)}
 			<hr className="my-4"></hr>
 			<div className="flex flex-row text-black gap-4">
-				<div className="text-xl flex-grow-0">
+				<div className="text-xl flex items-center">
 					<button
 						onClick={decQty}
 						className="bg-zinc-300 px-4 py-2 rounded-l-full"
@@ -104,7 +104,7 @@ export default function Filtros({ produto }) {
 				<button onClick={handleClick} disabled={enable ? true : false} className="border-2 border-black bg-black text-white rounded-full hover:bg-transparent hover:text-black duration-300 w-auto flex-grow py-2 px-8 disabled:text-black disabled:border-zinc-300 disabled:bg-zinc-300">
                     {enable && (
                         <>
-                            Tamanho não disponível
+                            Indisponível
                         </>
                     )}
                     {!enable && (
