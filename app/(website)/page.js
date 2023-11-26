@@ -14,6 +14,16 @@ export default function Home() {
 	const [products, setProducts] = useState([]);
 	const [hidePrices, setHidePrices] = useState([]);
 
+	const getRandomDefaultImage = () => {
+		const defaultImages = [
+		  '/static/images/default-image1.png',
+		  '/static/images/default-image2.png',
+		  '/static/images/default-image3.png',
+		];
+		const randomIndex = Math.floor(Math.random() * defaultImages.length);
+		return defaultImages[randomIndex];
+	  };
+
 	const getFirstImageFromFolder = async (productId) => {
 		try {
 			const folderPath = String(productId);
@@ -56,7 +66,7 @@ export default function Home() {
 				  <Card
 					key={product.id}
 					name={product.name}
-					image={firstImageUrl[index] || `https://picsum.photos/id/${product.id}/200`}
+					image={firstImageUrl[index] || getRandomDefaultImage()}
 					price={hidePrices ? null : product.price}
 					rating={product.rating}
 				  />
