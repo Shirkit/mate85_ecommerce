@@ -20,7 +20,7 @@ export default async function RootLayout({ children }) {
 		redirect("/user")
 	return (
 		<html lang="en">
-			<body className={inter.className + ' min-h-screen flex flex-col'}>
+			<body className={inter.className + ' min-h-screen flex flex-col admin'}>
 				<ToastContainer></ToastContainer>
 				<div className="flex flex-row flex-grow bg-neutral-100">
 					<AdminNavbar></AdminNavbar>
