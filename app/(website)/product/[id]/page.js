@@ -6,6 +6,8 @@ import { prisma } from '@/utils/prisma'
 import AddReview from '@/components/ui/addReview'
 import Filtros from '@/components/ui/filtros'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ref, getDownloadURL, listAll } from "@firebase/storage";
+import { storage } from "@/firebase";
 
 export default async function Produto({ params, searchParams }) {
     const page = searchParams.page ? parseInt(searchParams.page) : 1
@@ -15,6 +17,21 @@ export default async function Produto({ params, searchParams }) {
             products_id: parseInt(params.id)
         }
     })
+
+	const getAllImageURLs = async () => {
+		const folderRef = ref(storage, `${params.id}`);
+		const images = await listAll(folderRef);
+		
+		const imageURLs = await Promise.all(
+		  images.items.map(async (imageRef) => {
+			return getDownloadURL(imageRef);
+		  })
+		);
+		  
+		return imageURLs;
+	};
+
+	const imageURLs = await getAllImageURLs();
 
     pages = Math.ceil(pages / take)
     const produto = await prisma.product.findFirst({
@@ -47,16 +64,16 @@ export default async function Produto({ params, searchParams }) {
 		<article className="max-w-7xl w-full py-16 px-8 flex flex-col gap-16">
 			<div className="flex flex-row gap-8">
 				<div className="w-1/2">
-					<Carousel
-						images={[
-							`/static/images/default-image2.png`,
-							`/static/images/default-image2.png`,
-							`/static/images/default-image3.png`,
-							`/static/images/default-image1.png`,
-							`/static/images/default-image2.png`,
-							`/static/images/default-image3.png`,
+				<Carousel
+						images={imageURLs.length > 0 ? imageURLs : [
+						"/static/images/default-image2.png",
+						"/static/images/default-image2.png",
+						"/static/images/default-image3.png",
+						"/static/images/default-image1.png",
+						"/static/images/default-image2.png",
+						"/static/images/default-image3.png",
 						]}
-					></Carousel>
+					/>
 				</div>
 
 				<section className="flex flex-col w-1/2 gap-4">
