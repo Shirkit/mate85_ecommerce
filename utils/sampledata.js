@@ -432,8 +432,8 @@ export var users_address = [
 export var users = [
   {
     "id": "ff8eda38-a707-4013-91cb-c5e514dce983",
-    "name": "Danilo Andrade",
-    "email": "andrade20danilo@gmail.com",
+    "name": "Rodrigo Cerqueira",
+    "email": "rodrigocsmoreira@gmail.com",
     "role": "admin"
   },
   {
@@ -21769,11 +21769,11 @@ export var options = [
     key: 'phone',
     value: '7199999999',
     type: 'string'
-  },{
+  }, {
     key: 'name',
     value: 'SHOPIC',
     type: 'string'
-  },{
+  }, {
     key: 'hidePrices',
     value: 'false',
     type: 'boolean'
