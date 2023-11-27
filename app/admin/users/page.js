@@ -4,20 +4,23 @@ import { prisma } from "@/utils/prisma"
 import { AdminTable } from "@/components/admin/adminTable"
 
 
-
-const users = await prisma.user.findMany();
-
 export default async function ManageUsers() {
-
-
+  
+  const users = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      email: true
+    }
+  });
   const actions = [
     {
-      name: 'Edit',
+      name: 'Editar',
       color: 'blue',
       dest: '/admin/users/edit/$1'
     }
   ];
-  const headers = ['id', 'Name', 'Email', "Actions"];
+  const headers = ['id', 'Nome', 'E-Mail', "Ações"];
 
   return (
     <AdminTable title="Usuários" headers={headers} data={users} actions={actions} />

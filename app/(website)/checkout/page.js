@@ -42,7 +42,7 @@ const CheckoutPage = () => {
         { label: 'Boleto Bancário', icon: <CreditCardIcon />, },
     ]
 
-    const { cartItems, cartTotal, removeFromCart } = useCart()
+    const { cartItems, cartTotal, removeFromCart, clearCart } = useCart()
     const [address, setAddress] = useState({
         type: "",
         name: "",
@@ -85,6 +85,8 @@ const CheckoutPage = () => {
                 cartItems.forEach(elemento => {
                     removeFromCart(elemento.item.sku);
                   });
+                  clearCart()
+
 
                 redirectToStatusPage(res.order.id)
             } else if (res.error) {
