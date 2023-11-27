@@ -104,22 +104,6 @@ export default function AdminNavbar() {
 						Gerenciar categorias{' '}
 					</MenuItem>
 				</SubMenu>
-				<SubMenu icon={<FilesIcon></FilesIcon>} label="Relatórios">
-					<MenuItem
-						component={<Link href="/admin/reports"></Link>}
-						className="bg-zinc-300"
-					>
-						{' '}
-						Pie charts{' '}
-					</MenuItem>
-					<MenuItem
-						component={<Link href="/admin/reports"></Link>}
-						className="bg-zinc-300"
-					>
-						{' '}
-						Line charts{' '}
-					</MenuItem>
-				</SubMenu>
 				<SubMenu icon={<SettingsIcon></SettingsIcon>} label="Configurações">
 					<MenuItem
 						component={<Link href="/admin/settings"></Link>}
