@@ -88,7 +88,7 @@ export default async function CardConfirmacao(props) {
       <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/4 rounded-sm '>
         <h4 className='font-bold'>Informações Do Pedido</h4>
         <br></br>
-        <p> Numero do pedido: {pedido.order_number}</p>
+        <p> Numero do pedido: {pedido.id}</p>
         <br></br>
         <div className='flex justify-center bg-black text-white'>Items</div>
 

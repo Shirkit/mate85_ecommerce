@@ -1,7 +1,7 @@
 'use client'
 
 import { Table, TableHead, TableRow, TableHeaderCell, TableBody, TableCell, Card, Flex, Title, Icon, Badge, Text, Metric, Button, DateRangePicker, SearchSelect, SearchSelectItem, Divider, Select, SelectItem, } from '@tremor/react';
-import { AlertCircleIcon, CheckIcon, ClockIcon, LoaderIcon, MoreHorizontalIcon, PackageCheckIcon, SearchIcon, TruckIcon } from 'lucide-react';
+import { AlertCircleIcon, CheckIcon, ClockIcon, LoaderIcon, MoreHorizontalIcon, PackageCheckIcon, SearchIcon, TruckIcon, XCircle  } from 'lucide-react';
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from "@headlessui/react";
 import ProductList from '@/components/order/productList';
@@ -10,11 +10,12 @@ import { statusTranslator } from '@/utils/orderStatusTranslator';
 
 const deltaTypes = {
     waiting: { icon: ClockIcon, color: 'gray' },
-    "payment-pending": { icon: ClockIcon, color: 'red' },
+    "payment-pending": { icon: ClockIcon, color: 'yellow' },
     completed: { icon: CheckIcon, color: 'emerald' },
     shipped: { icon: TruckIcon, color: 'lime' },
     delivered: { icon: PackageCheckIcon, color: 'green' },
     processing: { icon: LoaderIcon, color: 'blue' },
+    "canceled": {icon: XCircle , color:'red' },
 }
 
 const numberformatter = (number, decimals = 0) =>
