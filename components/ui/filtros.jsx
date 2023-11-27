@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ToggleGroup } from './toggleGroup'
 import { useCart } from '@/components/CartContext'
 import { toast } from 'react-toastify'
+import { CartItem } from './cartItem'
 
 export default function Filtros({ produto }) {
 	const [sku, setSku] = useState()
@@ -23,17 +24,27 @@ export default function Filtros({ produto }) {
 		}
 	}, [sku])
 
-	const { addToCart } = useCart()
+	const { addToCart, cartItems } = useCart()
 	function handleClick() {
 		if (!sku) toast.error('Selecione um tamanho primeiro')
+		if (qty == 0 ) toast.error('Adicione uma quantidade')
 		else addToCart(sku, produto, qty)
 	}
 
 	function handleClick2() {
 		if (!sku) toast.error('Selecione um tamanho primeiro')
 		else  {
-			addToCart(sku, produto, qty)
-			router.push('/cart')
+			const skuAlreadyAdded = cartItems.some((item) => item.item.sku.trim() === sku.trim());
+
+			if (skuAlreadyAdded == false) {
+				if (qty == 0 ) toast.error('Adicione uma quantidade')
+				else {
+					addToCart(sku, produto, qty)
+					router.push('/cart')
+				}
+			} else {
+				router.push('/cart')
+			}
 		}
 	}
 
