@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ToggleGroup } from './toggleGroup'
 import { useCart } from '@/components/CartContext'
 import { toast } from 'react-toastify'
+import { CartItem } from './cartItem'
 
 export default function Filtros({ produto }) {
 	const [sku, setSku] = useState()
@@ -23,17 +24,27 @@ export default function Filtros({ produto }) {
 		}
 	}, [sku])
 
-	const { addToCart } = useCart()
+	const { addToCart, cartItems } = useCart()
 	function handleClick() {
 		if (!sku) toast.error('Selecione um tamanho primeiro')
+		if (qty == 0 ) toast.error('Adicione uma quantidade')
 		else addToCart(sku, produto, qty)
 	}
 
 	function handleClick2() {
 		if (!sku) toast.error('Selecione um tamanho primeiro')
 		else  {
-			addToCart(sku, produto, qty)
-			router.push('/cart')
+			const skuAlreadyAdded = cartItems.some((item) => item.item.sku.trim() === sku.trim());
+
+			if (skuAlreadyAdded == false) {
+				if (qty == 0 ) toast.error('Adicione uma quantidade')
+				else {
+					addToCart(sku, produto, qty)
+					router.push('/cart')
+				}
+			} else {
+				router.push('/cart')
+			}
 		}
 	}
 
@@ -49,6 +60,20 @@ export default function Filtros({ produto }) {
 		}
 	}
 
+	function OrderByTamanho(a,b){
+		
+		// Se os nomes são iguais, comparar pelos tamanhos 'P', 'M', 'G'
+		const tamanhoOrder = { 'PP': 1,'P': 2, 'M': 3, 'G': 4, 'GG': 5 };
+		const tamanhoA = tamanhoOrder[a.size];
+		const tamanhoB = tamanhoOrder[b.size];
+		
+		return tamanhoA - tamanhoB;
+	}
+	
+	
+	const items_produto = produto.product_item
+	items_produto.sort(OrderByTamanho)
+	
 	return (
 		<>
 			<div className="flex flex-col gap-4">
@@ -81,7 +106,7 @@ export default function Filtros({ produto }) {
 			)}
 			<hr className="my-4"></hr>
 			<div className="flex flex-row text-black gap-4">
-				<div className="text-xl flex-grow-0">
+				<div className="text-xl flex items-center">
 					<button
 						onClick={decQty}
 						className="bg-zinc-300 px-4 py-2 rounded-l-full"

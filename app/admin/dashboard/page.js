@@ -26,17 +26,7 @@ export default async function Dashboard() {
         }
     });
 
-    const { _sum: { total } } = await prisma.order.aggregate({
-        _sum: {
-            total: true
-        }, where: {
-            status: {
-                contains: 'completed'
-            }
-        }
-    });
-
     return (
-        <OrdersTable orders={orders} total={total} />
+        <OrdersTable orders={orders} />
     )
 }

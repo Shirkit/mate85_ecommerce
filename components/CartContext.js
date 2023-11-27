@@ -11,6 +11,7 @@ const CartContext = createContext({
   updateCartItemQuantity: () => { },
   cartTotal: 0,
   cartCount: 0,
+  clearCart: () => {}
 })
 
 export const useCart = () => {
@@ -88,6 +89,10 @@ export const CartProvider = ({ children }) => {
       (item) => item.item.sku !== sku
     )
     setCartItems(updatedCartItems)
+  }
+
+  const clearCart = () => {
+    setCartItems([])
   }
 
   const updateCartItemQuantity = (sku, quantity) => {
@@ -186,6 +191,7 @@ export const CartProvider = ({ children }) => {
         updateCartItemQuantity,
         cartTotal,
         cartCount,
+        clearCart
       }}
     >
       {children}

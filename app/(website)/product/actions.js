@@ -1,45 +1,42 @@
 'use server'
 
 import { prisma } from "@/utils/prisma"
-import { revalidatePath } from "next/cache"
-import { redirect } from 'next/navigation'
 
-async function removeProduct(data) {
-    await prisma.produto.delete({
-        where: {
-            id: +data.get('id')
-        }
-    })
+async function queryAllProducts() {
+	const products = await prisma.product.findMany({
+	  include: {
+		product_item: {
+		  select: {
+			price: true,
+			amount: true
+		  }
+		}
+	  }
+	});
+	return products;
+}
+  
 
-    redirect('/product')
+async function queryAllProductsPrice(categoryId, priceSearch) {
+	const products = await prisma.product.findMany({
+		where:{
+			product_categories_id: categoryId? categoryId : undefined,
+			product_item:{
+				some:{
+					price:priceSearch
+				}
+			}
+		},
+		include: {
+			product_item: {
+				select: {
+					price: true,
+					amount: true
+				}
+			}
+		}
+	})
+	return products;
 }
 
-async function createProduct(data) {
-
-    await prisma.produto.create({
-        data: {
-            nome: data.get("nome"),
-            foto: `https://picsum.photos/id/${Math.round(Math.random() * 1084)}/200`
-        }
-    })
-
-    revalidatePath("/product/")
-
-}
-
-async function updateProduct(data) {
-    'use server'
-
-    await prisma.produto.update({
-        where: {
-            id: parseInt(data.get("id"))
-        },
-        data: {
-            nome: data.get("nome"),
-            foto: `https://picsum.photos/id/${Math.round(Math.random() * 1084)}/200`
-        },
-    })
-    revalidatePath("/product/")
-}
-
-export { removeProduct, createProduct, updateProduct }
+export { queryAllProducts, queryAllProductsPrice }

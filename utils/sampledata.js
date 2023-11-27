@@ -432,8 +432,8 @@ export var users_address = [
 export var users = [
   {
     "id": "ff8eda38-a707-4013-91cb-c5e514dce983",
-    "name": "Danilo Andrade",
-    "email": "andrade20danilo@gmail.com",
+    "name": "Rodrigo Cerqueira",
+    "email": "rodrigocsmoreira@gmail.com",
     "role": "admin"
   },
   {
@@ -1707,43 +1707,43 @@ export var products_items = [
 export var product_categories = [
   {
     "id": 1,
-    "name": "Automotive"
+    "name": "Casual"
   },
   {
     "id": 2,
-    "name": "Books"
+    "name": "Esportivo"
   },
   {
     "id": 3,
-    "name": "Computers"
+    "name": "Executivo"
   },
   {
     "id": 4,
-    "name": "Clothing"
+    "name": "Verão"
   },
   {
     "id": 5,
-    "name": "Garden"
+    "name": "Inverno"
   },
   {
     "id": 6,
-    "name": "Health"
+    "name": "Infantil"
   },
   {
     "id": 7,
-    "name": "Jewelry"
+    "name": "Vintage"
   },
   {
     "id": 8,
-    "name": "Clothing"
+    "name": "Floral"
   },
   {
     "id": 9,
-    "name": "Computers"
+    "name": "Lisa"
   },
   {
     "id": 10,
-    "name": "Sports"
+    "name": "Formal"
   }
 ]
 
@@ -21769,11 +21769,11 @@ export var options = [
     key: 'phone',
     value: '7199999999',
     type: 'string'
-  },{
+  }, {
     key: 'name',
     value: 'SHOPIC',
     type: 'string'
-  },{
+  }, {
     key: 'hidePrices',
     value: 'false',
     type: 'boolean'
