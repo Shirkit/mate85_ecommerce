@@ -3,6 +3,7 @@ import Image from 'next/image'
 import RenderStars, { renderStars } from './stars'
 
 export default function Card(props) {
+  console.log(props)
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4 m-4 flex flex-col items-center">
