@@ -58,7 +58,7 @@ const OrdersPage = ({ userId, className }) => {
 								{new Date(order.createdAt).toLocaleDateString()}
 							</TableCell>
 							<TableCell className="text-center">
-								{order.total}
+								{"R$ " + order.total.toFixed(2)}
 							</TableCell>
 							<TableCell className="text-center">
 								{order.status}
