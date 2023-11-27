@@ -49,6 +49,20 @@ export default function Filtros({ produto }) {
 		}
 	}
 
+	function OrderByTamanho(a,b){
+		
+		// Se os nomes são iguais, comparar pelos tamanhos 'P', 'M', 'G'
+		const tamanhoOrder = { 'PP': 1,'P': 2, 'M': 3, 'G': 4, 'GG': 5 };
+		const tamanhoA = tamanhoOrder[a.size];
+		const tamanhoB = tamanhoOrder[b.size];
+		
+		return tamanhoA - tamanhoB;
+	}
+	
+	
+	const items_produto = produto.product_item
+	items_produto.sort(OrderByTamanho)
+	
 	return (
 		<>
 			<div className="flex flex-col gap-4">
