@@ -26,6 +26,14 @@ async function queryAllProductsPrice(categoryId, priceSearch) {
 					price:priceSearch
 				}
 			}
+		},
+		include: {
+			product_item: {
+				select: {
+					price: true,
+					amount: true
+				}
+			}
 		}
 	})
 	return products;

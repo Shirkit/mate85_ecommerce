@@ -46,7 +46,7 @@ export default function Shop({searchParams}) {
 		}
 	};
   
-  const getPrice = async (hidePrices) => {
+  const getPrice = async (products, hidePrices) => {
     if (hidePrices.value !== "true")
     products.forEach(product => {
       let max = 0, min = 999999999999
@@ -56,6 +56,7 @@ export default function Shop({searchParams}) {
           min = Math.min(min, item.price)
         }
       });
+      
       if (max == min)
         product.price = "R$" + max.toFixed(2)
       else if (max != 0)
@@ -73,14 +74,14 @@ export default function Shop({searchParams}) {
         setProducts(products);
 
         const hidePrices = await getHidePricesDB()
-        setHidePrices(hidePrices);
-        getPrice(hidePrices);
+        setHidePrices(hidePrices.value);
+        getPrice(products, hidePrices);
 
         const imageUrls = await Promise.all(products.map((product) => getFirstImageFromFolder(product.id)));
         setFirstImageUrl(imageUrls);
       })
 	  }
-	},[])
+	},[,searchParams])
 
   
   return (
