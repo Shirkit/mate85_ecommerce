@@ -17,7 +17,7 @@ Este projeto rosa usando [Next.js](https://nextjs.org/) e foi criado usando o [`
 
 [Documento de Arquitetura](https://github.com/Murphyly/mate85_ecommerce/wiki/Arquitetura)
 
-[Versáo temporária](https://mate85-ecommerce-al48yqkxf-shirkit.vercel.app/product)
+[Versáo temporária](https://mate85-ecommerce.vercel.app/)
 
 =======
 ## Tecnologias
@@ -33,6 +33,9 @@ As tecnologias que serão usadas nesse projeto são:
 
 =======
 ## Instalação
+
+[Documento de Implantação](https://docs.google.com/document/d/1Yr--gvuf386FL-F-WLO3v_urGDBHwNXfvZdLlROPYGA/edit)
+### Os passos abaixo estão desuatalizados e serão atualizados assim que recebermos um feedback no nosso documento
 
 Depois de clonar este repositório, você precisa rodar o passo de instalção
 
