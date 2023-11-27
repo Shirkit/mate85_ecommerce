@@ -1,3 +1,4 @@
+"use server"
 
 import CardConfirmacao from '@/components/statusPedido/CardConfirmacao';
 import { prisma } from '@/utils/prisma';
