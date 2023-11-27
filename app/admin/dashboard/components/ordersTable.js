@@ -38,7 +38,7 @@ const filterByDateRange = (range, data) => {
     return data.filter((item) => dayjs(item.createdAt).isBetween(range.from, range.to, 'day', '[]'));
 }
 
-function OrdersTable({ orders, total }) {
+function OrdersTable({ orders }) {
     const [selectedCustomer, setSelectedCustomer] = useState('');
     const [filteredOrders, setFilteredOrders] = useState(orders);
     const [selectedOrder, setSelectedOrder] = useState(null);
@@ -46,6 +46,8 @@ function OrdersTable({ orders, total }) {
     const [selectedDateRange, setSelectedDateRange] = useState({});
     const [isOpen, setIsOpen] = useState(false)
     const [quantity, setQuantity] = useState(0)
+    const [totalSold, setTotalSold] = useState(0)
+    const [total, setTotal] = useState(0)
 
     const closeModal = () => setIsOpen(false);
 
@@ -78,14 +80,35 @@ function OrdersTable({ orders, total }) {
         setQuantity(qty)
     }, [selectedOrder])
 
+    useEffect(() => {
+        let total = 0, total2 = 0
+        filteredOrders.forEach((order) => {
+            const f = parseFloat(order.total) 
+            total += f
+            if (order.status == 'completed')
+                total2 += f
+        })
+        setTotal(total2)
+        setTotalSold(total)
+    }, [filteredOrders])
+
     return (
         <main className='p-12'>
             <Card>
                 <Flex className="mb-4" alignItems="start">
-                    <div className="truncate">
+                <div className="truncate">
                         <Text>Faturamento</Text>
                         <Metric className="truncate">{numberformatter(total, 2)}</Metric>
+                        <Text className='text-xs'>Apenas dos pedidos Completados</Text>
                     </div>
+
+                    {totalSold > 0 && (
+                        <div className="truncate">
+                            <Text>Vendas</Text>
+                            <Metric className="truncate">{numberformatter(totalSold, 2)}</Metric>
+                            <Text className='text-xs'>Total de vendas de todos os pedidos mostrados</Text>
+                        </div>
+                    )}
                 </Flex>
 
                 <Flex className='space-x-0.5' justifyContent='start' alignItems='center'>
