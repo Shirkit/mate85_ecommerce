@@ -21,8 +21,8 @@ for (let i = 0; i < products.length; i++) {
 
 const actions = [
 	{
-		name: 'Edit',
-		color: 'blue',
+		name: 'Editar',
+		color: 'stone',
 		dest: '/admin/products/$1/productsItem/add'
 	}
 ];
@@ -30,7 +30,7 @@ const headers = ['ID', 'Nome', 'Avaliação', "Categoria", "Ação"];
 
 export default async function ManageProducts() {
 	return (
-		<div className="w-full flex justify-center items-center pt-6">
+		<div className="w-full flex justify-start items-center pt-6">
 			<AdminTable
 				title="Produtos"
 				headers={headers}

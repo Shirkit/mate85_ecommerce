@@ -22,9 +22,9 @@ export default async function RootLayout({ children }) {
 		<html lang="en">
 			<body className={inter.className + ' min-h-screen flex flex-col admin'}>
 				<ToastContainer></ToastContainer>
-				<div className="flex flex-row flex-grow bg-neutral-100">
+				<div className="flex flex-row flex-grow bg-neutral-100 justify-start">
 					<AdminNavbar></AdminNavbar>
-					<div className="p-4">
+					<div className="p-4 w-full">
 						{children}
 					</div>
 				</div>

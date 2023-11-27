@@ -25,7 +25,7 @@ export function AdminTable(props) {
 	}, [props.data])
 
 	return (
-		<div className="flex flex-col items-center justify-center gap-4">
+		<div className="flex flex-col items-center justify-center gap-4 w-full">
 			{props.hasSearchBar && (
 				<SearchProduct
 					placeholder="Pesquisa pelo nome"
@@ -35,7 +35,7 @@ export function AdminTable(props) {
 				/>
 			)}
 
-			<div className="bg-white p-8 text-zinc-700 border-solid rounded-lg h-fit">
+			<div className="bg-white p-8 text-zinc-700 border-solid rounded-lg h-fit w-full">
 				<h1 className="text-2xl font-bold mb-4 border-b-zinc-600 border-b">
 					{props.title}
 				</h1>
@@ -70,9 +70,9 @@ export function AdminTable(props) {
 												className={
 													'bg-' +
 													action.color +
-													'-500 hover:bg-' +
+													'-300 hover:bg-' +
 													action.color +
-													'-700 text-zin-900 font-bold py-2 px-4 mr-2'
+													'-700 text-zin-900 hover:text-zinc-100 font-bold py-2 px-4 mr-2'
 												}
 											>
 												{action.name}
