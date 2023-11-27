@@ -22,6 +22,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "color": "^4.2.3",
+    "dayjs": "^1.11.10",
     "detect-libc": "^2.0.2",
     "embla-carousel-react": "^8.0.0-rc12",
     "encoding": "^0.1.13",

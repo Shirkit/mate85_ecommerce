@@ -7,6 +7,9 @@ import { Dialog, Transition } from "@headlessui/react";
 import ProductList from '@/components/order/productList';
 import { updateStatus } from '../actions';
 import { statusTranslator } from '@/utils/orderStatusTranslator';
+import dayjs from 'dayjs';
+
+dayjs.extend(require('dayjs/plugin/isBetween'));
 
 const deltaTypes = {
     waiting: { icon: ClockIcon, color: 'gray' },
@@ -26,11 +29,21 @@ const numberformatter = (number, decimals = 0) =>
         maximumFractionDigits: decimals,
     }).format(Number(number)).toString();
 
+
+const filterByCustomer = (customer, data) => {
+    return data.filter((item) => item.user.name.toLowerCase().includes(customer.toLowerCase()));
+};
+
+const filterByDateRange = (range, data) => {
+    return data.filter((item) => dayjs(item.createdAt).isBetween(range.from, range.to, 'day', '[]'));
+}
+
 function OrdersTable({ orders, total }) {
     const [selectedCustomer, setSelectedCustomer] = useState('');
     const [filteredOrders, setFilteredOrders] = useState(orders);
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [selectedStatus, setSelectedStatus] = useState('')
+    const [selectedDateRange, setSelectedDateRange] = useState({});
     const [isOpen, setIsOpen] = useState(false)
     const [quantity, setQuantity] = useState(0)
 
@@ -43,17 +56,19 @@ function OrdersTable({ orders, total }) {
         setSelectedOrder(order);
     }
 
-    const filterByCustomer = (customer, data) => {
-        if (customer === '') {
-            return data;
-        } else {
-            return data.filter((item) => item.user.name.toLowerCase().includes(customer.toLowerCase()));
-        }
-    };
-
     useEffect(() => {
-        setFilteredOrders(filterByCustomer(selectedCustomer, orders));
-    }, [selectedCustomer, orders]);
+        let filteredData = [...orders];
+
+        if (selectedCustomer) {
+            filteredData = filterByCustomer(selectedCustomer, filteredData);
+        }
+
+        if (selectedDateRange?.from && selectedDateRange?.to) {
+            filteredData = filterByDateRange(selectedDateRange, filteredData)
+        }
+
+        setFilteredOrders(filteredData)
+    }, [orders, selectedCustomer, selectedDateRange]);
 
     useEffect(() => {
         let qty = 0
@@ -72,34 +87,32 @@ function OrdersTable({ orders, total }) {
                         <Metric className="truncate">{numberformatter(total, 2)}</Metric>
                     </div>
                 </Flex>
-                <div>
-                    <Flex className='space-x-0.5' justifyContent='start' alignItems='center'>
-                        <Title>Pedidos</Title>
-                        <Icon icon={AlertCircleIcon}
-                            variant='simple'
-                            tooltip='Lista de pedidos dos usuários'
-                        />
-                    </Flex>
-                </div>
 
-                <div>
-                    <Flex className='space-x-2 mt-4' justifyContent='evenly'>
-                        <SearchSelect className='max-w-full sm:max-w-xs' onValueChange={setSelectedCustomer} placeholder='Buscar usuário...' icon={SearchIcon} value={selectedCustomer}>
-                            {orders.reduce((acc, curr) => {
-                                if (curr.user.name && !acc.includes(curr.user.name)) {
-                                    acc.push(curr.user.name)
-                                }
-                                return acc;
-                            }, []).map((name, index) => (
-                                <SearchSelectItem key={index} value={name}>
-                                    {name}
-                                </SearchSelectItem>
-                            ))}
-                        </SearchSelect>
-                        <DateRangePicker placeholder='Selecionar período' enableSelect={false} enableClear={true} />
+                <Flex className='space-x-0.5' justifyContent='start' alignItems='center'>
+                    <Title>Pedidos</Title>
+                    <Icon icon={AlertCircleIcon}
+                        variant='simple'
+                        tooltip='Lista de pedidos dos usuários'
+                    />
+                </Flex>
 
-                    </Flex>
-                </div>
+                <Flex className='space-x-2 mt-4' justifyContent='evenly'>
+                    <SearchSelect className='max-w-full sm:max-w-xs' onValueChange={setSelectedCustomer} placeholder='Buscar usuário...' icon={SearchIcon} value={selectedCustomer}>
+                        {orders.reduce((acc, curr) => {
+                            if (curr.user.name && !acc.includes(curr.user.name)) {
+                                acc.push(curr.user.name)
+                            }
+                            return acc;
+                        }, []).map((name, index) => (
+                            <SearchSelectItem key={index} value={name}>
+                                {name}
+                            </SearchSelectItem>
+                        ))}
+                    </SearchSelect>
+                    <DateRangePicker placeholder='Selecionar período' enableSelect={false} enableClear={true} onValueChange={setSelectedDateRange} />
+
+                </Flex>
+
 
                 <Table className="mt-6">
                     <TableHead>
@@ -210,24 +223,6 @@ function OrdersTable({ orders, total }) {
                                                 <p> - {quantity} unidades</p>
                                             </div>
                                         </div>
-
-                                        {/* <div className="mt-2">
-                                            <p className="text-sm text-gray-500">
-                                                Your payment has been successfully submitted. We’ve sent
-                                                you an email with all of the details of your order.
-                                            </p>
-                                            <p>{selectedOrder.order_items[0].product.productItem_product.name}</p>
-                                        </div> */}
-
-                                        {/* <div className="mt-4">
-                                            <button
-                                                type="button"
-                                                className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                                                onClick={closeModal}
-                                            >
-                                                Got it, thanks!
-                                            </button>
-                                        </div> */}
                                     </Dialog.Panel>
                                 </Transition.Child>
                             </div>
