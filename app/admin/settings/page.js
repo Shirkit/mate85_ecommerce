@@ -6,6 +6,7 @@ import { Switch } from '@/components/ui/switch'
 import { startTransition, useEffect, useState } from 'react'
 import { updateSettings } from './actions'
 import { getAllOptions } from '@/app/(website)/actionsSettings'
+import { toast } from 'react-toastify'
 
 export default function Settings() {
 	const [name, setName] = useState('')
@@ -21,12 +22,16 @@ export default function Settings() {
 
 	async function handleSubmit(e) {
 		e.preventDefault()
-		await updateSettings([
+		const res = await updateSettings([
 			{ key: 'name', value: name },
 			{ key: 'email', value: email },
 			{ key: 'phone', value: phone },
 			{ key: 'hidePrices', value: hidePrices },
 		])
+		if (res)
+			toast.success("Configurações salvas com sucesso")
+		else
+			toast.error("Falha ao salvar")
 	}
 
 	useEffect(() => {
@@ -96,7 +101,9 @@ export default function Settings() {
 						<Switch
 							id="airplane-mode"
 							value={hidePrices}
-							onChange={(e) => setHidePrices(e.target.value)}
+                            checked={hidePrices}
+                            onCheckedChange={(e) => {console.log(e); setHidePrices(e)}}
+							onChange={(e) => {console.log(e); setHidePrices(e.target.value)}}
 						/>
 					</div>
 				</div>

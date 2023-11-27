@@ -3,6 +3,7 @@
 import { prisma } from '@/utils/prisma'
 import { redirect } from 'next/navigation'
 import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
+import { Prisma } from '@prisma/client'
 
 export async function updateSettings(data) {
 	const session = await getServerSession()
@@ -21,7 +22,7 @@ export async function updateSettings(data) {
 		}))
 	})
 	try {
-		const res = prisma.$transaction(transactions)
+		const res = await prisma.$transaction(transactions)
 	} catch (e) {
 		if (e instanceof Prisma.PrismaClientKnownRequestError) {
 			return false

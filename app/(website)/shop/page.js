@@ -102,7 +102,7 @@ export default function Shop({searchParams}) {
                     key={product.id}
                     name={product.name}
                     image={firstImageUrl[index] || getRandomDefaultImage()}
-                    price={hidePrices ? null : product.price}
+                    price={hidePrices === 'true' ? null : product.price}
                     rating={product.rating}
                   />
                 </Link>
