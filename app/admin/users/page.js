@@ -16,7 +16,7 @@ export default async function ManageUsers() {
   const actions = [
     {
       name: 'Editar',
-      color: 'blue',
+      color: 'stone',
       dest: '/admin/users/edit/$1'
     }
   ];
