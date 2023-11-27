@@ -10,6 +10,7 @@ import {
 import React from 'react'
 
 export default async function CardConfirmacao(props) {
+
 	const pedido = props.pedido
 
 	const produtos = pedido.order_items
