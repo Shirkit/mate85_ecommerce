@@ -9,11 +9,15 @@ import { GetAddressesFromUserId, createOrder, redirectToStatusPage } from './act
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'react-toastify';
 import { useSession, signIn } from 'next-auth/react';
+import { ref, getDownloadURL, list } from "@firebase/storage";
+import { storage } from "@/firebase";
+
 
 
 const CheckoutPage = () => {
     const { data: session, status } = useSession()
     const [fullField, setFullField] = useState(false);
+    const [productImage, setProductImage] = useState(null);
 
     const checkFields = () => {
         const fields = ['zipCode', 'city', 'state', 'country', 'neighborhood', 'complement', 'number', 'street', 'full_name']; 
@@ -104,6 +108,18 @@ const CheckoutPage = () => {
             address2.name = session?.user.name
             startTransition(() => {
                 // TODO pegar o usuário logado atual
+
+
+                // const productImageRef = ref(storage, `${session.user.id}`);
+
+                // getDownloadURL(productImageRef)
+                //     .then((url) => {
+                //         setProductImage(url);
+                //     })
+                //     .catch((error) => {
+                //         console.error('Error fetching product image:', error);
+                // });
+
                 GetAddressesFromUserId(session.user.id).then((res) => {
                     res.forEach(el => {
                         if (el)
@@ -468,7 +484,7 @@ const CheckoutPage = () => {
                                         size={el.item.size}
                                         price={el.item.price}
                                         quantity={el.quantity}
-                                        imageSrc={`https://picsum.photos/id/${el.item.product_id}/200`}
+                                        imageSrc={"/static/images/default-image1.png"}
                                     />
                                 );
                             }) : <h1 className='text-center'>Carrinho Vazio</h1>

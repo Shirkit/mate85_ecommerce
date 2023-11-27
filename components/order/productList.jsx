@@ -3,15 +3,22 @@ import Image from 'next/image'
 const ProductList = ({ name, size = '', price, imageSrc, quantity }) => {
     return (
         <div className="flex flex-col">
-            <div
-                className="flex items-center justify-between p-4 border-b gap-4"
-            >
-                <Image
-                    src={imageSrc}
-                    width={100}
-                    height={100}
-                    alt={name}
-                />
+            <div className="flex items-center justify-between p-4 border-b gap-4">
+                {imageSrc ? (
+                    <Image
+                        src={imageSrc}
+                        width={100}
+                        height={100}
+                        alt={name}
+                    />
+                ) : (
+                    <Image
+                        src={'/static/images/default-image1.png'}
+                        width={100}
+                        height={100}
+                        alt={name}
+                    />
+                )}
 
                 <div className='flex flex-col items-center'>
                     <div className="text-lg font-semibold">{name}</div>
