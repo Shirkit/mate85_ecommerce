@@ -1,13 +1,36 @@
 "use client"
-
 import { useCart } from "@/components/CartContext";
 import Image from "next/image";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect} from "react";
 import Link from 'next/link'
+import { ref, getDownloadURL, list } from "@firebase/storage";
+import { storage } from "@/firebase";
 
 export const CartItem = ({ item }) => {
   const { removeFromCart, updateCartItemQuantity } = useCart();
   const [qty, setQty] = useState(item.quantity)
+  const [firstImageUrl, setFirstImageUrl] = useState('');
+
+  useEffect(() => {
+    const fetchFirstImage = async () => {
+      try {
+        const folderPath = String(item.product.id);
+        const folderRef = ref(storage, folderPath);
+        const items = await list(folderRef);
+
+        if (items.items.length > 0) {
+          const firstItemRef = items.items[0];
+          const downloadURL = String(await getDownloadURL(firstItemRef));
+          setFirstImageUrl(downloadURL);
+        }
+      } catch (error) {
+        console.error('Error fetching the first image:', error);
+      }
+    };
+
+    fetchFirstImage();
+  }, [item.product.id]);
+
 
   const handleQuantityChange = (qty) => {
     const quantity = Number(qty);
@@ -35,8 +58,10 @@ export const CartItem = ({ item }) => {
 
   return (
     <Fragment key={item.product.sku}>
-      <Link href={"/product/" + item.product.id}>
-        <div className="flex justify-center"><Image width={100} height={100} src={`https://picsum.photos/id/${item.product.id}/100`}></Image></div>
+      <Link href={`/product/${item.product.id}`}>
+        <div className="flex justify-center">
+          <Image width={100} height={100} alt="imagem" src={firstImageUrl || `/static/images/default-image1.png`} />
+        </div>
       </Link>
       <div className="flex justify-start items-center">
         <div>
