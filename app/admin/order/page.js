@@ -26,6 +26,8 @@ export default async function ManageOrders() {
             case "processing": element.status = "Processando"; break
             case "waiting": element.status = "Aguardando"; break
             case "delivered": element.status = "Entregue"; break
+            case "canceled": element.status = "Cancelado"; break
+            //status
         }
     }
 

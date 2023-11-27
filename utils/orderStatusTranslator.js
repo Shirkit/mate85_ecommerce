@@ -4,7 +4,8 @@ let dictionary = {
     "payment-pending": "pagamento pendente",
     "processing": "em processamento",
     "waiting": "aguardando",
-    "delivered": "entregue"
+    "delivered": "entregue",
+    "canceled": "cancelado",
 } 
 
 export function statusTranslator(status) {
