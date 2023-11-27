@@ -13,6 +13,7 @@ export default function Home() {
 	const [isPending,startTransition] = useTransition();
 	const [products, setProducts] = useState([]);
 	const [hidePrices, setHidePrices] = useState([]);
+	const [price, setPrice] = useState([]);
 
 	const getRandomDefaultImage = () => {
 		const defaultImages = [
@@ -40,14 +41,37 @@ export default function Home() {
 		}
 	};
 
+	const getPrice = async (product) => {
+
+		if (hidePrices == true) {
+			return null;
+		}
+
+		let max = 0,
+		min = 999999999999;
+		product.product_item?.forEach((item) => {
+			if (item.amount > 0) {
+			  max = Math.max(max, item.price);
+			  min = Math.min(min, item.price);
+			}
+		})
+		if (max == min) return "R$" + max.toFixed(2);
+		else if (max != 0) return "R$" + min.toFixed(2) + " - R$" + max.toFixed(2);
+		else return "Indisponível";
+	};
+
 	useEffect(() => {
 		if(!isPending){
 		  startTransition(async () => {
 
 			const products = await queryAllProducts();
 			setProducts(products);
+
 			const hidePrices = await getHidePricesDB()
 			setHidePrices(hidePrices);
+
+			const price = await Promise.all(products.map((product) => getPrice(product)));
+			setPrice(price);
 		
 			const imageUrls = await Promise.all(products.map((product) => getFirstImageFromFolder(product.id)));
         	setFirstImageUrl(imageUrls);
@@ -67,7 +91,7 @@ export default function Home() {
 					key={product.id}
 					name={product.name}
 					image={firstImageUrl[index] || getRandomDefaultImage()}
-					price={hidePrices ? null : product.price}
+					price={price[index]}
 					rating={product.rating}
 				  />
 				</Link>
