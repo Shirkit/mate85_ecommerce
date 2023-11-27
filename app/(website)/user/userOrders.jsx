@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useTransition } from 'react';
 import { getUserOrdersById, getOrderItemByOrderId} from './actions';
 import Link from "next/link"
+import { statusTranslator } from '@/utils/orderStatusTranslator';
 
 const OrdersPage = ({userId, className}) => {
   const [orders,setOrders] = useState([]);
@@ -41,7 +42,7 @@ const OrdersPage = ({userId, className}) => {
                 <td className="px-4 py-2 text-center">{order.id}</td>
                 <td className="px-4 py-2 text-center">{new Date(order.createdAt).toLocaleDateString()}</td>
                 <td className="px-4 py-2 text-center">{order.total}</td> 
-                <td className="px-4 py-2 text-center">{order.status}</td>
+                <td className="px-4 py-2 text-center">{statusTranslator(order.status)}</td>
                 <td className="px-4 py-2 text-center">
                 <Link key={order.id} href ={"/statusPedido/" + order.id}>
                   <button 
