@@ -116,7 +116,7 @@ export default async function CardConfirmacao(props) {
           </tbody>
         </table>
         <br></br>
-        <div> Total: <strong>R${pedido.total}</strong></div>
+        <div> Total: <strong>R${pedido.total.toFixed(2)}</strong></div>
 
         <br>
         </br>
