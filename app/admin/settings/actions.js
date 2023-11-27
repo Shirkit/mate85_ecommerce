@@ -2,29 +2,31 @@
 
 import { prisma } from '@/utils/prisma'
 import { redirect } from 'next/navigation'
+import { getServerSession } from '@/app/api/auth/[...nextauth]/route'
 
 export async function updateSettings(data) {
 	const session = await getServerSession()
-    if (!session || !session.user.role || session.user.role != "admin") {
-        return false
-    }
-	await prisma.option.updateMany({
-		where: {
-			OR: data.map((item) => ({
+	if (!session || !session.user.role || session.user.role != "admin") {
+		return false
+	}
+	const transactions = []
+	data.map((item) => {
+		transactions.push(prisma.option.update({
+			where: {
 				key: item.key,
-				value: {
-					NOT: {
-						equals: item.value,
-					},
-				},
-			})),
-		},
-		data: {
-			value: {
-				set: data.map((item) => item.value),
 			},
-		},
+			data: {
+				value: item.value
+			}
+		}))
 	})
+	try {
+		const res = prisma.$transaction(transactions)
+	} catch (e) {
+		if (e instanceof Prisma.PrismaClientKnownRequestError) {
+			return false
+		}
+	}
 
-	redirect('/admin/settings')
+	return true
 }

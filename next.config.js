@@ -7,7 +7,8 @@ const nextConfig = {
         remotePatterns: [{
             protocol: 'https',
             hostname: 'picsum.photos'
-        }]
+        }],
+        domains: ['firebasestorage.googleapis.com']
     }
 }
 

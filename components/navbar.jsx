@@ -7,10 +7,12 @@ import Image from 'next/image'
 import { useEffect, useState, useTransition } from 'react'
 import { getNameDB } from '@/app/(website)/actionsSettings'
 import NavbarCart from './navbarCart'
+import { useSession } from 'next-auth/react'
 
 export default function Navbar() {
 	const [name, setName] = useState('')
 	const [isPending, startTransition] = useTransition()
+	const { data: session, status } = useSession()
 
 	async function getName() {
 		if (!isPending)
@@ -27,10 +29,13 @@ export default function Navbar() {
 	return (
 		<header className="flex justify-between items-center gap-10 max-w-7xl w-full text-zinc-900 border-b border-b-zinc-100 py-5 px-8">
 			<div className="flex items-center gap-5">
-				<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
-				<h1 className="font-primary font-black text-3xl">
-					{name ? name : 'SHOPIC'}
-				</h1>
+				<Link href="/" className="flex items-center gap-5">
+					<Image src="/static/images/logo.png" alt="me" width="64" height="64" />
+					<h1 className="font-primary font-black text-3xl">
+						{name ? name : 'SHOPIC'}
+					</h1>
+				</Link>
+				
 				<nav className="flex flex-row pl-6">
 					<Link
 						href="/"
@@ -50,7 +55,7 @@ export default function Navbar() {
 						</Link>
 					</div>
 					<div>
-						<Link href = "/user"><UserCircle2 className="text-xl cursor-pointer" /></Link>
+					<Link href = "/user" title={status=== 'authenticated' ? "Olá " + session?.user?.name : ''}><UserCircle2 className="text-xl cursor-pointer" /></Link>
 					</div>
 				</div>
 			</div>

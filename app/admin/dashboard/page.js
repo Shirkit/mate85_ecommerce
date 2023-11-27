@@ -21,7 +21,8 @@ export default async function Dashboard() {
                         }
                     }
                 }
-            }
+            },
+            createdAt: true
         }
     });
 

@@ -13,6 +13,28 @@ import { useSession, signIn } from 'next-auth/react';
 
 const CheckoutPage = () => {
     const { data: session, status } = useSession()
+    const [fullField, setFullField] = useState(false);
+
+    const checkFields = () => {
+        const fields = ['zipCode', 'city', 'state', 'country', 'neighborhood', 'complement', 'number', 'street', 'full_name']; 
+        const allFull = fields.every(field => {
+            const element = document.getElementById(field);
+            return element && (element.value.trim() !== '' || element.defaultValue.trim() !== '');
+        });
+        setFullField(allFull);
+    };
+
+    const handleChange = () => {
+        checkFields();
+    };
+
+    const handleSubmit = (e) => {
+        if (fullField) {
+          document.getElementById('order').submit();
+        } else {
+          console.log('Preencha todos os campos!');
+        }
+    };
 
     const paymentOptions = [
         { label: 'Pix', icon: <CreditCardIcon />, description: 'Pague com Pix a qualquer momento!' },
@@ -82,11 +104,19 @@ const CheckoutPage = () => {
                 // TODO pegar o usuário logado atual
                 GetAddressesFromUserId(session.user.id).then((res) => {
                     res.forEach(el => {
+                        if (el)
+                            el.name = session?.user.name
                         if (el?.type === 'billing')
                             setAddress(el)
                         else if (el?.type === 'shipping')
                             setAddress2(el)
+                        else if (el?.type === 'billing_shipping') {
+                            setAddress(el)
+                            setAddress2(el)
+                        }
                     });
+                    setTimeout(() => checkFields(), 500);
+                    checkFields();
                 })
             })
         }
@@ -125,7 +155,7 @@ const CheckoutPage = () => {
                                         </label>
                                         <input
                                             type="text"
-                                            id="street"
+                                            id="full_name"
                                             name="name"
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.name}
@@ -242,6 +272,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.zip_code}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
                                 </div>
@@ -280,6 +311,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address.name}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -294,6 +326,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.street}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -308,6 +341,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.number}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -322,6 +356,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.complement}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -336,6 +371,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.neighborhood}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -350,6 +386,7 @@ const CheckoutPage = () => {
                                             className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 sm:text-sm"
                                             defaultValue={address2.city}
                                             form="order"
+                                            onChange={handleChange}
                                         />
                                     </div>
 
@@ -464,7 +501,15 @@ const CheckoutPage = () => {
                             </div>
                         </div>
 
-                        <button type="submit" form="order" className="bg-zinc-300 w-full rounded-full my-4 py-2 px-4">Fazer Pedido</button>
+                        <button 
+                            type="submit"
+                            className={`w-full rounded-full my-4 py-2 px-4 ${fullField ? 'bg-blue-500' : 'bg-gray-300'}`}
+                            disabled={!fullField}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                tryCreateOrder(); 
+                            }}
+                        >Fazer Pedido</button>
                     </div>
                 </div>
             </div>

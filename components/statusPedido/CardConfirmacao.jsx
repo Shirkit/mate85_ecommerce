@@ -12,15 +12,15 @@ export default async function CardConfirmacao(props) {
   return (
 
 
-    <div className='bg-white  flex flex-col items-center  shadow-lg h-4/5 w-full'>
+    <div className='bg-white  flex flex-col items-center  shadow-lg h-4/5 w-full py-5'>
 
-      {pedido.status === "completado" ? (
+      {pedido.status === "completed" || pedido.status === "shipped" || pedido.status === "delivered" ? (
         <React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Confirmado</h2>
           </div>
 
-          <div className='bg-green-100 p-4 h-auto md:h-2/6 border border-green-400 w-auto md:w-2/4 rounded-sm'>
+          <div className='bg-green-100 p-4 h-auto md:h-2/6 border border-green-400 w-auto md:w-2/3 rounded-sm'>
             <p className='text-green-800'><strong>Seu pedido foi realizado com sucesso.</strong></p>
             <p className='text-green-700'>Obrigado por comprar conosco <strong>{user.name}</strong>. Em breve você receberá um email no
               endereço<strong> {user.email} </strong>
@@ -32,12 +32,12 @@ export default async function CardConfirmacao(props) {
 
             </div>
           </div>
-        </React.Fragment>) : pedido.status === "pendente" || pedido.status === "processando" ? (<React.Fragment>
+        </React.Fragment>) : pedido.status === "payment-pending" || pedido.status === "processing" || pedido.status === "waiting" ? (<React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Confirmado</h2>
           </div>
 
-          <div className='bg-yellow-100 p-4 h-auto md:h-2/6 border border-yellow-400 w-auto md:w-2/4 rounded-sm'>
+          <div className='bg-yellow-100 p-4 h-auto md:h-2/6 border border-yellow-400 w-auto md:w-2/3 rounded-sm'>
             <p className='text-yellow-800'><strong>Seu pedido foi realizado com sucesso.</strong></p>
             <p className='text-yellow-700'>Obrigado por comprar conosco <strong>{user.name}</strong>.<br></br>
               Seu pedido está aguardando pagamento. Após a confirmação, começaremos a
@@ -52,12 +52,12 @@ export default async function CardConfirmacao(props) {
 
             </div>
           </div>
-        </React.Fragment>) : pedido.status === "cancelado" ? (<React.Fragment>
+        </React.Fragment>) : pedido.status === "canceled" ? (<React.Fragment>
           <div className="text-start font-bold text-2xl mb-4">
             <h2>Pedido Cancelado</h2>
           </div>
 
-          <div className='bg-red-100 p-4 h-auto md:h-2/6 border border-red-400 w-auto md:w-2/4 rounded-sm'>
+          <div className='bg-red-100 p-4 h-auto md:h-2/6 border border-red-400 w-auto md:w-2/3 rounded-sm'>
             <p className='text-red-800'> <strong></strong></p><br></br>
             <p className='text-red-700'>Prezado <strong>{user.name}</strong>,<br>
             </br><br></br> 
@@ -85,10 +85,10 @@ export default async function CardConfirmacao(props) {
       <br>
       </br>
 
-      <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/4 rounded-sm '>
+      <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/3 rounded-sm '>
         <h4 className='font-bold'>Informações Do Pedido</h4>
         <br></br>
-        <p> Numero do pedido: {pedido.order_number}</p>
+        <p> Numero do pedido: {pedido.id}</p>
         <br></br>
         <div className='flex justify-center bg-black text-white'>Items</div>
 
@@ -122,7 +122,7 @@ export default async function CardConfirmacao(props) {
         </br>
         <p>*Os produtos serão enviados em até 2 dias após a confirmação do pagamento.</p>
       </div>
-      <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/4 rounded-sm '>
+      <div className=' p-4 h-auto md:h-2/6 border border-black w-auto md:w-2/3 rounded-sm '>
         <h4 className='font-bold'>Informações de Cobrança</h4>
 
         <p>{user.name}</p>
