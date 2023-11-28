@@ -9,10 +9,6 @@ import { GetAddressesFromUserId, createOrder, redirectToStatusPage } from './act
 import { Switch } from '@/components/ui/switch';
 import { toast } from 'react-toastify';
 import { useSession, signIn } from 'next-auth/react';
-import { ref, getDownloadURL, list } from "@firebase/storage";
-import { storage } from "@/firebase";
-
-
 
 const CheckoutPage = () => {
     const { data: session, status } = useSession()
@@ -107,17 +103,6 @@ const CheckoutPage = () => {
             address.name = session?.user.name
             address2.name = session?.user.name
             startTransition(() => {
-
-                // const productImageRef = ref(storage, `${session.user.id}`);
-
-                // getDownloadURL(productImageRef)
-                //     .then((url) => {
-                //         setProductImage(url);
-                //     })
-                //     .catch((error) => {
-                //         console.error('Error fetching product image:', error);
-                // });
-
                 GetAddressesFromUserId(session.user.id).then((res) => {
                     res.forEach(el => {
                         if (el)
