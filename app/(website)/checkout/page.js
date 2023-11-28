@@ -10,10 +10,10 @@ import { Switch } from '@/components/ui/switch';
 import { toast } from 'react-toastify';
 import { useSession, signIn } from 'next-auth/react';
 
-
 const CheckoutPage = () => {
     const { data: session, status } = useSession()
     const [fullField, setFullField] = useState(false);
+    const [productImage, setProductImage] = useState(null);
 
     const checkFields = () => {
         const fields = ['zipCode', 'city', 'state', 'country', 'neighborhood', 'complement', 'number', 'street', 'full_name']; 
@@ -103,7 +103,6 @@ const CheckoutPage = () => {
             address.name = session?.user.name
             address2.name = session?.user.name
             startTransition(() => {
-                // TODO pegar o usuário logado atual
                 GetAddressesFromUserId(session.user.id).then((res) => {
                     res.forEach(el => {
                         if (el)
@@ -468,7 +467,7 @@ const CheckoutPage = () => {
                                         size={el.item.size}
                                         price={el.item.price}
                                         quantity={el.quantity}
-                                        imageSrc={`https://picsum.photos/id/${el.item.product_id}/200`}
+                                        productId={el.product.id}
                                     />
                                 );
                             }) : <h1 className='text-center'>Carrinho Vazio</h1>
