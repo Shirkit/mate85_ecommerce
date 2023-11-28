@@ -1,11 +1,11 @@
 import Image from 'next/image'
 import { ref, getDownloadURL, list } from "@firebase/storage";
 import { storage } from "@/firebase";
-import React, { useEffect, useState, useTransition } from 'react'
+import React, { useState } from 'react'
 
-const ProductList = ({ name, size = '', price, imageSrc, productId, quantity }) => {
+const ProductList = ({ name, size = '', price, productId, quantity }) => {
     const[firstProductUrl, setFirstProductUrl] = useState('');
-    // Use o productId no seu código, por exemplo, para obter a URL da imagem
+    
     const getFirstImageFromFolder = async (productId) => {
         try {
             const folderPath = String(productId);
