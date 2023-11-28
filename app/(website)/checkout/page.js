@@ -107,8 +107,6 @@ const CheckoutPage = () => {
             address.name = session?.user.name
             address2.name = session?.user.name
             startTransition(() => {
-                // TODO pegar o usuário logado atual
-
 
                 // const productImageRef = ref(storage, `${session.user.id}`);
 
@@ -484,7 +482,7 @@ const CheckoutPage = () => {
                                         size={el.item.size}
                                         price={el.item.price}
                                         quantity={el.quantity}
-                                        imageSrc={"/static/images/default-image1.png"}
+                                        productId={el.product.id}
                                     />
                                 );
                             }) : <h1 className='text-center'>Carrinho Vazio</h1>
