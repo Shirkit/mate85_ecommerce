@@ -75,7 +75,7 @@ export function AdminTable(props) {
 													action.color +
 													'-700 text-zin-900 hover:text-zinc-100 font-bold py-2 px-4 mr-2'
 												}
-											>s
+											>
 												{action.name}
 											</button>
 										</Link>
