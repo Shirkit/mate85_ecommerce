@@ -228,7 +228,7 @@ function OrdersTable({ orders }) {
                                                 size={item.product.size}
                                                 price={item.price}
                                                 quantity={item.quantity}
-                                                imageSrc={`https://picsum.photos/id/${item.product.product_id}/200`}
+                                                productId={item.product.product_id}
                                             />
                                         ))
                                         }
